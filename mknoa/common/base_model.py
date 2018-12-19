@@ -6,8 +6,8 @@ from sqlalchemy import orm, Column as _Column, Boolean, DateTime
 from sqlalchemy.ext.declarative import declarative_base, AbstractConcreteBase
 from sqlalchemy import create_engine
 
-from planet.config.http_config import MEDIA_HOST
-from planet.extensions.register_ext import db
+from mknoa.config.http_config import MEDIA_HOST
+from mknoa.extensions.register_ext import db
 from .error_response import NotFound
 from ..config.secret import DB_PARAMS
 mysql_engine = create_engine(DB_PARAMS, encoding='utf-8', echo=False, pool_pre_ping=True,)

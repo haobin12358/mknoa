@@ -1,75 +1,85 @@
 # -*- coding: utf-8 -*-
-from sqlalchemy import Integer, String, Text
+import datetime
+from sqlalchemy import Integer, String, Text, Float, Boolean, DateTime, DECIMAL
 
-from planet.common.base_model import Base, Column
+from mknoa.common.base_model import Base, Column
 
+class Approvals(Base):
+    """
+    审批流实体
+    """
+    __tablename__ = "Approvals"
+    approval_id = Column(String(64), primary_key=True)                          # 主键id
+    approval_name = Column(Text, nullable=False)                                # 审批流名称
+    mould_id = Column(String(64), nullable=False)                               # 模板id，关联
+    approval_status = Column(Integer, default=91)                               # 状态{91可用92不可用}
+    approval_createtime = Column(DateTime, default=datetime.datetime.now())     # 创建时间
+    approval_updatetime = Column(DateTime, default=datetime.datetime.now())     # 更新时间
 
-class Approval(Base):
-    """审批流"""
-    __tablename__ = 'Approval'
-    AVid = Column(String(64), primary_key=True)
-    AVname = Column(String(255), nullable=False, comment='审批流名称')
-    # AVtype = Column(Integer, default=1, comment='审批流类型 1: 成为代理商审批 2:商品上架审批 3:订单退换货审批, 4: 提现审批 5: 用户资讯发布审批')
-    AVstartid = Column(String(64), nullable=False, comment='发起人')
-    AVlevel = Column(String(64), comment='当前审批人等级')
-    AVstatus = Column(Integer, default=0, comment='审批状态 -20已取消 -10 拒绝 0 未审核 10审核通过')
-    AVcontent = Column(String(64), comment='待审批的对象')
-    PTid = Column(String(64), comment='审批流类型id')
+class ApprovalLevel(Base):
+    """
+    审批流身份层级
+    """
+    __tablename__ = "ApprovalLevel"
+    approvallevel_id = Column(String(64), primary_key=True)                     # 主键id
+    approvallevel_status = Column(Integer, default=101)                         # 状态{101可用102不可用}
+    approvallevel_index = Column(Integer, default=1)                            # 审批等级
+    approval_id = Column(String(64), nullable=False)                            # 审批流实体id，关联
+    tag_id = Column(String(64), nullable=False)                                 # 身份id，关联
 
+class ApprovalPower(Base):
+    """
+    发起审批流权限
+    """
+    __tablename__ = "ApprovalPower"
+    approvalpower_id = Column(String(64), primary_key=True)                     # 主键id
+    approvalpower_status = Column(Integer, default=111)                         # 状态{111可用112不可用}
+    approvalpower_createtime = Column(DateTime, default=datetime.datetime.now())# 创建时间
+    approvalpower_updatetime = Column(DateTime, default=datetime.datetime.now())# 更新时间
+    tag_id = Column(String(64), nullable=False)                                 # 身份id，关联
+    approval_id = Column(String(64), nullable=False)                            # 审批流实体id，关联
 
-# 权限
-class Permission(Base):
-    """审批流处理身份及层级"""
-    __tablename__ = "Permission"
-    PEid = Column(String(64), primary_key=True)
-    # ADid = Column(String(64), nullable=False, comment='管理员id')
-    # PEtype = Column(Integer, nullable=False, comment='审批流类型 1: 成为代理商审批 2:商品上架审批 3:订单退换货审批, 4: 提现审批 5: 用户资讯发布审批')
-    PELevel = Column(Integer, nullable=False, comment='审批层级 1-10')
-    PIid = Column(String(64), comment='权限id')
-    PTid = Column(String(64), comment='审批流类型id')
+class ApprovalSub(Base):
+    """
+    发起的审批流
+    """
+    __tablename__ = "ApprovalSub"
+    approvalsub_id = Column(String(64), primary_key=True)                       # 主键id
+    approval_name = Column(Text, nullable=False)                                # 审批流名称
+    approvalsub_createtime = Column(DateTime, default=datetime.datetime.now())  # 发起审批时间
+    approvalsub_status = Column(Integer, default=121)                           # 审批状态{121审批中122审批通过123已驳回}
+    user_truename = Column(Text, nullable=False)                                # 发起者名称
+    user_id = Column(String(64), nullable=False)                                # 用户id
+    user_telphone = Column(String(64), nullable=False)                          # 用户联系方式
+    approvalsub_endtime = Column(DateTime)                                      # 审批截止时间
+    approvalsub_message = Column(Text)                                          # 审批备注
+    approval_id = Column(String(64), nullable=False)                            # 审批流实体id
+    approvalsub_num = Column(Integer, nullable=False)                           # 审批流总等级数目
 
+class ApprovalMould(Base):
+    """
+    审批流页签样式与内容
+    """
+    __tablename__ = "ApprovalMould"
+    approvalmould_id = Column(String(64), primary_key=True)                     # 主键id
+    element_name = Column(String(64), nullable=False)                           # 元素名称
+    element_code = Column(Integer)                                              # 元素编码
+    mouldelement_name = Column(Text, nullable=False)                            # 元素释义
+    mouldelement_icon_id = Column(String(200), nullable=False)                  # 元素id，前端用
+    mouldelement_index = Column(Integer)                                        # 顺序
+    element_value = Column(Text)                                                # 填写内容
+    mouldelement_rank = Column(String(200))                                     # 表格行列，*间隔
+    approvalsub_id = Column(String(64), nullable=False)                         # 发起的审批流id，关联
 
-class ApprovalNotes(Base):
-    """审批流处理记录"""
-    __tablename__= 'ApprovalNotes'
-    ANid = Column(String(64), primary_key=True)
-    AVid = Column(String(64), comment='审批流id')
-    AVadname = Column(Text, comment='处理人姓名')
-    ADid = Column(String(64), comment='处理人id')
-    ANaction = Column(Integer, default=1, comment='审批意见 1 同意,0 提交 -1：拒绝')
-    ANabo = Column(Text, comment='审批备注')
-
-
-class PermissionItems(Base):
-    """权限标签"""
-    __tablename__ = 'PermissionItems'
-    PIid = Column(String(64), primary_key=True)
-    # PIType = Column(Integer, comment='权限标签')
-    PIname = Column(Text, comment='权限名称')
-    PIstatus = Column(Integer, default=1, comment='权限状态 1: 正常, -1: 被冻结')
-
-
-class PermissionType(Base):
-    """审批流类型"""
-    __tablename__ = 'PermissionType'
-    PTid = Column(String(64), primary_key=True)
-    PTname = Column(Text, comment='审批流类型名称')
-    PTmodelName = Column(Text, comment='类型关联表')
-
-
-class PermissionNotes(Base):
-    """审批流变更记录表"""
-    __tablename__ = 'PermissionNotes'
-    PNid = Column(String(64), primary_key=True)
-    ADid = Column(String(64), comment='操作人id')
-    PNcontent = Column(String(64), comment='被操作的权限')
-    PINaction = Column(Text, comment='权限变更内容')
-    PNType = Column(Integer, default=0, comment='权限变更类型 0 权限标签 1 审批流类型 2 审批流处理身份及层级')
-
-
-class AdminPermission(Base):
-    """管理员权限标签表"""
-    __tablename__ = 'AdminPermission'
-    ADPid = Column(String(64), primary_key=True)
-    ADid = Column(String(64), comment='管理员id')
-    PIid = Column(String(64), comment='标签id')
+class ApprovalSov(Base):
+    """
+    审批流审批情况
+    """
+    __tablename__ = "ApprovalSov"
+    approvalsov_id = Column(String(64), primary_key=True)                       # 主键id
+    approvalsov_suggestion = Column(Integer, nullable=False)                    # 审批结果{131通过132驳回}
+    approvalsov_message = Column(Text)                                          # 审批意见详情
+    approvalsov_createtime = Column(DateTime, default=datetime.datetime.now())  # 审批时间
+    user_truename = Column(String(128), nullable=False)                         # 审批人名称
+    approvalsub_id = Column(String(64), nullable=False)                         # 发起的审批流id
+    approvalsub_index = Column(Integer)                                         # 审批顺序编号

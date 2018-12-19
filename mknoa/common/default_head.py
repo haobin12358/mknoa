@@ -6,7 +6,7 @@ import cv2
 import os
 from flask import current_app
 from datetime import datetime
-from planet.common.request_handler import gennerc_log
+from mknoa.common.request_handler import gennerc_log
 
 class GithubAvatarGenerator:
     '''

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import requests
 
-from planet.config.secret import kd_api_url, kd_api_code
+from mknoa.config.secret import kd_api_url, kd_api_code
 
 
 class Logistics(object):

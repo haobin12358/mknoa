@@ -2,7 +2,7 @@
 import os
 import cv2
 
-from planet.common.error_response import ParamsError
+from mknoa.common.error_response import ParamsError
 
 """ 视频截取缩略图 """
 
