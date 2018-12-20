@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from planet import create_app
-from planet.extensions.tasks import celery
+from mknoa import create_app
+from mknoa.extensions.tasks import celery
 
 
 app = create_app()

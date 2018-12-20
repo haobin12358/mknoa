@@ -4,17 +4,14 @@ from decimal import Decimal
 
 from flask import request
 
-from planet.config.cfgsetting import ConfigSettings
-from planet.config.enums import ApprovalType
-from planet.common.error_response import SystemError
-from planet.common.request_handler import gennerc_log
-from planet.extensions.register_ext import db
-from planet.models.approval import Approval, ApprovalNotes
-from planet.service.SApproval import SApproval
+from mknoa.config.cfgsetting import ConfigSettings
+from mknoa.config.enums import ApprovalType
+from mknoa.common.error_response import SystemError
+from mknoa.common.request_handler import gennerc_log
+from mknoa.extensions.register_ext import db
 
 
 class BASEAPPROVAL():
-    sapproval = SApproval()
 
     def create_approval(self, avtype, startid, avcontentid):
         avtype = int(avtype)

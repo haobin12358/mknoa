@@ -3,17 +3,16 @@ import os
 from contextlib import contextmanager
 
 import redis
-from alipay import AliPay
 from flask_caching import Cache
 from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy
 
-from planet.common.query_session import Query
-from planet.config.secret import DB_PARAMS, alipay_appid, alipay_notify, app_private_path, alipay_public_key_path, \
+from mknoa.common.query_session import Query
+from mknoa.config.secret import DB_PARAMS, alipay_appid, alipay_notify, app_private_path, alipay_public_key_path, \
     appid, mch_id, mch_key, wxpay_notify_url, BASEDIR, server_dir, cache_redis, apiclient_key, apiclient_cert
-from planet.extensions.weixin import WeixinPay
+from mknoa.extensions.weixin import WeixinPay
 from .loggers import LoggerHandler
 from .weixin.mp import WeixinMP
-from planet.config.secret import SERVICE_APPID, SERVICE_APPSECRET, SUBSCRIBE_APPID, SUBSCRIBE_APPSECRET
+from mknoa.config.secret import SERVICE_APPID, SERVICE_APPSECRET, SUBSCRIBE_APPID, SUBSCRIBE_APPSECRET
 
 
 class SQLAlchemy(_SQLAlchemy):
@@ -32,15 +31,6 @@ class SQLAlchemy(_SQLAlchemy):
             db.session.rollback()
             raise e
 
-
-alipay = AliPay(
-    appid=alipay_appid,
-    app_notify_url=alipay_notify,  # 默认回调url
-    app_private_key_string=open(app_private_path).read(),
-    alipay_public_key_string=open(alipay_public_key_path).read(),
-    debug=True
-    # sign_type="RSA2",  # RSA 或者 RSA2
-     )
 wx_pay = WeixinPay(appid, mch_id, mch_key, wxpay_notify_url, apiclient_key, apiclient_cert)
 db = SQLAlchemy(query_class=Query, session_options={"expire_on_commit": False, "autoflush": False})
 
@@ -61,5 +51,5 @@ def register_ext(app):
     db.init_app(app)
     cache.init_app(app)
     LoggerHandler(app, file='/tmp/planet/').error_handler()
-    from planet.extensions.tasks import celery
+    from mknoa.extensions.tasks import celery
     celery.init_app(app)

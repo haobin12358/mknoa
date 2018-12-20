@@ -6,19 +6,18 @@ from flask import current_app
 from flask_celery import Celery
 from sqlalchemy import cast, Date
 
-from planet import create_app
-from planet.common.share_stock import ShareStock
-from planet.config.enums import OrderMainStatus, OrderFrom
-from planet.extensions.register_ext import db
-from planet.models import CorrectNum, GuessNum, GuessAwardFlow, ProductItems, OrderMain, OrderPart, OrderEvaluation, \
-    Products, User
+from mknoa import create_app
+from mknoa.common.share_stock import ShareStock
+from mknoa.config.enums import OrderMainStatus, OrderFrom
+from mknoa.extensions.register_ext import db
+
 
 celery = Celery()
 
-
+"""
 @celery.task(name="fetch_share_deal")
 def fetch_share_deal():
-    """获取昨日的收盘"""
+    获取昨日的收盘
     with db.auto_commit():
         s_list = []
         share_stock = ShareStock()
@@ -52,8 +51,8 @@ def fetch_share_deal():
 
 @celery.task(name='auto_evaluate')
 def auto_evaluate():
-    """超时自动评价订单"""
-    with db.auto_commit():
+    # 超时自动评价订单
+    # with db.auto_commit():
         s_list = list()
         current_app.logger.info(">>>>>>  开始检测超过30天未评价的商品订单  <<<<<<")
         count = 0
@@ -113,7 +112,7 @@ def auto_evaluate():
 
 
 def fix_evaluate_status_error():
-    """修改评价异常数据（已评价，未修改状态）"""
+    修改评价异常数据（已评价，未修改状态）
     with db.auto_commit():
         order_evaluations = OrderEvaluation.query.filter_by_().all()
         count = 0
@@ -174,3 +173,4 @@ if __name__ == '__main__':
         # db_today = CorrectNum.query.filter(
         #     cast(CorrectNum.CNdate, Date) == date.today()
         # ).first()
+"""

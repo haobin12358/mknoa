@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
-from sqlalchemy import Integer, String, Text, Float, Boolean, DateTime, DECIMAL
+from sqlalchemy import Integer, String, Text, Float, Boolean, DateTime, DECIMAL, DATETIME
 
 from mknoa.common.base_model import Base, Column
 
@@ -13,7 +13,7 @@ class Users(Base):
     user_id = Column(String(64), primary_key=True)                              # 主键id
     user_name = Column(String(128), nullable=False)                             # 用户名
     user_password = Column(String(128), nullable=False)                         # 用户密码
-    user_createtime = Column(DateTime, default=datetime.datetime.now())         # 创建时间
+    user_createtime = Column(DATETIME, default=datetime.datetime.now())         # 创建时间
     user_truename = Column(String(128))                                         # 用户真实姓名
     user_telphone = Column(String(20))                                          # 联系方式
     user_email = Column(String(64))                                             # 用户邮箱
@@ -44,6 +44,6 @@ class UserTags(Base):
     usertag_id = Column(String(64), primary_key=True)                           # 主键id
     user_id = Column(String(64), nullable=False)                                # 用户id，关联
     tag_id = Column(String(64), nullable=False)                                 # 身份id，关联
-    usertag_createtime = Column(DateTime, default=datetime.datetime.now())      # 创建时间
-    usertag_updatetime = Column(DateTime, default=datetime.datetime.now())      # 更新时间
+    usertag_createtime = Column(DATETIME, default=datetime.datetime.now())      # 创建时间
+    usertag_updatetime = Column(DATETIME, default=datetime.datetime.now())      # 更新时间
     usertag_status = Column(Integer, nullable=False, default=31)                # 关联状态{31关联中32关联解除}

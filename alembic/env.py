@@ -6,9 +6,9 @@ import os.path
 import sys
 
 sys.path.append(os.path.realpath('.'))
-from planet.common.base_model import DB_PARAMS
+from mknoa.common.base_model import DB_PARAMS
 
-from planet import models
+from mknoa import models
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 

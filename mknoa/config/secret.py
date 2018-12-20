@@ -4,16 +4,16 @@ from datetime import timedelta
 
 from celery.schedules import crontab
 
-from planet.config.http_config import API_HOST
+from mknoa.config.http_config import API_HOST
 
 env = os.environ
 BASEDIR = os.path.abspath(os.path.join(__file__, '../../../'))
 # db
-database = env.get('DXX_DB_NAME', "dxx")
-host = env.get('DXX_DB_HOST', "127.0.0.1")
+database = env.get('MKNOA_DB_NAME', "dxx")
+host = env.get('MKNOA_DB_HOST', "127.0.0.1")
 port = "3306"
-username = env.get('DXX_DB_USER', '')
-password = env.get('DXX_DB_PWD', 'password')
+username = env.get('MKNOA_DB_USER', '')
+password = env.get('MKNOA_DB_PWD', 'password')
 charset = "utf8mb4"
 sqlenginename = 'mysql+pymysql'
 DB_PARAMS = "{0}://{1}:{2}@{3}/{4}?charset={5}".format(
