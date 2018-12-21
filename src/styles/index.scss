@@ -1,0 +1,253 @@
+@import './variables.scss';
+@import './mixin.scss';
+@import './transition.scss';
+@import './element-ui.scss';
+@import './sidebar.scss';
+
+body {
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+}
+body, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, ol, li, th, td, p, blockquote, pre, form, fieldset, legend, input, button, textarea, hr {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+}
+
+//body, button, input, select, textarea {
+//  font: 0.14px "微软雅黑", SimHei, verdana, sans-serif
+//}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+  font-weight: normal
+}
+label {
+  font-weight: 700;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#app{
+  height: 100%;
+}
+li {
+  list-style: none
+}
+
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  outline: none;
+  text-decoration: none;
+}
+
+div:focus{
+  outline: none;
+ }
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+
+//main-container全局样式
+.app-main{
+  min-height: 100%
+}
+
+.app-container {
+  padding: 20px;
+}
+.m-flex-between{
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.m-flex-start{
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.m-flex-around{
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-around;
+}
+.m-flex-center{
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.m-grey{
+  color: #B9B9B9;
+  font-size: 12px;
+}
+//标题
+.m-title-box{
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  .m-title-btn-box{
+    text-align: right;
+  }
+  .m-title-btn{
+    display: inline-block;
+    padding: 0 20px;
+    height: 38px;
+    line-height: 38px;
+    border-radius: 23px;
+    background-color: #EBE9E9;
+    &.active{
+      background-color: #FF7373;
+      color: #fff;
+      margin-right: 10px;
+    }
+  }
+}
+
+//表格按钮
+.m-table-btn{
+  display: inline-block;
+  padding: 4px 28px;
+  background-color: #F8F8F8;
+  border-radius: 23px;
+  cursor: pointer;
+  &:first-child{
+    margin-right: 10px;
+  }
+}
+//分页
+.el-pagination.is-background .el-pager li:not(.disabled).active{
+  background-color: #FF7373;
+}
+
+.el-input--small{
+  width: 400px;
+}
+
+//表单
+.m-form-container{
+  background-color: #fff;
+  margin: 20px 0;
+  padding: 50px 50px;
+  box-shadow:0 3px 25px rgba(0,0,0,0.04);
+  border-radius: 8px;
+}
+.m-form-btn{
+  &.center{
+    text-align: center;
+  }
+  &.m-outside{
+    span{
+      padding:8px 35px;
+      margin-top: 20px;
+    }
+  }
+  span{
+    display: inline-block;
+    padding:0 35px;
+    border-radius: 23px;
+    background-color: #EBE9E9;
+    &.active{
+      background-color: #FF7373;
+      color: #fff;
+      margin-right: 20px;
+    }
+  }
+}
+.m-cut-add-box{
+  .svg-icon{
+    margin-left: 10px;
+    cursor: pointer;
+  }
+}
+.el-checkbox__input.is-checked+.el-checkbox__label{
+  color: #606266;
+}
+.el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+  background-color: #FF7373;
+  border-color: #FF7373;
+}
+.el-input--mini{
+  display: inline-block;
+  width: 20%;
+}
+.el-tabs--border-card{
+  border-radius: 8px;
+}
+.el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active{
+  color: #9B9B9B;
+}
+.el-tabs--border-card>.el-tabs__header .el-tabs__item{
+  color: #666666;
+  border: none;
+}
+.el-tabs--border-card>.el-tabs__header{
+  border-bottom: none;
+}
+
+.el-button--primary{
+  background-color: #F9F9F9;
+  border-color: #F9F9F9;
+  color: #BBBBBB;
+}
+.el-button--primary.is-active, .el-button--primary:active{
+  background-color: #F9F9F9;
+  border-color: #F9F9F9;
+  color: #BBBBBB;
+}
+.el-button--primary:focus, .el-button--primary:hover{
+  background-color: #F9F9F9;
+  border-color: #F9F9F9;
+  color: #BBBBBB;
+}
+.el-radio__input.is-checked+.el-radio__label{
+  color: #666666;
+}
+.el-radio__input.is-checked .el-radio__inner{
+  border-color: #FF7373;
+  background: #FF7373;
+}
