@@ -34,7 +34,7 @@ class Tags(Base):
     tag_name = Column(String(256), nullable=False)                              # 身份名称
     tag_status = Column(Integer, nullable=False, default=21)                    # 身份状态{21可用22废弃}
     tag_level = Column(Integer, default=1)                                      # 身份等级
-    tag_before_id = Column(String(64), default="0")                             # 上级身份id,0表示超管
+    user_id = Column(String(64), nullable=False)                                # 创建人id
 
 class UserTags(Base):
     """

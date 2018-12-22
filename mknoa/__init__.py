@@ -8,6 +8,7 @@ from flask.json import JSONEncoder as _JSONEncoder
 from flask_cors import CORS
 
 from mknoa.api.v1.AUsers import AUser
+from mknoa.api.v1.APowers import APowers
 from mknoa.common.request_handler import error_handler, request_first_handler
 from mknoa.config.secret import DefaltSettig
 from mknoa.extensions.register_ext import register_ext
@@ -90,15 +91,8 @@ class Flask(_Flask):
 def register_v1(app):
     v1 = Blueprint(__name__, 'v1', url_prefix='/api/v1')
     v1.add_url_rule('/user/<string:user>', view_func=AUser.as_view('user'))
-    #v1.add_url_rule('/product/<string:product>', view_func=AProduct.as_view('product'))
-   # v1.add_url_rule('/file/<string:file>', view_func=AFile.as_view('file'))
-  # # v1.add_url_rule('/category/<string:category>', view_func=ACategory.as_view('category'))
-  #  v1.add_url_rule('/cart/<string:cart>', view_func=ACart.as_view('cart'))
- #   v1.add_url_rule('/order/<string:order>', view_func=AOrder.as_view('order'))
- #   v1.add_url_rule('/sku/<string:sku>', view_func=ASku.as_view('sku'))
+    v1.add_url_rule('/power/<string:power>', view_func=APowers.as_view('power'))
 
-
-    # v1.add_url_rule('/paytest', view_func=APayTest.as_view('pay'))
     # v1.add_url_rule.....
     app.register_blueprint(v1)
 

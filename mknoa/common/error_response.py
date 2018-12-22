@@ -110,3 +110,28 @@ class WXLoginError(BaseError):
     status = 405
     status_code = 405012
     message = '微信登录失败'
+
+class LoginError(BaseError):
+    status = 405
+    status_code = 405101
+    message = "密码错误"
+
+class UnuseError(BaseError):
+    status = 405
+    status_code = 405102
+    message = "账号不可用"
+
+class ColduseError(BaseError):
+    status = 405
+    status_code = 405103
+    message = "账号被冻结，请联系管理员"
+
+class NouseError(BaseError):
+    status = 405
+    status_code = 405104
+    message = "无此用户"
+
+class RepeatError(BaseError):
+    status = 405
+    status_code = 405105
+    message = "用户名重复"

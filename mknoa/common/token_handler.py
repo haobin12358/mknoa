@@ -1,27 +1,28 @@
 # -*-coding: utf-8 -*-
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app, request
-
+import datetime, base64
 from .error_response import AuthorityError, TokenError
 
 
-def usid_to_token(id, model='User', level=0, expiration='', username='none'):
+def usid_to_token(id):
     """生成令牌
     id: 用户id
     model: 用户类型(User 或者 Admin, Supplizer)
     expiration: 过期时间, 在config/secret中修改
     """
-    if not expiration:
-        expiration = current_app.config['TOKEN_EXPIRATION']
-    s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
-    return s.dumps({
-        'username': username,
-        'id': id,
-        'model': model,
-        'level': level,
+    time_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    token_with_base = id + "#" + time_now
+    token_with_base = token_with_base.encode(encoding="utf-8")
+    token_with_base = base64.b64encode(token_with_base)
+    token_with_base = token_with_base.decode()
+    return token_with_base
 
-    }).decode()
-
+def token_to_usid(token):
+    token_without_base = base64.b64decode(token)
+    token_without_base = token_without_base.decode()
+    usid_time = token_without_base.split("#")
+    return usid_time[0]
 
 def is_admin():
     """是否是管理员"""
@@ -68,16 +69,6 @@ def token_required(func):
     return inner
 
 
-def get_current_user():
-    usid = request.user.id
-    from planet.models import User
-    return User.query.filter(User.USid == usid, User.isdelete == False).first()
-
-
-def get_current_admin():
-    adid = request.user.id
-    from planet.models import Admin
-    return Admin.query.filter(Admin.ADid == adid, Admin.isdelete == False).first()
 
 
 

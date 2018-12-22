@@ -10,12 +10,19 @@ class AUser(Resource):
     def post(self, user):
         apis = {
             "login": self.user.login,
+            "new_tags": self.user.new_tags,
+            "update_tag": self.user.update_tag,
+            "delete_tag": self.user.delete_tag,
+            "new_user": self.user.new_user
         }
         return apis
 
     def get(self, user):
         apis = {
-
-
+            "get_user_tag_level_list": self.user.get_user_tag_level_list,
+            "get_tag_list": self.user.get_tag_list,
+            "get_tag_message": self.user.get_tag_message,
+            "get_my_message": self.user.get_my_message,
+            "get_all_user": self.user.get_all_user
         }
         return apis
