@@ -33,7 +33,7 @@ class MouldElement(Base):
     mould_id = Column(String(64), nullable=False)                               # 模板id，关联
     element_id = Column(String(64), nullable=False)                             # 元素id，关联
     mouldelement_name = Column(Text, nullable=False)                            # 用于诠释元素内容代表的含义
-    mouldelement_icon_id = Column(String(200), nullable=False)                  # 元素id，前端使用
+    mouldelement_icon_id = Column(String(200))                                  # 元素id，前端使用
     mouldelement_index = Column(Integer)                                        # 元素顺序
     mouldelement_rank = Column(String(200))                                     # 行列，*号间隔，列表特有
     mouldelement_status = Column(Integer, default=81)                           # 状态{81可用82不可用}

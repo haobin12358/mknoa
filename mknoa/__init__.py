@@ -9,6 +9,8 @@ from flask_cors import CORS
 
 from mknoa.api.v1.AUsers import AUser
 from mknoa.api.v1.APowers import APowers
+from mknoa.api.v1.AMoulds import AMoulds
+from mknoa.api.v1.ANotice import ANotice
 from mknoa.common.request_handler import error_handler, request_first_handler
 from mknoa.config.secret import DefaltSettig
 from mknoa.extensions.register_ext import register_ext
@@ -92,7 +94,8 @@ def register_v1(app):
     v1 = Blueprint(__name__, 'v1', url_prefix='/api/v1')
     v1.add_url_rule('/user/<string:user>', view_func=AUser.as_view('user'))
     v1.add_url_rule('/power/<string:power>', view_func=APowers.as_view('power'))
-
+    v1.add_url_rule("/mould/<string:mould>", view_func=AMoulds.as_view('mould'))
+    v1.add_url_rule("/notice/<string:notice>", view_func=ANotice.as_view('notice'))
     # v1.add_url_rule.....
     app.register_blueprint(v1)
 
