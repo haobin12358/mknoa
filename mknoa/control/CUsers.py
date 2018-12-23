@@ -45,10 +45,54 @@ class CUsers(SUsers, SPowers):
                 if tag["tag_status"] != 22:
                     tag_list.append(tag)
             # TODO 权限列表
+            if user_name == "admin":
+                power_list = get_model_return_list(self.get_parent_power_admin())
+                for power in power_list:
+                    power_meta = get_model_return_dict(self.get_meta_by_powerid(power["power_id"]))
+                    power["power_meta"] = power_meta
+                    children_list = get_model_return_list(self.get_power_by_parentid(power["power_id"]))
+                    for children in children_list:
+                        children_meta = get_model_return_dict(self.get_meta_by_powerid(children["power_id"]))
+                        children["power_meta"] = children_meta
+                    power["children"] = children_list
+
+            else:
+                tag_ids = get_model_return_list(self.get_usertagid_by_user(user_id))
+                power_list = []
+                for tag in tag_ids:
+                    tag_id = tag["tag_id"]
+                    # 根据标签id获取了所有的权限id，这里的权限id中存在子权限id
+                    power_id_list = get_model_return_list(self.get_powerid_by_tagid(tag_id))
+                    power_id_dict = []
+                    for power in power_id_list:
+                        power_id_dict.append(power["power_id"])
+                    for power in power_id_list:
+                        power_id = power["power_id"]
+                        power_message = get_model_return_dict(self.get_power_by_powerid(power_id))
+                        # 判断，如果是根节点，那么处理，如果不是根节点，那么放弃
+                        if power_message["power_parent_id"] == "0":
+                            power_meta = get_model_return_dict(self.get_meta_by_powerid(power["power_id"]))
+                            power_message["power_meta"] = power_meta
+                            # 根据刚才的权限id获取子权限列表，子权限列表中可能有部分子权限是无权限的
+                            children_list = get_model_return_list(self.get_power_by_parentid(power["power_id"]))
+                            i = len(children_list)
+                            # 循环处理字权限列表数据，如果子权限列表中存在无权限的内容，则remove处理
+                            while i > 0:
+                                if children_list[i - 1]["power_id"] in power_id_dict:
+                                    children_meta = get_model_return_dict(
+                                        self.get_meta_by_powerid(children_list[i - 1]["power_id"]))
+                                    children_list[i - 1]["power_meta"] = children_meta
+                                else:
+                                    children_list.remove(children_list[i - 1])
+                                i = i - 1
+                            power_message["children"] = children_list
+                            power_list.append(power_message)
+                        else:
+                            pass
             return Success('登录成功',
                            data={
                                'token': usid_to_token(user_id.user_id),
-                               'power_list': [],
+                               'power_list': power_list,
                                'user_message': user_message,
                                'user_tags': tag_list
                            })
