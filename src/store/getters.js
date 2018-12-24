@@ -8,7 +8,8 @@ const getters = {
   size: state => state.app.size,
   errorLogs: state => state.errorLog.logs,
   userInfo: state => state.user.userInfo,
-  permission_routers: state => state.permission.routers,
-  addRouters: state => state.permission.addRouters,
+  side: state => state.user.side,
+  // permission_routers: state => state.permission.routers,
+  // addRouters: state => state.permission.addRouters,
 }
 export default getters

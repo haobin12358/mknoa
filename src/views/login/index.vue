@@ -7,14 +7,14 @@
         <span class="svg-container">
           <svg-icon icon-class="user"/>
         </span>
-        <el-input v-model.trim="loginForm.username" name="username" type="text" placeholder="用户名"/>
+        <el-input v-model.trim="loginForm.user_name" name="username" type="text" placeholder="用户名"/>
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password"/>
         </span>
         <el-input
-          :type="pwdType" v-model="loginForm.password" name="password" placeholder="密码"
+          :type="pwdType" v-model="loginForm.user_password" name="password" placeholder="密码"
           @keyup.enter.native="handleLogin"/>
         <span class="show-pwd" @click="showPwd">
           <svg-icon icon-class="eye"/>
@@ -33,19 +33,20 @@
 
 <script>
   import Cookie from 'js-cookie'
-
+  import axios from 'axios';
+  import api from '../../api/api'
 
   export default {
     name: 'Login',
     data() {
       return {
         loginForm: {
-          username: Cookie.get('username'),
-          password: ''
+          user_name: Cookie.get('user_name'),
+          user_password: ''
         },
         loginRules: {
-          username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-          password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+          user_name: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+          user_password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
         },
         loading: false,
         pwdType: 'password',
@@ -73,13 +74,25 @@
           if (valid) {
             this.loading = true
 
-            Cookie.set('username', this.loginForm.username);
+            Cookie.set('user_name', this.loginForm.user_name);
             this.$store.dispatch('Login', this.loginForm).then(() => {
               this.loading = false
               this.$router.push({ path: this.redirect || '/' })
             }).catch(() => {
               this.loading = false
             })
+            // axios.post(api.login,{
+            //   user_name:this.loginForm.username,
+            //   user_password: this.loginForm.password
+            // }).then(res => {
+            //   if(res.data.status == 200){
+            //     this.loading = false
+            //     this.$router.push({ path: this.redirect || '/' })
+            //   }else{
+            //     this.loading = false
+            //   }
+            // })
+
           } else {
             this.$message.warning('请填写用户名和密码');
             return false

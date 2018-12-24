@@ -2,29 +2,29 @@
   <div v-if="!item.hidden&&item.children" class="menu-wrapper">
 
     <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
-      <app-link :to="resolvePath(onlyOneChild.path)">
-        <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
-          <item v-if="onlyOneChild.meta" :icon="onlyOneChild.meta.icon||item.meta.icon" :title="onlyOneChild.meta.title" />
+      <app-link :to="resolvePath(onlyOneChild.power_path)">
+        <el-menu-item :index="resolvePath(onlyOneChild.power_path)" :class="{'submenu-title-noDropdown':!isNest}">
+          <item v-if="onlyOneChild.power_meta" :icon="onlyOneChild.power_meta.powermeta_icon||item.power_meta.powermeta_icon" :title="onlyOneChild.power_meta.powermeta_title" />
         </el-menu-item>
       </app-link>
     </template>
 
-    <el-submenu v-else :index="resolvePath(item.path)">
+    <el-submenu v-else :index="resolvePath(item.power_path)">
       <template slot="title">
-        <item v-if="item.meta" :icon="item.meta.icon" :title="item.meta.title" />
+        <item v-if="item.power_meta" :icon="item.power_meta.powermeta_icon" :title="item.power_meta.powermeta_title" />
       </template>
 
-      <template v-for="child in item.children" v-if="!child.hidden">
+      <template v-for="child in item.children" v-if="!child.power_hidden">
         <sidebar-item
           v-if="child.children&&child.children.length>0"
           :is-nest="true"
           :item="child"
-          :key="child.path"
-          :base-path="resolvePath(child.path)"
+          :key="child.power_path"
+          :base-path="resolvePath(child.power_path)"
           class="nest-menu" />
-        <app-link v-else :to="resolvePath(child.path)" :key="child.name">
-          <el-menu-item :index="resolvePath(child.path)">
-            <item v-if="child.meta" :icon="child.meta.icon" :title="child.meta.title" />
+        <app-link v-else :to="resolvePath(child.power_path)" :key="child.power_meta.powermeta_title">
+          <el-menu-item :index="resolvePath(child.power_path)">
+            <item v-if="child.power_meta" :icon="child.power_meta.powermeta_icon" :title="child.power_meta.powermeta_title" />
           </el-menu-item>
         </app-link>
       </template>

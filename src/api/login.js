@@ -1,12 +1,14 @@
 import request from '@/utils/request'
+import api from './api'
 
 export function login(username, password) {
+  console.log(username,password)
   return request({
-    url: '/user/login',
+    url: api.login,
     method: 'post',
     data: {
-      username,
-      password
+      user_name: username,
+      user_password: password
     }
   })
 }

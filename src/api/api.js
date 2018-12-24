@@ -1,9 +1,22 @@
 // const title = 'http://10.0.0.197:7443/sharp/manager/';
 // const title = 'http://120.79.182.43:7443/sharp/manager/';
-const title = 'https://planet.daaiti.cn/api/v1/'
+const title = 'http://47.104.228.112:8111/api/v1/'
 
 const api = {
-  login: title + 'user/admin_login',                                      //用户登录
+  login: title + 'user/login',                                      //用户登录
+  get_all_user: title +'user/get_all_user',//获取用户列表
+  get_my_message: title + 'user/get_my_message',//获取用户详情
+  new_user: title + 'user/new_user',//生成用户
+  get_user_tag_level_list: title +'user/get_user_tag_level_list',//获取身份等级
+  get_tag_list:title +'user/get_tag_list',///获取身份标签
+  get_tags_all: title +'user/get_tags_all',//获取下拉身份标签
+  get_power_list_easy: title +'power/get_power_list_easy',//获取权限列表
+  // delete_tag: title + 'user/delete_tag',//删除用户
+  new_tags: title +'user/new_tags',//创建身份
+  delete_tag: title + 'user/delete_tag',//删除身份
+  get_tag_message: title +'user/get_tag_message',//获取标签详情
+  update_tag: title + 'user/update_tag',//更新标签
+
   get_admin_list: title + 'user/get_admin_list',                          //获取管理员列表
   add_admin_by_superadmin: title + 'user/add_admin_by_superadmin',        //添加啊管理员
   get_admin_all_type: title + 'user/get_admin_all_type',                  //获取管理员身份

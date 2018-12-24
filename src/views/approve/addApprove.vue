@@ -68,7 +68,7 @@
         </el-col>
       </el-row>
 
-      
+
     </div>
 </template>
 
@@ -86,7 +86,8 @@
           type: [],
           resource: '',
           desc: ''
-        }
+        },
+
       }
     },
     methods: {
@@ -104,6 +105,9 @@
       },
       beforeRemove(file, fileList) {
         return this.$confirm(`确定移除 ${ file.name }？`);
+      },
+      getCheckedKeys(key){
+        console.log(this.$refs.tree.getCheckedKeys())
       }
     }
   }

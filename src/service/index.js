@@ -1,11 +1,11 @@
 import axios from 'src/utils/myAxios';
 import api from 'src/api/api'
 
-export const login = (adname, adpassword) => axios(api.login, {
+export const login = (username, password) => axios(api.login, {
   noLoading: true,
   method: 'post',
   data: {
-    adname,
-    adpassword,
+    user_name: username,
+    user_password: password
   },
 });

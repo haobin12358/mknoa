@@ -3,8 +3,8 @@
   <el-scrollbar wrap-class="scrollbar-wrapper">
     <div class="m-role-box">
       <img src="/src/common/images/icon-role.png" class="m-role-img" alt="">
-      <h3 class="m-role-name">鹿野野</h3>
-      <p>超级管理员</p>
+      <h3 class="m-role-name">{{userInfo.user_name}}</h3>
+      <!--<p>超级管理员</p>-->
     </div>
     <el-menu
       :show-timeout="200"
@@ -15,7 +15,7 @@
       text-color="#bfcbd9"
       active-text-color="#409EFF"
     >
-      <sidebar-item v-for="route in permission_routers" :key="route.path" :item="route" :base-path="route.path"/>
+      <sidebar-item v-for="route in side" :key="route.power_path" :item="route" :base-path="route.power_path"/>
     </el-menu>
   </el-scrollbar>
 </template>
@@ -28,8 +28,10 @@ export default {
   components: { SidebarItem },
   computed: {
     ...mapGetters([
-      'permission_routers',
-      'sidebar'
+      // 'permission_routers',
+      'userInfo',
+      'sidebar',
+      'side'
     ]),
     routes() {
       return this.$router.options.routes

@@ -6,7 +6,7 @@
         <span class="m-grey">共25条数据</span>
       </div>
       <div class="m-title-btn-box">
-          <span class="m-title-btn active">
+          <span class="m-title-btn active" @click="changeRoute('/account/editAccount')">
             <svg-icon icon-class="icon-add" />
             新建账号
           </span>
@@ -19,7 +19,7 @@
     <div>
       <el-table
         ref="multipleTable"
-        :data="tableData3"
+        :data="user_list"
         tooltip-effect="dark"
         style="width: 100%;border-radius: 8px;"
         @selection-change="handleSelectionChange">
@@ -30,22 +30,21 @@
         <el-table-column
           label="账号"
         >
-          <template slot-scope="scope">{{ scope.row.date }}</template>
+          <template slot-scope="scope">{{ scope.row.user_name }}</template>
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="user_telphone"
           label="联系方式"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="user_level"
           label="身份等级"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="address"
           label="操作"
           align="center"
         >
@@ -62,7 +61,7 @@
         </el-table-column>
       </el-table>
       <div class="m-bottom">
-        <page :total="total_page"></page>
+        <page :total="total_page" @pageChange="pageChange"></page>
       </div>
 
     </div>
@@ -71,44 +70,26 @@
 
 <script>
   import page from '../../components/common/page';
+  import axois from 'axios';
+  import api from '../../api/api';
   export default {
     data(){
       return{
-        tableData3: [{
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-08',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-06',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-07',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }],
+        /*分页信息*/
+        page_info:{
+          page_num:1,
+          page_size:10
+        },
+        total_page:3,
+        user_list:[],
         multipleSelection: [],
-        total_page:3
       }
     },
     components:{
       page
+    },
+    mounted(){
+      this.getUser(1);
     },
     methods: {
       toggleSelection(rows) {
@@ -122,6 +103,31 @@
       },
       handleSelectionChange(val) {
         this.multipleSelection = val;
+      },
+      /**获取所有用户*/
+      getUser(num){
+        axois.get(api.get_all_user,{
+          params:{
+            token:localStorage.getItem('token'),
+            page_num: num,
+            page_size: this.page_info.page_size || 10
+          }
+        }).then(res => {
+            if(res.data.status == 200){
+              this.total_page = res.data.total_page;
+              this.user_list = res.data.data;
+            }else{
+              this.$message.error(res.data.message);
+            }
+        })
+      },
+      pageChange(num){
+        this.getUser(num);
+        this.page_info.page_num = num;
+      },
+      /*改变路由*/
+      changeRoute(path){
+        this.$router.push({path:path})
       }
     }
   }

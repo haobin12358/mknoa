@@ -37,15 +37,6 @@ export const constantRouterMap = [
       }
     ]
   },
-  ]
-
-
-export default new Router({
-  // mode: 'history', //后端支持可开
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRouterMap
-})
-export const asyncRouterMap = [
   {
     path: '/role',
     component: Layout,
@@ -113,7 +104,7 @@ export const asyncRouterMap = [
     meta: { title: '商品管理', icon: 'product',roles:['editor'] },
     children: [
       {
-        path: '',
+        path: 'product',
         name: 'ProductIndex',
         component: () => import('src/views/product/index'),
         meta: { title: '商品管理'}
@@ -182,5 +173,15 @@ export const asyncRouterMap = [
   },
 
   { path: '*', redirect: '/404', hidden: true }
+  ]
+
+
+export default new Router({
+  // mode: 'history', //后端支持可开
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRouterMap
+})
+export const asyncRouterMap = [
+
 
 ]
