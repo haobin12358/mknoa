@@ -6,7 +6,7 @@
         <span class="m-grey">共25条数据</span>
       </div>
       <div class="m-title-btn-box">
-          <span class="m-title-btn active">
+          <span class="m-title-btn active" @click="changeRoute('/module/editModule')">
             <svg-icon icon-class="icon-add" />
             新建板块
           </span>
@@ -19,7 +19,7 @@
     <div>
       <el-table
         ref="multipleTable"
-        :data="tableData3"
+        :data="mould_list"
         tooltip-effect="dark"
         style="width: 100%;border-radius: 8px;"
         @selection-change="handleSelectionChange">
@@ -28,17 +28,16 @@
           width="55">
         </el-table-column>
         <el-table-column
+          prop="mould_name"
           label="模块名称"
         >
-          <template slot-scope="scope">{{ scope.row.date }}</template>
         </el-table-column>
         <el-table-column
-          prop="address"
           label="操作"
           align="center"
         >
           <template slot-scope="scope">
-              <span class="m-table-btn">
+              <span class="m-table-btn" @click="changeRoute('/module/editModule',scope.row)">
                   <svg-icon icon-class="icon-edit" />
                 <span>编辑</span>
               </span>
@@ -59,46 +58,45 @@
 
 <script>
   import page from '../../components/common/page';
+  import axios from 'axios';
+  import api from '../../api/api';
   export default {
     data(){
       return{
-        tableData3: [{
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-08',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-06',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-07',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }],
-        multipleSelection: [],
-        total_page:3
+        /*分页信息*/
+        page_info:{
+          page_num:1,
+          page_size:10
+        },
+        total_page:0,
+        mould_list:[],
+        multipleSelection: []
       }
     },
     components:{
       page
     },
+    mounted(){
+      this.getMould(1);
+    },
     methods: {
+      //获取模板列表
+      getMould(num){
+        axios.get(api.get_mould_list,{
+          params:{
+            token:localStorage.getItem('token'),
+            page_num: num,
+            page_size: this.page_info.page_size || 10
+          }
+        }).then(res => {
+          if(res.data.status == 200){
+            this.mould_list = res.data.data;
+            this.total_page = res.data.total_page;
+          }
+        })
+      },
+
+      //表格选择
       toggleSelection(rows) {
         if (rows) {
           rows.forEach(row => {
@@ -110,7 +108,15 @@
       },
       handleSelectionChange(val) {
         this.multipleSelection = val;
-      }
+      },
+      /*改变路由*/
+      changeRoute(path,item){
+        let mould_id = '';
+        if(item){
+          mould_id = item.mould_id;
+        }
+        this.$router.push({path:path,query:{mould_id}})
+      },
     }
   }
 </script>

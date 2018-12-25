@@ -44,7 +44,7 @@
 </template>
 
 <script>
-  import axois from 'axios';
+  import axios from 'axios';
   import api from '../../api/api';
     export default {
       data() {
@@ -84,12 +84,13 @@
         }
       },
       methods: {
+        /*保存*/
         submitSure() {
           this.getCheckedKeys();
           this.$refs['roleForm'].validate((valid) => {
             if (valid) {
               if(this.$route.query.tag_id){
-                axois.post(api.update_tag + '?token=' +localStorage.getItem('token') +'&tag_id=' + this.form.tag_id,this.form).then(res => {
+                axios.post(api.update_tag + '?token=' +localStorage.getItem('token') +'&tag_id=' + this.form.tag_id,this.form).then(res => {
                   if(res.data.status == 200){
                     this.$notify({
                       title: '成功',
@@ -101,7 +102,7 @@
                   }
                 })
               }else{
-                axois.post(api.new_tags + '?token=' +localStorage.getItem('token'),this.form).then(res => {
+                axios.post(api.new_tags + '?token=' +localStorage.getItem('token'),this.form).then(res => {
                   if(res.data.status == 200){
                     this.$notify({
                       title: '成功',
@@ -121,18 +122,21 @@
             }
           });
         },
+        /*取消*/
         cancelForm(){
           this.reload();
         },
+        /*树上多选框选择*/
         handleCheckChange(data, checked, indeterminate) {
           console.log(data, checked, indeterminate);
         },
+        /*获取已选择树的key*/
         getCheckedKeys() {
           this.form.tag_power_list =  [].concat(this.$refs.tree.getCheckedKeys());
         },
         /*获取身份等级*/
         getLevel(){
-          axois.get(api.get_user_tag_level_list,{
+          axios.get(api.get_user_tag_level_list,{
             params:{
               token:localStorage.getItem('token')
             }
@@ -146,7 +150,7 @@
         },
         /*获取身份权限*/
         getPower(){
-          axois.get(api.get_power_list_easy,{
+          axios.get(api.get_power_list_easy,{
             params:{
               token:localStorage.getItem('token')
             }
@@ -159,8 +163,9 @@
             }
           })
         },
+        /*获取身份详情*/
         getDetail(){
-          axois.get(api.get_tag_message,{
+          axios.get(api.get_tag_message,{
             params:{
               token:localStorage.getItem('token'),
               tag_id: this.$route.query.tag_id

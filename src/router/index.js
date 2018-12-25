@@ -158,7 +158,7 @@ export const constantRouterMap = [
     meta: { title: '平台公告', icon: 'announcement',roles:['admin'] },
     children: [
       {
-        path: '',
+        path: 'announcement',
         name: 'AnnouncementIndex',
         component: () => import('src/views/announcement/index'),
         meta: { title: '所有公告'}

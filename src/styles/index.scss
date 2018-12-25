@@ -251,3 +251,30 @@ a:hover {
   border-color: #FF7373;
   background: #FF7373;
 }
+.m-text-box{
+  font-size: 14px;
+  padding: 30px;
+  background:rgba(247,248,255,1);
+  border: 1px dashed #eee;
+  border-radius:8px;
+  margin: 20px 0;
+  .m-row{
+    margin-bottom: 20px;
+  }
+  .m-label{
+    text-align: right;
+    color: #AFAFAF;
+  }
+}
+
+.m-table-box{
+  font-size: 14px;
+  padding: 30px;
+  .m-row{
+    margin-bottom: 20px;
+  }
+  .m-label{
+    text-align: center;
+    color: #AFAFAF;
+  }
+}

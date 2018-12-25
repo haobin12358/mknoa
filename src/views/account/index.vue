@@ -49,7 +49,7 @@
           align="center"
         >
           <template slot-scope="scope">
-              <span class="m-table-btn">
+              <span class="m-table-btn" @click="changeRoute('/account/editAccount',scope.row)">
                   <svg-icon icon-class="icon-edit" />
                 <span>编辑</span>
               </span>
@@ -80,7 +80,7 @@
           page_num:1,
           page_size:10
         },
-        total_page:3,
+        total_page:0,
         user_list:[],
         multipleSelection: [],
       }
@@ -121,13 +121,18 @@
             }
         })
       },
+      /*分页*/
       pageChange(num){
         this.getUser(num);
         this.page_info.page_num = num;
       },
       /*改变路由*/
-      changeRoute(path){
-        this.$router.push({path:path})
+      changeRoute(path,item){
+        let user_id = '';
+        if(item){
+          user_id = item.user_id;
+        }
+        this.$router.push({path:path,query:{user_id}})
       }
     }
   }
