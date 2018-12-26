@@ -229,17 +229,18 @@ a:hover {
   border-bottom: none;
 }
 
-.el-button--primary{
+  .m-upload-btn{
+    background-color: #F9F9F9;
+    border-color: #F9F9F9;
+    color: #BBBBBB;
+  }
+
+.m-upload-btn.is-active, .m-upload-btn:active{
   background-color: #F9F9F9;
   border-color: #F9F9F9;
   color: #BBBBBB;
 }
-.el-button--primary.is-active, .el-button--primary:active{
-  background-color: #F9F9F9;
-  border-color: #F9F9F9;
-  color: #BBBBBB;
-}
-.el-button--primary:focus, .el-button--primary:hover{
+.m-upload-btn:focus, .m-upload-btn:hover{
   background-color: #F9F9F9;
   border-color: #F9F9F9;
   color: #BBBBBB;

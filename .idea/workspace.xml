@@ -3,13 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="f8bffc16-2cf6-4874-9535-b4174362dc8d" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/api/api.js" afterPath="$PROJECT_DIR$/src/api/api.js" />
-      <change beforePath="$PROJECT_DIR$/src/store/modules/user.js" afterPath="$PROJECT_DIR$/src/store/modules/user.js" />
-      <change beforePath="$PROJECT_DIR$/src/views/announcement/index.vue" afterPath="$PROJECT_DIR$/src/views/announcement/index.vue" />
+      <change beforePath="$PROJECT_DIR$/src/styles/index.scss" afterPath="$PROJECT_DIR$/src/styles/index.scss" />
+      <change beforePath="$PROJECT_DIR$/src/views/approve/addApprove.vue" afterPath="$PROJECT_DIR$/src/views/approve/addApprove.vue" />
       <change beforePath="$PROJECT_DIR$/src/views/approve/editApprove.vue" afterPath="$PROJECT_DIR$/src/views/approve/editApprove.vue" />
-      <change beforePath="$PROJECT_DIR$/src/views/approve/index.vue" afterPath="$PROJECT_DIR$/src/views/approve/index.vue" />
-      <change beforePath="$PROJECT_DIR$/src/views/module/editModule.vue" afterPath="$PROJECT_DIR$/src/views/module/editModule.vue" />
-      <change beforePath="$PROJECT_DIR$/src/views/module/index.vue" afterPath="$PROJECT_DIR$/src/views/module/index.vue" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -26,16 +22,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/router/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="146" column="26" lean-forward="false" selection-start-line="146" selection-start-column="15" selection-end-line="146" selection-end-column="26" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="index.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/role/index.vue">
           <provider selected="true" editor-type-id="text-editor">
@@ -88,16 +74,36 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="editApprove.vue" pinned="false" current-in-tab="true">
+      <file leaf-file-name="editApprove.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/approve/editApprove.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-108">
-              <caret line="11" column="52" lean-forward="true" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
+            <state relative-caret-position="162">
+              <caret line="123" column="48" lean-forward="false" selection-start-line="123" selection-start-column="48" selection-end-line="123" selection-end-column="48" />
               <folding>
                 <element signature="e#3123#3759#0" expanded="false" />
-                <element signature="e#5447#5781#0" expanded="false" />
-                <element signature="e#5814#6137#0" expanded="false" />
+                <element signature="e#5496#5830#0" expanded="false" />
+                <element signature="e#5863#6186#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.scss" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/styles/index.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="427">
+              <caret line="242" column="21" lean-forward="false" selection-start-line="242" selection-start-column="21" selection-end-line="242" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="addApprove.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/views/approve/addApprove.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="53" column="62" lean-forward="false" selection-start-line="53" selection-start-column="62" selection-end-line="53" selection-end-column="62" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -193,7 +199,6 @@
         <option value="$PROJECT_DIR$/src/store/modules/permission.js" />
         <option value="$PROJECT_DIR$/src/main.js" />
         <option value="$PROJECT_DIR$/config/index.js" />
-        <option value="$PROJECT_DIR$/src/views/approve/addApprove.vue" />
         <option value="$PROJECT_DIR$/src/views/login/index.vue" />
         <option value="$PROJECT_DIR$/src/api/login.js" />
         <option value="$PROJECT_DIR$/src/service/index.js" />
@@ -206,7 +211,6 @@
         <option value="$PROJECT_DIR$/src/views/account/editAccount.vue" />
         <option value="$PROJECT_DIR$/src/views/layout/components/Sidebar/SidebarItem.vue" />
         <option value="$PROJECT_DIR$/src/views/announcement/editAnnouncement.vue" />
-        <option value="$PROJECT_DIR$/src/styles/index.scss" />
         <option value="$PROJECT_DIR$/src/store/modules/user.js" />
         <option value="$PROJECT_DIR$/src/router/index.js" />
         <option value="$PROJECT_DIR$/src/views/approve/index.vue" />
@@ -215,6 +219,8 @@
         <option value="$PROJECT_DIR$/src/api/api.js" />
         <option value="$PROJECT_DIR$/src/views/module/editModule.vue" />
         <option value="$PROJECT_DIR$/src/views/approve/editApprove.vue" />
+        <option value="$PROJECT_DIR$/src/views/approve/addApprove.vue" />
+        <option value="$PROJECT_DIR$/src/styles/index.scss" />
       </list>
     </option>
   </component>
@@ -287,6 +293,12 @@
               <item name="mknoa" type="b2602c69:ProjectViewProjectNode" />
               <item name="mknoa" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="styles" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mknoa" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mknoa" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -302,6 +314,13 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
               <item name="announcement" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mknoa" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mknoa" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="approve" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="mknoa" type="b2602c69:ProjectViewProjectNode" />
@@ -359,7 +378,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="settings.editor.selected.configurable" value="Settings.JavaScript" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../netWei" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -413,7 +432,7 @@
       <workItem from="1545620507500" duration="10000" />
       <workItem from="1545625682890" duration="18030000" />
       <workItem from="1545705142043" duration="13066000" />
-      <workItem from="1545793364107" duration="10375000" />
+      <workItem from="1545793364107" duration="12686000" />
     </task>
     <task id="LOCAL-00001" summary="接口调试">
       <created>1545651597784</created>
@@ -429,11 +448,18 @@
       <option name="project" value="LOCAL" />
       <updated>1545729921306</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="审批调试">
+      <created>1545814459594</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1545814459594</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="89675000" />
+    <option name="totallyTimeSpent" value="91986000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -487,7 +513,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="接口调试" />
     <MESSAGE value="公告调试" />
-    <option name="LAST_COMMIT_MESSAGE" value="公告调试" />
+    <MESSAGE value="审批调试" />
+    <option name="LAST_COMMIT_MESSAGE" value="审批调试" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -669,16 +696,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/approve/addApprove.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
-          <folding>
-            <element signature="n#el-row#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/api/table.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -786,14 +803,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/styles/index.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7452">
-          <caret line="276" column="22" lean-forward="false" selection-start-line="276" selection-start-column="22" selection-end-line="276" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/store/modules/user.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-3420">
@@ -841,7 +850,7 @@
         <state relative-caret-position="350">
           <caret line="150" column="23" lean-forward="false" selection-start-line="150" selection-start-column="23" selection-end-line="150" selection-end-column="23" />
           <folding>
-            <element signature="e#1963#2011#0" expanded="true" />
+            <element signature="e#1963#2011#0" expanded="false" />
             <element signature="e#3224#3441#0" expanded="false" />
           </folding>
         </state>
@@ -906,13 +915,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/approve/editApprove.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-108">
-          <caret line="11" column="52" lean-forward="true" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
+        <state relative-caret-position="162">
+          <caret line="123" column="48" lean-forward="false" selection-start-line="123" selection-start-column="48" selection-end-line="123" selection-end-column="48" />
           <folding>
             <element signature="e#3123#3759#0" expanded="false" />
-            <element signature="e#5447#5781#0" expanded="false" />
-            <element signature="e#5814#6137#0" expanded="false" />
+            <element signature="e#5496#5830#0" expanded="false" />
+            <element signature="e#5863#6186#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/approve/addApprove.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="53" column="62" lean-forward="false" selection-start-line="53" selection-start-column="62" selection-end-line="53" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/styles/index.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="427">
+          <caret line="242" column="21" lean-forward="false" selection-start-line="242" selection-start-column="21" selection-end-line="242" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>

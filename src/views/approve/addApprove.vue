@@ -34,7 +34,7 @@
                   :limit="3"
                   :on-exceed="handleExceed"
                 >
-                  <el-button size="small" type="primary">
+                  <el-button size="small" class="m-upload-btn">
                     <svg-icon icon-class="icon-img" />
                     上传图片
                   </el-button>
@@ -51,7 +51,7 @@
                   :limit="3"
                   :on-exceed="handleExceed"
                 >
-                  <el-button size="small" type="primary">
+                  <el-button size="small" class="m-upload-btn">
                     <svg-icon icon-class="icon-file" />
                     上传附件
                   </el-button>

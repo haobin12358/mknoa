@@ -121,6 +121,7 @@
                     message: res.data.message,
                     type: 'success'
                   });
+                  this.$router.push('/approve');
                 }else{
                   this.$message.error(res.data.message);
                 }
