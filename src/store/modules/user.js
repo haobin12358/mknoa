@@ -50,7 +50,7 @@ const user = {
               "powermeta_roles": null,
               "powermeta_title": "所有审批"
             },
-            "power_path": " ",
+            "power_path": "",
             "power_redirect": " ",
             "power_status": 41
           },

@@ -148,7 +148,7 @@
           type: 'warning'
         }).then(() => {
           axios.post(api.delete_notice +'?token='+localStorage.getItem('token'),{
-            notice_ids:params
+            notice_list:params
           }).then(res => {
             if(res.data.status == 200){
               that.$notify({

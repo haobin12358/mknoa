@@ -26,6 +26,13 @@ const api = {
   new_mould: title + 'mould/new_mould',//创建模板
   delete_mould: title +'mould/delete_mould',//删除模板
   update_mould: title + 'mould/update_mould',//更新模板
+  get_mould_list_choose: title +'mould/get_mould_list_choose',//获取选择模板列表
+
+  approval_list: title +'approval/approval_list',//获取审批列表
+  approval_message: title + 'approval/approval_message',//获取审批详情
+  new_approval: title +'approval/new_approval',//新增审批
+  update_approval: title +'approval/update_approval',//更新审批
+  delete_approval: title + 'approval/delete_approval',//删除审批
 
 
 }

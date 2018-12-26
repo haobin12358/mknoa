@@ -35,7 +35,7 @@
                 </el-col>
               </el-row>
             </div>
-            <p><el-checkbox label="表格" @change="tableChange">表格</el-checkbox></p>
+            <p><el-checkbox label="表单" @change="tableChange">表单</el-checkbox></p>
             <div class="m-table-box" v-if="show_table">
               <el-row :gutter="10" class="m-row" v-for="(item,index) in table_value" :key="Math.random()">
                 <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2" class="m-label"><span >行列数:</span></el-col>
@@ -57,7 +57,7 @@
         <el-form-item>
           <div class="m-form-btn">
             <span class="active" @click="submitSure">保存</span>
-            <span>取消</span>
+            <span @click="cancelForm">取消</span>
           </div>
         </el-form-item>
       </el-form>
@@ -73,6 +73,7 @@
     data() {
       return {
         input:'',
+        mould_id:'',
         form: {
           mould_name: '',
           mould_time: '',
@@ -95,7 +96,51 @@
         table_value:[[1,1]]
       }
     },
+    inject:['reload'],
+    mounted(){
+      if(this.$route.query.mould_id){
+        this.getDetail();
+      }
+    },
     methods: {
+      /*获取用户详情*/
+      getDetail(){
+        axios.get(api.get_mould_message,{
+          params:{
+            token:localStorage.getItem('token'),
+            mould_id: this.$route.query.mould_id
+          }
+        }).then(res => {
+          if(res.data.status == 200){
+            this.mould_id = this.$route.query.mould_id;
+            this.form ={
+              mould_name:res.data.data.mould_name,
+              mould_time: res.data.data.mould_time
+            }
+            let arr1 = [] , arr2 = [],arr =[];
+            for(let i=0;i<res.data.data.mould_list.length;i++){
+              if(res.data.data.mould_list[i].mouldelement_name_trans == '文本框'){
+                arr1.push(res.data.data.mould_list[i].mouldelement_name);
+                this.show_text = true;
+              }else  if(res.data.data.mould_list[i].mouldelement_name_trans == '表单'){
+                arr2.push(res.data.data.mould_list[i].mouldelement_rank);
+                this.show_table = true;
+              }
+              arr.push(res.data.data.mould_list[i].mouldelement_name_trans);
+            }
+            if(arr1.length == 0){
+              arr1.push('')
+            }
+            if(arr2.length == 0){
+              arr2.push('')
+            }
+            this.text_value = [].concat(arr1);
+            this.table_value = [].concat(arr2);
+            this.form.mouldelement_name = [].concat(arr);
+          }
+        })
+      },
+      /*确定*/
       submitSure() {
         this.$refs['moudleForm'].validate((valid) => {
           if (valid) {
@@ -123,7 +168,7 @@
                     _index++;
                   }
                 }
-              }else if(arr[i] == '表格'){
+              }else if(arr[i] == '表单'){
                 for(let j=0;j<this.table_value.length;j++){
                   list.push({
                     mouldelement_name: arr[i],
@@ -154,6 +199,10 @@
           }
         })
       },
+      /*取消*/
+      cancelForm(){
+        this.reload();
+      },
       //点击文本框
       textChange(bool){
         this.show_text = bool;
@@ -167,7 +216,19 @@
       },
       //删除一行文本框
       cutText(index){
-        this.text_value.splice(index,1)
+        let that = this;
+        this.$confirm('确定要删除这级身份吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          that.text_value.splice(index,1)
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       },
       //添加一行表格
       addTable(){
@@ -175,7 +236,19 @@
       },
       //删除一行表格
       cutTable(index){
-        this.table_value.splice(index,1)
+        let that = this;
+        this.$confirm('确定要删除这级身份吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          that.table_value.splice(index,1)
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       }
     }
   }
