@@ -19,6 +19,7 @@ class AMoulds(Resource):
     def get(self, mould):
         apis = {
             "get_mould_list": self.mould.get_mould_list,
-            "get_mould_message": self.mould.get_mould_message
+            "get_mould_message": self.mould.get_mould_message,
+            "get_mould_list_choose": self.mould.get_mould_list_choose
         }
         return apis

@@ -27,8 +27,10 @@ class SMoulds(SBase):
 
     def s_update_mould(self, mould_id, mould):
         self.session.query(Moulds).filter_by(mould_id=mould_id).update(mould)
+        self.session.commit()
         return True
 
     def s_update_mouldelement(self, mouldelement_id, mouldelement):
         self.session.query(MouldElement).filter_by(mouldelement_id=mouldelement_id).update(mouldelement)
+        self.session.commit()
         return True

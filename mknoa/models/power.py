@@ -18,6 +18,7 @@ class Powers(Base):
     power_createtime = Column(DATETIME)                             # 创建时间
     power_updatetime = Column(DATETIME)                             # 更新时间
     power_name = Column(String(200))                                # 名称
+    power_hidden = Column(Boolean)                                  # 是否隐藏
 
 class PowersMeta(Base):
     """

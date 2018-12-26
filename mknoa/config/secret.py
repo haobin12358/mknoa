@@ -23,6 +23,7 @@ DB_PARAMS = "{0}://{1}:{2}@{3}/{4}?charset={5}".format(
     host,
     database,
     charset)
+
 # 微信
 appid = env.get('DXXAPPID', 'wxe8e8f6b9351d3587')
 appsecret = env.get('DXXAPPSECRET', 'b89e22f046d33b39c7a4afa485e661dc')

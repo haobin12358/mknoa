@@ -14,7 +14,7 @@ class SUsers(SBase):
     def get_user_message(self, user_id):
         return self.session.query(Users.user_name, Users.user_createtime, Users.user_email, Users.user_telphone,
                                   Users.user_truename, Users.user_icon, Users.user_location, Users.user_contract,
-                                  Users.user_message, Users.user_qq, Users.user_status, Users.user_wechat)\
+                                  Users.user_message, Users.user_qq, Users.user_status, Users.user_wechat, Users.user_password)\
             .filter_by(user_id=user_id).first()
 
     def get_usertagid_by_user(self, user_id):
@@ -35,10 +35,22 @@ class SUsers(SBase):
 
     def s_update_tag(self, tag_id, tag):
         self.session.query(Tags).filter_by(tag_id=tag_id).update(tag)
+        self.session.commit()
+        return True
+
+    def s_update_user(self, user_id, user):
+        self.session.query(Users).filter_by(user_id=user_id).update(user)
+        self.session.commit()
         return True
 
     def s_update_tagpower(self, powertag_id, powertag):
         self.session.query(PowerTag).filter_by(powertag_id=powertag_id).update(powertag)
+        self.session.commit()
+        return True
+
+    def s_update_usertag(self, usertag_id, usertag):
+        self.session.query(UserTags).filter_by(usertag_id=usertag_id).update(usertag)
+        self.session.commit()
         return True
 
     def get_userid_by_tagid(self, tag_id):
@@ -68,3 +80,9 @@ class SUsers(SBase):
     def get_userlist(self):
         return self.session.query(Users.user_id, Users.user_name, Users.user_telphone) \
             .filter(Users.user_status != 12).all()
+
+    def get_all_tag_by_none(self):
+        return self.session.query(Tags.tag_id, Tags.tag_name).filter_by(tag_status=21).all()
+
+    def get_usertagid_by_userid(self, user_id):
+        return self.session.query(UserTags.usertag_id).filter_by(user_id=user_id).filter_by(usertag_status=31).all()

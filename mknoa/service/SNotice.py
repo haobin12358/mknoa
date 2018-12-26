@@ -6,6 +6,7 @@ class SNotice(SBase):
 
     def s_update_notice(self, notice_id, notice):
         self.session.query(Notice).filter_by(notice_id=notice_id).update(notice)
+        self.session.commit()
         return True
 
     def get_notice_list_by_page(self, page_size, page_num):

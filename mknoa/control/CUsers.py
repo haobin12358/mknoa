@@ -30,14 +30,15 @@ class CUsers(SUsers, SPowers):
         if user_password.user_password != data.get("user_password"):
             return LoginError("密码错误")
         else:
-            user_id = self.get_userid_by_name(user_name)
-            user_message = get_model_return_dict(self.get_user_message(user_id.user_id))
+            user_id = get_model_return_dict(self.get_userid_by_name(user_name))["user_id"]
+            print(user_id)
+            user_message = get_model_return_dict(self.get_user_message(user_id))
             if user_message["user_status"] == 12:
                 return UnuseError("用户不可用")
             elif user_message["user_status"] == 13:
                 return ColduseError("账号已冻结，请联系管理员")
             user_message["user_createtime"] = user_message["user_createtime"].strftime("%Y-%m-%d %H:%M:%S")
-            usertag_ids = get_model_return_list(self.get_usertagid_by_user(user_id.user_id))
+            usertag_ids = get_model_return_list(self.get_usertagid_by_user(user_id))
             tag_list = []
             for usertag_id in usertag_ids:
                 tag_id = usertag_id["tag_id"]
@@ -91,7 +92,7 @@ class CUsers(SUsers, SPowers):
                             pass
             return Success('登录成功',
                            data={
-                               'token': usid_to_token(user_id.user_id),
+                               'token': usid_to_token(user_id),
                                'power_list': power_list,
                                'user_message': user_message,
                                'user_tags': tag_list
@@ -201,10 +202,14 @@ class CUsers(SUsers, SPowers):
         :return:
         """
         tags_list = get_model_return_list(self.get_usertagid_by_user(user_id))
+        print(tags_list)
         tag_level_high = 7
         for tag in tags_list:
             tag_id = tag["tag_id"]
-            tag_level = get_model_return_dict(self.get_taglevel_by_tagid(tag_id))["tag_level"]
+            print(tag_id)
+            tag_level = get_model_return_dict(self.get_taglevel_by_tagid(tag_id))
+            print(tag_level)
+            tag_level = tag_level["tag_level"]
             if tag_level < tag_level_high:
                 tag_level_high = tag_level
         return tag_level_high
@@ -459,17 +464,15 @@ class CUsers(SUsers, SPowers):
             return TokenError("未登录")
         user_id = token_to_usid(args["token"])
         # TODO 判断其他用户是否可以查看用户列表
-        if user_id == "1":
-            return AuthorityError("无权限")
         if "user_id" not in args.keys():
             return ParamsError("参数缺失,user_id")
         user_message = get_model_return_dict(self.get_user_message(args["user_id"]))
+        user_message["user_password"] = "**********"
         user_tags = get_model_return_list(self.get_usertagid_by_user(args["user_id"]))
+        tag_list = []
         for tag in user_tags:
-            tag_id = tag["tag_id"]
-            tag_message = get_model_return_dict(self.get_tagname_by_tagid(tag_id))
-            tag.update(tag_message)
-        user_message["tag_list"] = user_tags
+            tag_list.append(tag["tag_id"])
+        user_message["tag_list"] = tag_list
         return Success("获取用户信息成功", data=user_message)
 
     @get_session
@@ -497,3 +500,49 @@ class CUsers(SUsers, SPowers):
             "total_count": page_count,
             "total_page": int(page_count / int(args["page_size"])) + 1
         }
+
+    @get_session
+    def get_tags_all(self):
+        all_tags = get_model_return_list(self.get_all_tag_by_none())
+        return Success("获取身份下拉列表成功", data=all_tags)
+
+    @get_session
+    def update_user_info(self):
+        args = request.args.to_dict()
+        if "user_id" not in args:
+            return ParamsError("参数缺失，请检查user_id的合法性")
+
+        data = parameter_required(("user_name", "user_password", "user_telphone", "user_tags", "user_message"))
+        if data.get("user_password").replace("*", "") == "":
+            update_user = self.s_update_user(args["user_id"],
+                                             {
+                                                 "user_name": data.get("user_name"),
+                                                 "user_telphone": data.get("user_telphone"),
+                                                 "user_message": data.get("user_message")
+                                             })
+        else:
+            update_user = self.s_update_user(args["user_id"],
+                                             {
+                                                 "user_name": data.get("user_name"),
+                                                 "user_telphone": data.get("user_telphone"),
+                                                 "user_message": data.get("user_message"),
+                                                 "user_password": data.get("user_password")
+                                             })
+        user_tag = get_model_return_list(self.get_usertagid_by_userid(args["user_id"]))
+        for tag_ids in user_tag:
+            print(tag_ids)
+            update_usertag = self.s_update_usertag(tag_ids["usertag_id"],
+                                                   {
+                                                       "usertag_status": 32,
+                                                       "usertag_updatetime": datetime.datetime.now()
+                                                   })
+        for tag_dict in data.get("user_tags"):
+            new_usertag = UserTags.create({
+                "usertag_id": str(uuid.uuid1()),
+                "user_id": args["user_id"],
+                "tag_id": tag_dict,
+                "usertag_createtime": datetime.datetime.now(),
+                "usertag_updatetime": datetime.datetime.now(),
+                "usertag_status": 31
+            })
+        return Success("更新用户成功")

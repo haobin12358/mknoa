@@ -63,9 +63,7 @@ class ApprovalMould(Base):
     __tablename__ = "ApprovalMould"
     approvalmould_id = Column(String(64), primary_key=True)                     # 主键id
     element_name = Column(String(64), nullable=False)                           # 元素名称
-    element_code = Column(Integer)                                              # 元素编码
     mouldelement_name = Column(Text, nullable=False)                            # 元素释义
-    mouldelement_icon_id = Column(String(200), nullable=False)                  # 元素id，前端用
     mouldelement_index = Column(Integer)                                        # 顺序
     element_value = Column(Text)                                                # 填写内容
     mouldelement_rank = Column(String(200))                                     # 表格行列，*间隔
@@ -77,7 +75,7 @@ class ApprovalSov(Base):
     """
     __tablename__ = "ApprovalSov"
     approvalsov_id = Column(String(64), primary_key=True)                       # 主键id
-    approvalsov_suggestion = Column(Integer, nullable=False)                    # 审批结果{131通过132驳回}
+    approvalsov_suggestion = Column(Integer, nullable=False)                    # 审批结果{131通过132驳回,133待审批}
     approvalsov_message = Column(Text)                                          # 审批意见详情
     approvalsov_createtime = Column(DATETIME, default=datetime.datetime.now())  # 审批时间
     user_truename = Column(String(128), nullable=False)                         # 审批人名称

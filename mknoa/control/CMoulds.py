@@ -42,7 +42,7 @@ class CMoulds(SMoulds):
         for mould_element in mould_list:
             if "mouldelement_name" not in mould_element or "mouldelement_index" not in mould_element:
                 return ParamsError("参数缺失，请检查mouldelement_name和mouldelement_index合法性")
-            if "mouldelement_name" == "表单":
+            if "mouldelement_name" == "表格":
                 if "mouldelement_rank" not in mould_element:
                     return ParamsError("参数缺失，请检查表单行列参数合法性")
                 else:
@@ -140,8 +140,8 @@ class CMoulds(SMoulds):
 
     @get_session
     def delete_mould(self):
-        data = json.loads(request.data)
-        for mould_id in data:
+        data = parameter_required(("mould_list", ))
+        for mould_id in data.get("mould_list"):
             update_mould = self.s_update_mould(mould_id,
                                                {
                                                    "mould_status": 62,
@@ -162,6 +162,16 @@ class CMoulds(SMoulds):
             "data": mould_list,
             "total_count": len(mould_count),
             "total_page": int(len(mould_count) / int(args["page_size"])) + 1
+        }
+
+    @get_session
+    def get_mould_list_choose(self):
+        args = request.args.to_dict()
+        mould_list = get_model_return_list(self.get_mould_count())
+        return {
+            "status": 200,
+            "message": "获取模板列表成功",
+            "data": mould_list
         }
 
     @get_session

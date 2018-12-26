@@ -43,8 +43,8 @@ class CNotice(SNotice):
 
     @get_session
     def delete_notice(self):
-        data = json.loads(request.data)
-        for notice_id in data:
+        data = parameter_required(("notice_list", ))
+        for notice_id in data.get("notice_list"):
             update_notice = self.s_update_notice(notice_id,
                                                  {
                                                      "notice_status": 142,
