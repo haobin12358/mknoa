@@ -12,7 +12,7 @@ from mknoa.extensions.register_ext import db
 from mknoa.models.user import Tags, Users, UserTags
 from mknoa.models.power import PowerTag, Powers, PowersMeta
 
-import uuid, datetime
+import uuid, datetime, json
 
 class CUsers(SUsers, SPowers):
 
@@ -505,6 +505,21 @@ class CUsers(SUsers, SPowers):
     def get_tags_all(self):
         all_tags = get_model_return_list(self.get_all_tag_by_none())
         return Success("获取身份下拉列表成功", data=all_tags)
+
+    @get_session
+    def update_password(self):
+        args = request.args.to_dict()
+        if "token" not in args.keys():
+            return TokenError("未登录")
+        user_id = token_to_usid(args["token"])
+        data = json.loads(request.data)
+        if "user_password" not in data:
+            return ParamsError("参数缺失，请检查user_password合法性")
+        updata_user = self.s_update_user(user_id,
+                                         {
+                                             "user_password": data["user_password"]
+                                         })
+        return Success("修改密码成功")
 
     @get_session
     def update_user_info(self):
