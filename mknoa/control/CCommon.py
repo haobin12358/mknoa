@@ -30,6 +30,7 @@ class CCommon():
         }
         url = Inforcode.ip + Inforcode.LinuxImgs + formdata.get("FileType") + "/" + filename
         print(url)
-        response["data"] = url
-        response["data"] = url
+        response["data"] = {}
+        response["data"]["url"] = url
+        response["data"]["filename"] = files.filename
         return response

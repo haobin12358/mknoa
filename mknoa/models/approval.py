@@ -63,9 +63,10 @@ class ApprovalMould(Base):
     __tablename__ = "ApprovalMould"
     approvalmould_id = Column(String(64), primary_key=True)                     # 主键id
     element_name = Column(String(64), nullable=False)                           # 元素名称
-    mouldelement_name = Column(Text, nullable=False)                            # 元素释义
+    mouldelement_name = Column(Text)                                            # 元素释义
     mouldelement_index = Column(Integer)                                        # 顺序
     element_value = Column(Text)                                                # 填写内容
+    element_value_name = Column(Text)                                           # 文件名称，文件/图片专有
     mouldelement_rank = Column(String(200))                                     # 表格行列，*间隔
     approvalsub_id = Column(String(64), nullable=False)                         # 发起的审批流id，关联
 
@@ -75,9 +76,10 @@ class ApprovalSov(Base):
     """
     __tablename__ = "ApprovalSov"
     approvalsov_id = Column(String(64), primary_key=True)                       # 主键id
-    approvalsov_suggestion = Column(Integer, nullable=False)                    # 审批结果{131通过132驳回,133待审批}
+    approvalsov_suggestion = Column(Integer, nullable=False)                    # 审批结果{131待审批132审批通过133驳回134上级未审批}
     approvalsov_message = Column(Text)                                          # 审批意见详情
     approvalsov_createtime = Column(DATETIME, default=datetime.datetime.now())  # 审批时间
-    user_truename = Column(String(128), nullable=False)                         # 审批人名称
+    user_truename = Column(String(128))                                         # 审批人名称
     approvalsub_id = Column(String(64), nullable=False)                         # 发起的审批流id
     approvalsub_index = Column(Integer)                                         # 审批顺序编号
+    tag_id = Column(String(64))                                                 # 当前审批的标签

@@ -24,6 +24,7 @@ class AApproval(Resource):
             "approve_approval_list": self.approval.approve_approval_list,
             "approve_approval_message": self.approval.approve_approval_message,
             "get_my_approval_list": self.approval.get_my_approval_list,
-            "get_relaunch_approval": self.approval.get_relaunch_approval
+            "get_relaunch_approval": self.approval.get_relaunch_approval,
+            "my_approve_approval_list": self.approval.my_approve_approval_list
         }
         return apis
