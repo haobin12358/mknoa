@@ -14,6 +14,16 @@
           <el-input type="password" class="m-input-pwd"
                     placeholder=""></el-input>
         </el-form-item>
+        <el-form-item >
+          <div class="m-form-btn">
+            <span class="active" @click="submitSure">
+              确认
+            </span>
+            <span @click="dialogTableVisible =false">
+              取消
+            </span>
+          </div>
+        </el-form-item>
       </el-form>
 
     </el-dialog>
@@ -55,6 +65,9 @@ export default {
     showDialog(){
         this.dialogTableVisible = true;
     },
+    submitSure(){
+
+    }
   }
 }
 </script>

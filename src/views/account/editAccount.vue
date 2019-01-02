@@ -81,17 +81,18 @@
         this.$refs['accountForm'].validate((valid) => {
           if (valid) {
             if(this.$route.query.user_id){
-              // axois.post(api.update_tag + '?token=' +localStorage.getItem('token') +'&tag_id=' + this.form.tag_id,this.form).then(res => {
-              //   if(res.data.status == 200){
-              //     this.$notify({
-              //       title: '成功',
-              //       message: res.data.message,
-              //       type: 'success'
-              //     });
-              //   }else{
-              //     this.$message.error(res.data.message);
-              //   }
-              // })
+              axios.post(api.update_user_info + '?token=' +localStorage.getItem('token') +'&user_id=' + this.$route.query.user_id,this.form).then(res => {
+                if(res.data.status == 200){
+                  this.$notify({
+                    title: '成功',
+                    message: res.data.message,
+                    type: 'success'
+                  });
+                  this.$router.push('/account/account');
+                }else{
+                  this.$message.error(res.data.message);
+                }
+              })
             }else {
               axios.post(api.new_user + '?token=' + localStorage.getItem('token'), this.form).then(res => {
                 if (res.data.status == 200) {
@@ -100,6 +101,7 @@
                     message: res.data.message,
                     type: 'success'
                   });
+                  this.$router.push('/account/account');
                 } else {
                   this.$message.error(res.data.message);
                 }
@@ -149,7 +151,7 @@
             }
             let arr = [];
             for(let i=0;i<res.data.data.tag_list.length;i++){
-                arr.push(res.data.data.tag_list[i].tag_id)
+                arr.push(res.data.data.tag_list[i])
             }
             this.form.user_tags = [].concat(arr);
           }

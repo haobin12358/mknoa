@@ -35,7 +35,7 @@
                 </el-col>
               </el-row>
             </div>
-            <p><el-checkbox label="表单" @change="tableChange">表单</el-checkbox></p>
+            <p><el-checkbox label="表格" @change="tableChange">表格</el-checkbox></p>
             <div class="m-table-box" v-if="show_table">
               <el-row :gutter="10" class="m-row" v-for="(item,index) in table_value" :key="Math.random()">
                 <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2" class="m-label"><span >行列数:</span></el-col>
@@ -122,7 +122,7 @@
               if(res.data.data.mould_list[i].mouldelement_name_trans == '文本框'){
                 arr1.push(res.data.data.mould_list[i].mouldelement_name);
                 this.show_text = true;
-              }else  if(res.data.data.mould_list[i].mouldelement_name_trans == '表单'){
+              }else  if(res.data.data.mould_list[i].mouldelement_name_trans == '表格'){
                 arr2.push(res.data.data.mould_list[i].mouldelement_rank);
                 this.show_table = true;
               }
@@ -168,7 +168,7 @@
                     _index++;
                   }
                 }
-              }else if(arr[i] == '表单'){
+              }else if(arr[i] == '表格'){
                 for(let j=0;j<this.table_value.length;j++){
                   list.push({
                     mouldelement_name: arr[i],

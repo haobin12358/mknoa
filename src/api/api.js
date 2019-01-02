@@ -7,6 +7,7 @@ const api = {
   get_all_user: title +'user/get_all_user',//获取用户列表
   get_my_message: title + 'user/get_my_message',//获取用户详情
   new_user: title + 'user/new_user',//生成用户
+  update_user_info: title +'user/update_user_info',//更新用户
   get_user_tag_level_list: title +'user/get_user_tag_level_list',//获取身份等级
   get_tag_list:title +'user/get_tag_list',///获取身份标签
   get_tags_all: title +'user/get_tags_all',//获取下拉身份标签
@@ -33,8 +34,12 @@ const api = {
   new_approval: title +'approval/new_approval',//新增审批
   update_approval: title +'approval/update_approval',//更新审批
   delete_approval: title + 'approval/delete_approval',//删除审批
-
-
+  get_my_approval_list: title + 'approval/get_my_approval_list',//获取可创建的审批流列表
+  get_relaunch_approval: title +'approval/get_relaunch_approval',//获取需要发起的审批流表单样式
+  upload_files: title +'common/upload_files',//上传文件
+  launch_approval: title +'approval/launch_approval',//发起创建流
+  my_approve_approval_list: title + 'approval/my_approve_approval_list',//我发起的审批流
+  approve_approval_list: title + 'approval/approve_approval_list',//我收到的审批流
 }
 
 export default api
