@@ -15,10 +15,10 @@
               <el-dropdown-item v-for="item in approval_list" :command="item" :key="item.approval_id">{{item.approval_name}}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <span class="m-title-btn">
-            <svg-icon icon-class="icon-delete" />
-            批量删除
-          </span>
+          <!--<span class="m-title-btn">-->
+            <!--<svg-icon icon-class="icon-delete" />-->
+            <!--批量删除-->
+          <!--</span>-->
         </div>
       </div>
       <el-tabs type="border-card" @tab-click="tabPlaneClick">
@@ -36,11 +36,12 @@
             tooltip-effect="dark"
             style="width: 100%"
             :fit="true"
-            @selection-change="handleSelectionChange">
-            <el-table-column
-              type="selection"
-              width="55">
-            </el-table-column>
+            @selection-change="handleSelectionChange"
+            empty-text="暂无审批">
+            <!--<el-table-column-->
+              <!--type="selection"-->
+              <!--width="55">-->
+            <!--</el-table-column>-->
             <el-table-column
               prop="approval_name"
               label="审批流名称"
@@ -75,14 +76,14 @@
 
             >
               <template slot-scope="scope">
-              <span class="m-table-btn" @click="changeRoute('/approveDetail')">
+              <span class="m-table-btn" @click="changeRoute('/approveDetail',scope.row)">
                   <svg-icon icon-class="icon-edit" />
-                <span>编辑</span>
+                <span>查看</span>
               </span>
-                <span class="m-table-btn">
-                  <svg-icon icon-class="icon-delete" />
-                <span>删除</span>
-              </span>
+                <!--<span class="m-table-btn">-->
+                  <!--<svg-icon icon-class="icon-delete" />-->
+                <!--<span>删除</span>-->
+              <!--</span>-->
               </template>
             </el-table-column>
           </el-table>
@@ -102,11 +103,12 @@
             tooltip-effect="dark"
             style="width: 100%"
             :fit="true"
-            @selection-change="handleSelectionChange">
-            <el-table-column
-              type="selection"
-              width="55">
-            </el-table-column>
+            @selection-change="handleSelectionChange"
+            empty-text="暂无审批">
+            <!--<el-table-column-->
+              <!--type="selection"-->
+              <!--width="55">-->
+            <!--</el-table-column>-->
             <el-table-column
               prop="approval_name"
               label="审批流名称"
@@ -141,14 +143,14 @@
 
             >
               <template slot-scope="scope">
-              <span class="m-table-btn" @click="changeRoute('/approveDetail')">
+              <span class="m-table-btn" @click="changeRoute('/approveDetail',scope.row)">
                   <svg-icon icon-class="icon-edit" />
                 <span>编辑</span>
               </span>
-                <span class="m-table-btn">
-                  <svg-icon icon-class="icon-delete" />
-                <span>删除</span>
-              </span>
+                <!--<span class="m-table-btn">-->
+                  <!--<svg-icon icon-class="icon-delete" />-->
+                <!--<span>删除</span>-->
+              <!--</span>-->
               </template>
             </el-table-column>
           </el-table>
@@ -227,6 +229,7 @@
         mounted(){
           this.getList();
           this.getMyApproval(1,'全部');
+          this.getApproval(1,'全部');
         },
       methods: {
         /*获取可创建的审批流列表*/
@@ -255,8 +258,8 @@
         handleSelectionChange(val) {
           this.multipleSelection = val;
         },
-        changeRoute(v){
-          this.$router.push(v)
+        changeRoute(v,item){
+          this.$router.push({path:v,query:{approvalsub_id:item.approvalsub_id}})
         },
         //发起审批
         handleCommand(item){

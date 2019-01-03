@@ -47,8 +47,7 @@ axios.interceptors.response.use(data => {// 响应成功关闭loading
   if (loadinginstace) {
     loadinginstace.close();
   }
-  console.log(data)
-  if(data.data.status_code == 405007){
+  if(data.data.status_code == 405007 ){
     router.push('/login')
   }
   return data

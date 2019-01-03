@@ -252,7 +252,7 @@ const user = {
               powermeta_roles: null,
               powermeta_title: "所有公告"
             },
-            power_path: "announcement",
+            power_path: "",
             power_redirect: " ",
             power_status: 41
           }

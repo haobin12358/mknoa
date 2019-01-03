@@ -25,7 +25,7 @@
             <div class="m-text-box" v-if="show_text">
               <el-row :gutter="10" class="m-row" v-for="(item,index) in text_value" :key="Math.random()">
                 <el-col :xs="3" :sm="3" :md="3" :lg="3" :xl="3" class="m-label"><span >文本框标题</span></el-col>
-                <el-col :span="12"><el-input v-model="text_value[index]" placeholder="请输入内容"></el-input></el-col>
+                <el-col :span="12"><el-input type="text" :autofocus="true" :value="text_value[index]"  @blur="inputBlur($event,index)" placeholder="请输入内容"></el-input></el-col>
                 <el-col :span="4">
                   <span class="m-cut-add-box">
                     <span @click="cutText(index)">  <svg-icon icon-class="icon-form-cut" /></span>
@@ -136,6 +136,7 @@
             }
             this.text_value = [].concat(arr1);
             this.table_value = [].concat(arr2);
+            console.log(this.text_value)
             this.form.mouldelement_name = [].concat(arr);
           }
         })
@@ -180,22 +181,42 @@
               }
             }
 
-            axios.post(api.new_mould +'?token='+localStorage.getItem('token'),{
-              mould_name: this.form.mould_name,
-              mould_time: this.form.mould_time,
-              mould_list: list
-            }).then(res => {
-              if(res.data.status == 200){
-                this.$notify({
-                  title: '成功',
-                  message: res.data.message,
-                  type: 'success'
-                });
-                this.$router.push({path:'/module/index'})
-              }else{
-                this.$message.error(res.data.message);
-              }
-            })
+            if(this.$route.query.mould_id){
+              axios.post(api.update_mould +'?token='+localStorage.getItem('token') +'&mould_id='+this.$route.query.mould_id,{
+                mould_name: this.form.mould_name,
+                mould_time: this.form.mould_time,
+                mould_list: list
+              }).then(res => {
+                if(res.data.status == 200){
+                  this.$notify({
+                    title: '成功',
+                    message: res.data.message,
+                    type: 'success'
+                  });
+                  this.$router.push({path:'/module/index'})
+                }else{
+                  this.$message.error(res.data.message);
+                }
+              })
+            }else{
+              axios.post(api.new_mould +'?token='+localStorage.getItem('token'),{
+                mould_name: this.form.mould_name,
+                mould_time: this.form.mould_time,
+                mould_list: list
+              }).then(res => {
+                if(res.data.status == 200){
+                  this.$notify({
+                    title: '成功',
+                    message: res.data.message,
+                    type: 'success'
+                  });
+                  this.$router.push({path:'/module/index'})
+                }else{
+                  this.$message.error(res.data.message);
+                }
+              })
+            }
+
           }
         })
       },
@@ -217,7 +238,7 @@
       //删除一行文本框
       cutText(index){
         let that = this;
-        this.$confirm('确定要删除这级身份吗?', '提示', {
+        this.$confirm('确定要删除这个文本框吗?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -249,6 +270,12 @@
             message: '已取消删除'
           });
         });
+      },
+      inputBlur(e,index){
+        console.log(e,index);
+        let arr = [].concat(this.text_value);
+        arr[index] = e.target.value;
+        this.text_value = [].concat(arr);
       }
     }
   }

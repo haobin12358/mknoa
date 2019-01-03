@@ -22,10 +22,10 @@ import Layout from '../views/layout/Layout'
   }
  **/
 export const constantRouterMap = [
-  { path: '/login', component: () => import('@/views/login/index'), hidden: true },
+  { path: '/', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
   {
-    path: '',
+    path: '/index',
     component: Layout,
     redirect: '/profile',
     children: [
@@ -158,7 +158,7 @@ export const constantRouterMap = [
     meta: { title: '平台公告', icon: 'announcement',roles:['admin'] },
     children: [
       {
-        path: 'announcement',
+        path: '',
         name: 'AnnouncementIndex',
         component: () => import('src/views/announcement/index'),
         meta: { title: '所有公告'}

@@ -77,7 +77,7 @@
             Cookie.set('user_name', this.loginForm.user_name);
             this.$store.dispatch('Login', this.loginForm).then(() => {
               this.loading = false
-              this.$router.push({ path: this.redirect || '/' })
+              this.$router.push({ path:  '/index/profile' })
             }).catch(() => {
               this.loading = false
             })

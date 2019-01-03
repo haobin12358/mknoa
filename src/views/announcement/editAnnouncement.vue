@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/announcement/announcement' }">公告列表</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/announcement' }">公告列表</el-breadcrumb-item>
       <el-breadcrumb-item>编辑公告</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="m-form-container">
@@ -62,7 +62,7 @@
                     message: res.data.message,
                     type: 'success'
                   });
-                  this.$router.push({path:'/announcement/announcement'})
+                  this.$router.push({path:'/announcement'})
                 }else{
                   this.$message.error(res.data.message);
                 }
@@ -75,7 +75,7 @@
                     message: res.data.message,
                     type: 'success'
                   });
-                  this.$router.push('/announcement/announcement');
+                  this.$router.push('/announcement');
                 } else {
                   this.$message.error(res.data.message);
                 }

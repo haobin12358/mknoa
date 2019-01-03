@@ -1,6 +1,7 @@
 // const title = 'http://10.0.0.197:7443/sharp/manager/';
 // const title = 'http://120.79.182.43:7443/sharp/manager/';
-const title = 'http://47.104.228.112:8111/api/v1/'
+// const title = 'http://47.104.228.112:8111/api/v1/'
+const title = 'https://mknoa.lkfcni.cn/api/v1/'
 
 const api = {
   login: title + 'user/login',                                      //用户登录
@@ -17,6 +18,7 @@ const api = {
   delete_tag: title + 'user/delete_tag',//删除身份
   get_tag_message: title +'user/get_tag_message',//获取标签详情
   update_tag: title + 'user/update_tag',//更新标签
+  update_password: title +'user/update_password',//更新密码
   get_notice_list: title + 'notice/get_notice_list',//获取公告列表
   get_notice_message: title +'notice/get_notice_message',//获取公告详情
   update_notice: title + 'notice/update_notice',//编辑公告
@@ -40,6 +42,8 @@ const api = {
   launch_approval: title +'approval/launch_approval',//发起创建流
   my_approve_approval_list: title + 'approval/my_approve_approval_list',//我发起的审批流
   approve_approval_list: title + 'approval/approve_approval_list',//我收到的审批流
+  approve_approval_message: title +'approval/approve_approval_message',//审批流详情
+  approve_approval: title +'approval/approve_approval',//审批
 }
 
 export default api

@@ -3,12 +3,12 @@
     <div class="m-title-box">
       <div>
         <span>模板列表</span>
-        <span class="m-grey">共25条数据</span>
+        <span class="m-grey">共{{total_count}}条数据</span>
       </div>
       <div class="m-title-btn-box">
           <span class="m-title-btn active" @click="changeRoute('/module/editModule')">
             <svg-icon icon-class="icon-add" />
-            新建板块
+            新建模板
           </span>
         <span class="m-title-btn" @click="deleteMould">
             <svg-icon icon-class="icon-delete" />
@@ -22,7 +22,8 @@
         :data="mould_list"
         tooltip-effect="dark"
         style="width: 100%;border-radius: 8px;"
-        @selection-change="handleSelectionChange">
+        @selection-change="handleSelectionChange"
+      empty-text="暂无模板">
         <el-table-column
           type="selection"
           width="55">
@@ -69,6 +70,7 @@
           page_size:10
         },
         total_page:0,
+        total_count:0,
         mould_list:[],
         multipleSelection: []
       }
@@ -92,6 +94,7 @@
           if(res.data.status == 200){
             this.mould_list = res.data.data;
             this.total_page = res.data.total_page;
+            this.total_count = res.data.total_count;
           }
         })
       },

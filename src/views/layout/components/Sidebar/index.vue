@@ -2,7 +2,7 @@
 
   <el-scrollbar wrap-class="scrollbar-wrapper">
     <div class="m-role-box">
-      <img src="/src/common/images/icon-role.png" class="m-role-img" alt="">
+      <img src="../../../../common/images/icon-role.png" class="m-role-img" alt="">
       <h3 class="m-role-name">{{userInfo.user_name}}</h3>
       <!--<p>超级管理员</p>-->
     </div>
@@ -15,7 +15,7 @@
       text-color="#bfcbd9"
       active-text-color="#409EFF"
     >
-      <sidebar-item v-for="route in side" :key="route.power_path" :item="route" :base-path="route.power_path"/>
+      <sidebar-item v-for="route in side" :key="Math.random()" :item="route" :base-path="route.power_path"/>
     </el-menu>
   </el-scrollbar>
 </template>

@@ -19,7 +19,7 @@
             <!--<img v-lazy="userInfo.adheader" class="user-avatar">-->
 
             <!--<svg-icon icon-class="icon-per" />-->
-            <img src="/src/common/images/icon-personal.png" class="m-icon-personal" />
+            <img src="../../../common/images/icon-personal.png" class="m-icon-personal" />
           </div>
           <el-dropdown-menu slot="dropdown" class="user-dropdown">
             <el-dropdown-item command="pwd">
@@ -91,8 +91,10 @@
           type: 'warning'
         }).then(() => {
           this.$store.dispatch('LogOut').then(() => {
-            location.reload() // 为了重新实例化vue-router对象 避免bug
+            // location.reload() // 为了重新实例化vue-router对象 避免bug
+            this.$router.push('/');
           })
+
         }).catch(() => {
 
         });

@@ -3,7 +3,7 @@
     <div class="m-title-box">
       <div>
         <span>公告列表</span>
-        <span class="m-grey">共25条数据</span>
+        <span class="m-grey">共{{total_count}}条数据</span>
       </div>
       <div class="m-title-btn-box">
           <span class="m-title-btn active" @click="changeRoute('/announcement/editAnnouncement')">
@@ -22,7 +22,8 @@
         :data="announcement_list"
         tooltip-effect="dark"
         style="width: 100%;border-radius: 8px;"
-        @selection-change="handleSelectionChange">
+        @selection-change="handleSelectionChange"
+        empty-text="暂无公告">
         <el-table-column
           type="selection"
           width="55">
@@ -79,6 +80,7 @@
           page_size:10
         },
         total_page:0,
+        total_count:0,
         announcement_list:[],
         multipleSelection: [],
       }
@@ -102,6 +104,7 @@
            if(res.data.status == 200){
              this.announcement_list = res.data.data;
              this.total_page = res.data.total_page;
+             this.total_count = res.data.total_count;
            }
         })
       },
