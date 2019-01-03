@@ -90,10 +90,16 @@ class CUsers(SUsers, SPowers):
                             power_list.append(power_message)
                         else:
                             pass
+            power_id_list = []
+            power_true = []
+            for power in power_list:
+                if power["power_id"] not in power_id_list:
+                    power_id_list.append(power["power_id"])
+                    power_true.append(power)
             return Success('登录成功',
                            data={
                                'token': usid_to_token(user_id),
-                               'power_list': power_list,
+                               'power_list': power_true,
                                'user_message': user_message,
                                'user_tags': tag_list
                            })
@@ -514,7 +520,14 @@ class CUsers(SUsers, SPowers):
         user_id = token_to_usid(args["token"])
         data = json.loads(request.data)
         if "user_password" not in data:
-            return ParamsError("参数缺失，请检查user_password合法性")
+            return ParamsError("请输入新密码")
+        if "user_password_old" not in data:
+            return ParamsError("请输入旧密码")
+        user_password = get_model_return_dict(self.get_user_message(user_id))
+        if not user_password or not user_password["user_password"]:
+            return NouseError("无此用户")
+        if user_password["user_password"] != data["user_password"]:
+            return LoginError("密码错误")
         updata_user = self.s_update_user(user_id,
                                          {
                                              "user_password": data["user_password"]

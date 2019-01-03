@@ -131,6 +131,8 @@ class CApproval(SApproval, SMoulds, SUsers):
         mould_id = approval_message["mould_id"]
         mould_message = get_model_return_dict(self.get_mould_message_by_mouldid(mould_id))
         mould_time = int(mould_message["mould_time"])
+        if mould_time == 0:
+            mould_time = None
         # 优先创建模板关联表数据
         for approval_mould in data.get("approvalmould_list"):
             # 先拿到元素名称和元素顺序
@@ -288,9 +290,9 @@ class CApproval(SApproval, SMoulds, SUsers):
     @get_session
     def approve_approval(self):
         args = request.args.to_dict()
-        token = args["token"]
         if "token" not in args:
             return TokenError("未登录")
+        token = args["token"]
         user_id = token_to_usid(token)
         if "approvalsub_id" not in args:
             return ParamsError("参数缺失，请检查approvalsub_id合法性")
@@ -397,9 +399,10 @@ class CApproval(SApproval, SMoulds, SUsers):
     @get_session
     def my_approve_approval_list(self):
         args = request.args.to_dict()
-        token = args["token"]
+
         if "token" not in args:
             return TokenError("未登录")
+        token = args["token"]
         if "approvalsov_suggestion" not in args:
             return ParamsError("参数缺失，请检查approvalsov_suggestion合法性")
         if "page_size" not in args or "page_num" not in args:
@@ -428,9 +431,10 @@ class CApproval(SApproval, SMoulds, SUsers):
     @get_session
     def approve_approval_list(self):
         args = request.args.to_dict()
-        token = args["token"]
+
         if "token" not in args:
             return TokenError("未登录")
+        token = args["token"]
         if "approvalsov_suggestion" not in args:
             return ParamsError("参数缺失，请检查approvalsov_suggestion合法性")
         if "page_size" not in args or "page_num" not in args:
@@ -491,14 +495,28 @@ class CApproval(SApproval, SMoulds, SUsers):
     @get_session
     def approve_approval_message(self):
         args = request.args.to_dict()
-        token = args["token"]
+
         if "token" not in args:
             return TokenError("未登录")
+        token = args["token"]
         user_id = token_to_usid(token)
+        # 判断当前用户是否可以审批
+        tag_ids = get_model_return_list(self.get_usertagid_by_user(user_id))
+        tag_list = []
+        for tag_id in tag_ids:
+            tag_list.append(tag_id["tag_id"])
+
         if "approvalsub_id" not in args:
             return ParamsError("参数缺失，请检查approvalsub_id合法性")
         approvalsub_id = args["approvalsub_id"]
+        # 根据sub id找到131状态的审批流对应的tag id
+        tag_id_sql = get_model_return_dict(self.get_tagid_by_approvalsub_suggestion(approvalsub_id))
+
         approvalsub_message = get_model_return_dict(self.get_approvalsub_message_by_subid(approvalsub_id))
+        if "tag_id" not in tag_id_sql or tag_id_sql["tag_id"] not in tag_list:
+            approvalsub_message["is_approval"] = 162
+        else:
+            approvalsub_message["is_approval"] = 161
         approvalsub_list = get_model_return_list(self.get_approval_message(approvalsub_id))
         for approvalsub in approvalsub_list:
             if approvalsub["element_name"] == "图片":
@@ -547,9 +565,10 @@ class CApproval(SApproval, SMoulds, SUsers):
     @get_session
     def get_my_approval_list(self):
         args = request.args.to_dict()
-        token = args["token"]
+
         if "token" not in args:
             return TokenError("未登录")
+        token = args["token"]
         user_id = token_to_usid(token)
         print(user_id)
         tag_ids = get_model_return_list(self.get_usertagid_by_user(user_id))

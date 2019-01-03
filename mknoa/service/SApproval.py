@@ -123,3 +123,7 @@ class SApproval(SBase):
         self.session.query(ApprovalSub).filter_by(approvalsub_id=approvalsub_id).update(approvalsub)
         self.session.commit()
         return True
+
+    def get_tagid_by_approvalsub_suggestion(self, approvalsub_id):
+        return self.session.query(ApprovalSov.tag_id).filter_by(approvalsub_id=approvalsub_id)\
+            .filter_by(approvalsov_suggestion=131).first()

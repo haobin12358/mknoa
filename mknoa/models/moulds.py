@@ -8,6 +8,7 @@ class Moulds(Base):
     """
     模板
     """
+    __tablename__ = "Moulds"
     mould_id = Column(String(64), primary_key=True)                         # 主键id
     mould_name = Column(Text, nullable=False)                               # 模板名称
     mould_time = Column(Integer, default=0)                                 # 审批时间设定，0为无限制
@@ -19,6 +20,7 @@ class Elements(Base):
     """
     元素
     """
+    __tablename__ = "Elements"
     element_id = Column(String(64), primary_key=True)                       # 主键id
     element_name = Column(String(64), nullable=False)                       # 元素名称
     element_code = Column(Integer)                                          # 元素编码
@@ -29,6 +31,7 @@ class MouldElement(Base):
     """
     模板内置元素
     """
+    __tablename__ = "MouldElement"
     mouldelement_id = Column(String(64), primary_key=True)                      # 主键id
     mould_id = Column(String(64), nullable=False)                               # 模板id，关联
     element_id = Column(String(64), nullable=False)                             # 元素id，关联
