@@ -1,12 +1,33 @@
-from flask import send_file, send_from_directory
-import os
-from flask import make_response
+# -*- coding: utf-8 -*-
+import json
+import requests
+import time
+import hashlib
+random = 104556
+url = "https://live.kewail.com/sms/v1/sendsinglesms?accesskey={0}&random={1}".format("5c2dfc6c87b65f2bc9a0fe4f", random)
+print(url)
+dt = "2019-01-03 20:29:29"
+time_unix = int(time.mktime(time.strptime(dt, "%Y-%m-%d %H:%M:%S")))
+print(time_unix)
+print(type(time_unix))
+sig_not_sha = "secretkey={0}&random={1}&time={2}&mobile={3}".format("235d8ad1b70a42298e55b5688b7f7c9d", random, str(time_unix), "17706441101")
+hash = hashlib.sha256()
+hash.update(sig_not_sha.encode("utf-8"))
+sig = hash.hexdigest()
+print(sig)
+data = {
+    "tel": {
+        "nationcode": "86",
+        "mobile": "17706441101"
+    },
+    "type": 0,
+    "msg": "【hindigo】您的验证码：123456，非常重要，请勿泄漏。",
+    "sig": sig,
+    "time": time_unix,
+    "extend": "",
+    "ext": ""
+}
+print(data)
+f = requests.post(url, json=data)
 
-
-@app.route("/download/<filename>", methods=['GET'])
-def download_file(filename):
-    # 需要知道2个参数, 第1个参数是本地目录的path, 第2个参数是文件名(带扩展名)
-    directory = os.getcwd()  # 假设在当前目录
-    response = make_response(send_from_directory(directory, filename, as_attachment=True))
-    response.headers["Content-Disposition"] = "attachment; filename={}".format(file_name.encode().decode('latin-1'))
-    return response
+print(f.text)

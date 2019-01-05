@@ -63,7 +63,9 @@ class CUsers(SUsers, SPowers):
                 for tag in tag_ids:
                     tag_id = tag["tag_id"]
                     # 根据标签id获取了所有的权限id，这里的权限id中存在子权限id
+                    print(tag_id)
                     power_id_list = get_model_return_list(self.get_powerid_by_tagid(tag_id))
+                    print("power_id_list: "+ str(power_id_list))
                     power_id_dict = []
                     for power in power_id_list:
                         power_id_dict.append(power["power_id"])

@@ -42,7 +42,7 @@ class CMoulds(SMoulds):
         for mould_element in mould_list:
             if "mouldelement_name" not in mould_element or "mouldelement_index" not in mould_element:
                 return ParamsError("参数缺失，请检查mouldelement_name和mouldelement_index合法性")
-            if "mouldelement_name" == "表格":
+            if mould_element["mouldelement_name"] == "表格":
                 if "mouldelement_rank" not in mould_element:
                     return ParamsError("参数缺失，请检查表单行列参数合法性")
                 else:
@@ -51,16 +51,17 @@ class CMoulds(SMoulds):
                         if mouldelement_rank != "":
                             mouldelement_rank = mouldelement_rank + "#"
                         mouldelement_rank = mouldelement_rank + row
-            else:
-                mouldelement_rank = None
+                mouldelement_trans = None
 
-            if "mouldelement_name" == "文本框":
+            elif mould_element["mouldelement_name"] == "文本框":
                 if "mouldelement_trans" not in mould_element:
                     return ParamsError("参数缺失，请检查mouldelement_trans合法性")
                 else:
                     mouldelement_trans = mould_element["mouldelement_trans"]
+                mouldelement_rank = None
             else:
                 mouldelement_trans = None
+                mouldelement_rank = None
             element_ids = get_model_return_dict(self.get_elementid_by_elementname(mould_element["mouldelement_name"]))
             if not element_ids:
                 return ParamsError("参数值有误，请检查mouldelement_name值合法性")
