@@ -59,16 +59,19 @@ class SUsers(SBase):
     def get_tagpowerid_by_powerid(self, power_id):
         return self.session.query(PowerTag.powertag_id).filter_by(power_id=power_id).all()
 
+    def get_tagpowerid_by_tagid(self, tag_id):
+        return self.session.query(PowerTag.powertag_id).filter_by(tag_id=tag_id).all()
+
     # get_taglist_by_userid 和 get_taglist_count 成组出现
     def get_taglist_by_userid(self, page_num, page_size, user_id):
         taglist = self.session.query(Tags.tag_id, Tags.tag_name, Tags.tag_level).filter_by(tag_status=21)
-        if user_id == "1":
+        if user_id != "1":
             taglist = taglist.filter_by(user_id=user_id)
         return taglist.offset(page_size * (page_num - 1)).limit(page_size).all()
 
     def get_taglist_count(self, user_id):
         taglist = self.session.query(Tags.tag_id, Tags.tag_name, Tags.tag_level).filter_by(tag_status=21)
-        if user_id == "1":
+        if user_id != "1":
             taglist = taglist.filter_by(user_id=user_id)
         return taglist.all()
 

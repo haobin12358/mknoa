@@ -135,3 +135,13 @@ class RepeatError(BaseError):
     status = 405
     status_code = 405105
     message = "用户名重复"
+
+class UnKnowError(BaseError):
+    status = 405
+    status_code = 405201
+    message = "未知权限"
+
+class TagLevelError(BaseError):
+    status = 405
+    status_code = 405202
+    message = "身份等级错误"

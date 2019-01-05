@@ -35,3 +35,6 @@ class SPowers(SBase):
         self.session.query(PowersMeta).filter_by(power_id=power_id).update(powermeta)
         self.session.commit()
         return True
+
+    def get_parent_by_powerid(self, power_id):
+        return self.session.query(Powers.power_parent_id).filter_by(power_id=power_id).filter_by(power_status=41).first()

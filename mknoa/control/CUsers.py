@@ -5,7 +5,8 @@ from mknoa.service.SUsers import SUsers
 from mknoa.service.SPowers import SPowers
 from mknoa.common.success_response import Success
 from mknoa.common.error_response import LoginError, NouseError, ColduseError, UnuseError, TokenError, ParamsError, \
-    AuthorityError, RepeatError
+    AuthorityError, RepeatError, TagLevelError, UnKnowError
+from mknoa.common.due_power import user_can_use, tag_can_use, update_tag_message, power_to_tree, powereasy_to_powerhard
 from mknoa.common.token_handler import usid_to_token, token_to_usid
 from mknoa.common.get_model_return_list import get_model_return_dict, get_model_return_list
 from mknoa.extensions.register_ext import db
@@ -20,6 +21,7 @@ class CUsers(SUsers, SPowers):
     def login(self):
         """
         登录
+        权限：user
         :return: 用户token/用户信息/用户身份/用户权限
         """
         data = parameter_required(('user_name', 'user_password'))
@@ -31,21 +33,17 @@ class CUsers(SUsers, SPowers):
             return LoginError("密码错误")
         else:
             user_id = get_model_return_dict(self.get_userid_by_name(user_name))["user_id"]
-            print(user_id)
+            token = usid_to_token(user_id)
+            # token已经创建
+            # 下文获取用户message
             user_message = get_model_return_dict(self.get_user_message(user_id))
             if user_message["user_status"] == 12:
                 return UnuseError("用户不可用")
             elif user_message["user_status"] == 13:
                 return ColduseError("账号已冻结，请联系管理员")
             user_message["user_createtime"] = user_message["user_createtime"].strftime("%Y-%m-%d %H:%M:%S")
-            usertag_ids = get_model_return_list(self.get_usertagid_by_user(user_id))
             tag_list = []
-            for usertag_id in usertag_ids:
-                tag_id = usertag_id["tag_id"]
-                tag = get_model_return_dict(self.get_tagname_by_tagid(tag_id))
-                if tag["tag_status"] != 22:
-                    tag_list.append(tag)
-            # TODO 权限列表
+            # 上帝有所有权限，没有任何身份标签
             if user_name == "admin":
                 power_list = get_model_return_list(self.get_parent_power_admin())
                 for power in power_list:
@@ -58,50 +56,17 @@ class CUsers(SUsers, SPowers):
                     power["children"] = children_list
 
             else:
-                tag_ids = get_model_return_list(self.get_usertagid_by_user(user_id))
-                power_list = []
-                for tag in tag_ids:
-                    tag_id = tag["tag_id"]
-                    # 根据标签id获取了所有的权限id，这里的权限id中存在子权限id
-                    print(tag_id)
-                    power_id_list = get_model_return_list(self.get_powerid_by_tagid(tag_id))
-                    print("power_id_list: "+ str(power_id_list))
-                    power_id_dict = []
-                    for power in power_id_list:
-                        power_id_dict.append(power["power_id"])
-                    for power in power_id_list:
-                        power_id = power["power_id"]
-                        power_message = get_model_return_dict(self.get_power_by_powerid(power_id))
-                        # 判断，如果是根节点，那么处理，如果不是根节点，那么放弃
-                        if power_message["power_parent_id"] == "0":
-                            power_meta = get_model_return_dict(self.get_meta_by_powerid(power["power_id"]))
-                            power_message["power_meta"] = power_meta
-                            # 根据刚才的权限id获取子权限列表，子权限列表中可能有部分子权限是无权限的
-                            children_list = get_model_return_list(self.get_power_by_parentid(power["power_id"]))
-                            i = len(children_list)
-                            # 循环处理字权限列表数据，如果子权限列表中存在无权限的内容，则remove处理
-                            while i > 0:
-                                if children_list[i - 1]["power_id"] in power_id_dict:
-                                    children_meta = get_model_return_dict(
-                                        self.get_meta_by_powerid(children_list[i - 1]["power_id"]))
-                                    children_list[i - 1]["power_meta"] = children_meta
-                                else:
-                                    children_list.remove(children_list[i - 1])
-                                i = i - 1
-                            power_message["children"] = children_list
-                            power_list.append(power_message)
-                        else:
-                            pass
-            power_id_list = []
-            power_true = []
-            for power in power_list:
-                if power["power_id"] not in power_id_list:
-                    power_id_list.append(power["power_id"])
-                    power_true.append(power)
+                # 下文获取用户的权限列表和tag列表
+                tree = user_can_use(token, "user")
+                if "status" not in tree:
+                    power_list = tree["power_tree"]
+                    tag_list = tree["tag_list"]
+                else:
+                    return tree
             return Success('登录成功',
                            data={
-                               'token': usid_to_token(user_id),
-                               'power_list': power_true,
+                               'token': token,
+                               'power_list': power_list,
                                'user_message': user_message,
                                'user_tags': tag_list
                            })
@@ -110,14 +75,21 @@ class CUsers(SUsers, SPowers):
     def new_tags(self):
         """
         新增用户标签
+        权限user
         :return:
         """
         args = request.args.to_dict()
         if "token" not in args.keys():
             return TokenError("未登录")
-        user_id = token_to_usid(args["token"])
+        tree = user_can_use(args["token"], "user")
+        if "status" in tree:
+            return tree
+        user_id = tree["user_id"]
         data = parameter_required(("tag_name", "tag_level", "tag_power_list"))
-        # TODO 一个用户只能创建比自己tag_level低的标签，需要判断此逻辑
+        tag_list = tree["tag_list"]
+        for tag in tag_list:
+            if tag["tag_level"] >= int(data.get("tag_level")):
+                return TagLevelError("请创建比自己权限等级低的身份")
         tag_id = str(uuid.uuid1())
         tag = Tags.create({
             "tag_id": tag_id,
@@ -128,8 +100,10 @@ class CUsers(SUsers, SPowers):
         })
         db.session.add(tag)
         tag_power_list = data.get("tag_power_list")
-        for power_id in tag_power_list:
-            # TODO 判断此power_id是否存在
+        tag_power_list_hard = powereasy_to_powerhard(tag_power_list)
+        if not tag_power_list_hard:
+            return UnKnowError("未知权限，请后端核查")
+        for power_id in tag_power_list_hard:
             new_powertag = PowerTag.create({
                 "powertag_id": str(uuid.uuid1()),
                 "power_id" : power_id,
@@ -150,35 +124,48 @@ class CUsers(SUsers, SPowers):
         args = request.args.to_dict()
         if "token" not in args.keys():
             return TokenError("未登录")
-        user_id = token_to_usid(args["token"])
+        tree = user_can_use(args["token"], "user")
+        if "status" in tree:
+            return tree
+        user_id = tree["user_id"]
+
         if "tag_id" not in args.keys():
             return ParamsError("参数缺失tag_id")
         sql_user_id = get_model_return_dict(self.get_userid_by_tagid(args["tag_id"]))["user_id"]
         # 判断是否是这个人创建的标签，and 上帝做一切事情都是对的
         if user_id != sql_user_id and user_id != "1":
-            return AuthorityError("无权限")
+            return AuthorityError("无权限， 请联系创建该身份的该用户或者超级管理员")
+
         data = parameter_required(("tag_name", "tag_level", "tag_power_list"))
         update_tags = self.s_update_tag(args["tag_id"],
                                         {
                                             "tag_name": data.get("tag_name"),
                                             "tag_level": data.get("tag_level")
                                         })
-        for power_id in data.get("tag_power_list"):
-            powertag_list = get_model_return_list(self.get_tagpowerid_by_powerid(power_id))
-            for powertag in powertag_list:
-                update_powertag = self.s_update_tagpower(powertag["powertag_id"],
-                                                         {
-                                                             "powertag_status": 52
-                                                         })
-                new_powertag = PowerTag.create({
-                    "powertag_id": str(uuid.uuid1()),
-                    "power_id": power_id,
-                    "tag_id": args["tag_id"],
-                    "powertag_createtime": datetime.datetime.now(),
-                    "powertag_updatetime": datetime.datetime.now(),
-                    "powertag_status": 51
-                })
-                db.session.add(new_powertag)
+
+        # 清理无效权限
+        tag_power_list = data.get("tag_power_list")
+        tag_power_list_hard = powereasy_to_powerhard(tag_power_list)
+        if not tag_power_list_hard:
+            return UnKnowError("未知权限，请后端核查")
+
+        # 先清理掉该身份下的所有权限
+        powertag_list = get_model_return_list(self.get_tagpowerid_by_tagid(args["tag_id"]))
+        for powertag in powertag_list:
+            update_powertag = self.s_update_tagpower(powertag["powertag_id"],
+                                                     {
+                                                         "powertag_status": 52
+                                                     })
+        for power_id in tag_power_list_hard:
+            new_powertag = PowerTag.create({
+                "powertag_id": str(uuid.uuid1()),
+                "power_id": power_id,
+                "tag_id": args["tag_id"],
+                "powertag_createtime": datetime.datetime.now(),
+                "powertag_updatetime": datetime.datetime.now(),
+                "powertag_status": 51
+            })
+            db.session.add(new_powertag)
         return Success('更新身份标签成功')
 
     @get_session
@@ -190,13 +177,17 @@ class CUsers(SUsers, SPowers):
         args = request.args.to_dict()
         if "token" not in args.keys():
             return TokenError("未登录")
-        user_id = token_to_usid(args["token"])
+        tree = user_can_use(args["token"], "user")
+        if "status" in tree:
+            return tree
+        user_id = tree["user_id"]
+
         data = parameter_required(("tag_ids", ))
         for tag_id in data.get("tag_ids"):
             sql_user_id = get_model_return_dict(self.get_userid_by_tagid(tag_id))["user_id"]
             # 判断是否是这个人创建的标签，and 上帝做一切事情都是对的
             if user_id != sql_user_id and user_id != "1":
-                return AuthorityError("无权限")
+                return AuthorityError("无权限， 请联系创建该身份的该用户或者超级管理员")
             update_tag = self.s_update_tag(tag_id,
                                            {
                                                "tag_status": 22
@@ -244,7 +235,11 @@ class CUsers(SUsers, SPowers):
         args = request.args.to_dict()
         if "token" not in args.keys():
             return TokenError("未登录")
-        user_id = token_to_usid(args["token"])
+        tree = user_can_use(args["token"], "user")
+        if "status" in tree:
+            return tree
+        user_id = tree["user_id"]
+
         user_name = get_model_return_dict(self.get_username_by_userid(user_id))["user_name"]
         tag_level_list = []
         if user_name != "admin":
@@ -268,55 +263,24 @@ class CUsers(SUsers, SPowers):
             return TokenError("未登录")
         if "page_size" not in args.keys() or "page_num" not in args.keys():
             return ParamsError("参数缺失，请检查page_size和page_num有效性")
-        user_id = token_to_usid(args["token"])
+        tree = user_can_use(args["token"], "user")
+        if "status" in tree:
+            return tree
+        user_id = tree["user_id"]
+
         tag_list = get_model_return_list(self.get_taglist_by_userid(int(args["page_num"]), int(args["page_size"]), user_id))
+        tag_dict = []
         for tag in tag_list:
             tag_id = tag["tag_id"]
-            power_id_list = get_model_return_list(self.get_powerid_by_tagid(tag_id))
-            # 生成power_id的list，如果有子节点隶属有效父节点但是无权限后用于去除
-            power_id_dict = []
-            for power in power_id_list:
-                power_id_dict.append(power["power_id"])
-            power_dict = []
-            for power in power_id_list:
-                power_id = power["power_id"]
-                power_message_list = {}
-                power_message = get_model_return_dict(self.get_power_by_powerid(power_id))
-                # 判断，如果是根节点，那么处理，如果不是根节点，那么放弃
-                if power_message["power_parent_id"] == "0":
-                    power_meta = get_model_return_dict(self.get_meta_by_powerid(power["power_id"]))
-                    # 把根节点的power_title和power_id给出
-                    power_message_list["power_title"] = power_meta["powermeta_title"]
-                    power_message_list["power_id"] = power["power_id"]
-                    # 根据刚才的权限id获取子权限列表，子权限列表中可能有部分子权限是无权限的
-                    children_list = get_model_return_list(self.get_power_by_parentid(power["power_id"]))
-                    i = len(children_list)
-                    # 循环处理字权限列表数据，如果子权限列表中存在无权限的内容，则remove处理
-                    children_list_dict = []
-                    while i > 0:
-                        children_title_id = {}
-                        if children_list[i - 1]["power_id"] in power_id_dict:
-                            children_meta = get_model_return_dict(
-                                self.get_meta_by_powerid(children_list[i - 1]["power_id"]))
-                            children_list[i - 1]["power_meta"] = children_meta
-                            # 放置children的power_id和power_title
-                            children_title_id["power_id"] = children_list[i - 1]["power_id"]
-                            children_title_id["power_title"] = children_meta["powermeta_title"]
-                            children_list_dict.append(children_title_id)
-                        else:
-                            children_list.remove(children_list[i - 1])
-                        i = i - 1
-                    power_message_list["children"] = children_list_dict
-                    power_dict.append(power_message_list)
-                else:
-                    pass
-            tag["power_list"] = power_dict
+            tag_easy = tag_can_use(tag_id)
+            tag_dict.append(tag_easy)
+
         page_count = len(get_model_return_list(self.get_taglist_count(user_id)))
 
         return {
             "status": 200,
             "message": "获取标签列表成功",
-            "data": tag_list,
+            "data": tag_dict,
             "total_count": page_count,
             "total_page": int(page_count / int(args["page_size"])) + 1
         }
@@ -331,12 +295,16 @@ class CUsers(SUsers, SPowers):
             return TokenError("未登录")
         if "tag_id" not in args.keys():
             return ParamsError("参数缺失，请检查tag_id有效性")
-        user_id = token_to_usid(args["token"])
+        tree = user_can_use(args["token"], "user")
+        if "status" in tree:
+            return tree
+        user_id = tree["user_id"]
         sql_user_id = get_model_return_dict(self.get_userid_by_tagid(args["tag_id"]))["user_id"]
         # 判断是否是这个人创建的标签，and 上帝做一切事情都是对的
         if user_id != sql_user_id and user_id != "1":
-            return AuthorityError("无权限")
+            return AuthorityError("无权限， 请联系创建该身份的该用户或者超级管理员")
         tag_id = args["tag_id"]
+
         # 先把该标签已有的权限获取出来，用于标记当前已有权限状态
         power_ids = get_model_return_list(self.get_powerid_by_tagid(tag_id))
         power_id_dict = []
@@ -381,6 +349,9 @@ class CUsers(SUsers, SPowers):
                 power_id_dict = []
                 for power in power_id_list:
                     power_id_dict.append(power["power_id"])
+
+                # 去重
+                power_id_dict = powereasy_to_powerhard(power_id_dict)
                 for power in power_id_list:
                     power_id = power["power_id"]
                     power_message_list = {}
@@ -431,9 +402,15 @@ class CUsers(SUsers, SPowers):
         args = request.args.to_dict()
         if "token" not in args.keys():
             return TokenError("未登录")
-        user_id = token_to_usid(args["token"])
+
+        tree = user_can_use(args["token"], "user")
+        if "status" in tree:
+            return tree
+        user_id = tree["user_id"]
+        level_high = self._get_high_tag_level(user_id)
+
         # TODO 判断其他用户是否可以创建
-        if user_id != "1":
+        if user_id != "1" or int(level_high) != 1:
             return AuthorityError("无权限")
         data = parameter_required(("user_name", "user_password", "user_telphone", "user_tags", "user_message"))
         sql_user_id = get_model_return_dict(self.get_userid_by_name(data.get("user_name")))
