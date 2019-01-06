@@ -55,6 +55,10 @@ class CUsers(SUsers, SPowers):
                     power["power_meta"] = power_meta
                     children_list = get_model_return_list(self.get_power_by_parentid(power["power_id"]))
                     for children in children_list:
+                        if children["power_path"] == " ":
+                            children["power_path"] = children["power_path"].replace(" ", "")
+                        if children["power_redirect"] == " ":
+                            children["power_redirect"] = children["power_redirect"].replace(" ", "")
                         children_meta = get_model_return_dict(self.get_meta_by_powerid(children["power_id"]))
                         children["power_meta"] = children_meta
                     power["children"] = children_list

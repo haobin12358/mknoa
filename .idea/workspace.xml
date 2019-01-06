@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c216e406-f1bf-458e-9b6f-b19997d6e367" name="Default" comment="" />
+    <list default="true" id="c216e406-f1bf-458e-9b6f-b19997d6e367" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/mknoa/control/CUsers.py" beforeDir="false" afterPath="$PROJECT_DIR$/mknoa/control/CUsers.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,8 +16,8 @@
       <file leaf-file-name="CUsers.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mknoa/control/CUsers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="447">
-              <caret line="57" column="109" lean-forward="true" selection-start-line="57" selection-start-column="109" selection-end-line="57" selection-end-column="109" />
+            <state relative-caret-position="409">
+              <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="64" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
                 <element signature="e#14557#20246#0" />
@@ -336,6 +338,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19418758" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32952926" />
@@ -702,8 +705,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mknoa/control/CUsers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="447">
-          <caret line="57" column="109" lean-forward="true" selection-start-line="57" selection-start-column="109" selection-end-line="57" selection-end-column="109" />
+        <state relative-caret-position="409">
+          <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="64" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
             <element signature="e#14557#20246#0" />
