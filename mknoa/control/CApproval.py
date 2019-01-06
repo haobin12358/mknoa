@@ -1,7 +1,7 @@
 from flask import request, current_app
 from mknoa.common.params_validates import parameter_required
 from mknoa.common.base_service import get_session
-from mknoa.extensions.tasks import auto_agree_task
+
 from mknoa.service.SApproval import SApproval
 from mknoa.service.SMoulds import SMoulds
 from mknoa.service.SUsers import SUsers
@@ -233,6 +233,7 @@ class CApproval(SApproval, SMoulds, SUsers):
                 time_continue = int(approvalsov_mouldtime) * 86400
                 time_expires = time_continue * (len(approval_level_list))
                 # 创建时给第一层审批添加异步处理
+                from mknoa.extensions.tasks import auto_agree_task
                 auto_agree_task.apply_async(args=[approvalsov_first_id], countdown=approvalsov_mouldtime,
                                             expires=time_expires, )
             else:
@@ -568,6 +569,7 @@ class CApproval(SApproval, SMoulds, SUsers):
         return Success("获取可创建审批流成功", data=approval_list_return)
 
     def deal(self, approvalsub_id, user_name, approvalsov_suggestion, approvalsov_message):
+        from mknoa.extensions.tasks import auto_agree_task
         approvalsov = get_model_return_dict(self.get_approvalsov_now_by_subid(approvalsub_id))
         index = int(approvalsov["approvalsub_index"])
         approvalsov_id = approvalsov["approvalsov_id"]
