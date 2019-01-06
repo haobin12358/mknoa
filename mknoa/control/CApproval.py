@@ -275,6 +275,7 @@ class CApproval(SApproval, SMoulds, SUsers):
         mould_id = approval_message["mould_id"]
         mould_message = get_model_return_dict(self.get_mould_message_by_mouldid(mould_id))
         mould_elements = get_model_return_list(self.get_mould_element_by_mouldid(mould_id))
+        current_app.logger.info("mould_elements: " + str(mould_elements))
         for element in mould_elements:
             if element["mouldelement_rank"]:
                 element["mouldelement_rank"] = element["mouldelement_rank"].split("#")

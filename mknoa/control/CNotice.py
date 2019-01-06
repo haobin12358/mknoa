@@ -15,14 +15,39 @@ class CNotice(SNotice):
 
     @get_session
     def new_notice(self):
-        data = parameter_required(("notice_title", "notice_message"))
+        data = json.loads(request.data)
+        if "notice_title" not in data:
+            return ParamsError("请填写标题")
+        if "notice_message" not in data:
+            return ParamsError("请填写内容")
+        if "tag_list" in data:
+            tag_list = data["tag_list"]
+            tag = ""
+            for row in tag_list:
+                if tag != "":
+                    tag = tag + "#"
+                tag = tag + row
+        else:
+            tag = None
+        if "user_list" in data:
+            user_list = data["user_list"]
+            user = ""
+            for row in user_list:
+                if user != "":
+                    user = user + "#"
+                user = user + row
+        else:
+            user = None
+
         new_notice = Notice.create({
             "notice_id": str(uuid.uuid1()),
-            "notice_title": data.get("notice_title"),
-            "notice_message": data.get("notice_message"),
+            "notice_title": data["notice_title"],
+            "notice_message": data["notice_message"],
             "notice_createtime": datetime.datetime.now(),
             "notice_updatetime": datetime.datetime.now(),
-            "notice_status": 141
+            "notice_status": 141,
+            "tag_id": tag,
+            "user_id": user
         })
         db.session.add(new_notice)
         return Success("发布公告成功")
