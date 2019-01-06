@@ -3,10 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="c216e406-f1bf-458e-9b6f-b19997d6e367" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mknoa/control/CApproval.py" beforeDir="false" afterPath="$PROJECT_DIR$/mknoa/control/CApproval.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mknoa/control/CUsers.py" beforeDir="false" afterPath="$PROJECT_DIR$/mknoa/control/CUsers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mknoa/models/approval.py" beforeDir="false" afterPath="$PROJECT_DIR$/mknoa/models/approval.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mknoa/service/SUsers.py" beforeDir="false" afterPath="$PROJECT_DIR$/mknoa/service/SUsers.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,8 +16,8 @@
       <file leaf-file-name="CUsers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mknoa/control/CUsers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="481" column="40" lean-forward="true" selection-start-line="481" selection-start-column="40" selection-end-line="481" selection-end-column="40" />
+            <state relative-caret-position="8854">
+              <caret line="481" column="40" selection-start-line="481" selection-start-column="40" selection-end-line="481" selection-end-column="40" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -29,11 +25,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="approval.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="approval.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mknoa/models/approval.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="594">
-              <caret line="85" column="25" selection-start-line="85" selection-start-column="4" selection-end-line="85" selection-end-column="25" />
+            <state relative-caret-position="288">
+              <caret line="84" column="89" lean-forward="true" selection-start-line="84" selection-start-column="89" selection-end-line="84" selection-end-column="89" />
             </state>
           </provider>
         </entry>
@@ -41,17 +37,8 @@
       <file leaf-file-name="CApproval.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mknoa/control/CApproval.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="910">
-              <caret line="354" column="61" lean-forward="true" selection-start-line="354" selection-start-column="61" selection-end-line="354" selection-end-column="61" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="readme.md" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/readme.md">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="52" column="16" lean-forward="true" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="16" />
+            <state relative-caret-position="67">
+              <caret line="311" column="45" lean-forward="true" selection-start-line="311" selection-start-column="45" selection-end-line="311" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -86,7 +73,7 @@
       <file leaf-file-name="SUsers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mknoa/service/SUsers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
+            <state relative-caret-position="1425">
               <caret line="78" column="8" selection-start-line="78" selection-start-column="8" selection-end-line="78" selection-end-column="8" />
             </state>
           </provider>
@@ -105,7 +92,7 @@
         <entry file="file://$PROJECT_DIR$/mknoa/common/due_power.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1672">
-              <caret line="93" column="94" lean-forward="true" selection-start-line="90" selection-start-column="8" selection-end-line="93" selection-end-column="94" />
+              <caret line="93" column="94" selection-start-line="90" selection-start-column="8" selection-end-line="93" selection-end-column="94" />
               <folding>
                 <element signature="e#0#52#0" expanded="true" />
               </folding>
@@ -179,17 +166,19 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="15" />
     <option name="y" value="35" />
     <option name="width" value="1400" />
     <option name="height" value="775" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -241,11 +230,10 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../hindigos" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -267,7 +255,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.flaskrun">
+  <component name="RunManager" selected="Python.CUsers">
     <configuration name="CUsers" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="mknoa" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -281,24 +269,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mknoa/control/CUsers.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-    </configuration>
-    <configuration name="flaskrun" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="mknoa" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/flaskrun.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -322,14 +292,66 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <module name="mknoa" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_regexPattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Twisted Trial">
+      <module name="mknoa" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <module name="mknoa" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="py.test">
+      <module name="mknoa" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
     <list>
-      <item itemvalue="Python.flaskrun" />
       <item itemvalue="Python.CUsers" />
       <item itemvalue="Python.test" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.flaskrun" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.CUsers" />
       </list>
@@ -361,14 +383,15 @@
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19418758" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19418758" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32952926" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32952926" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32952926" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.32952926" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.27817404" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.32952926" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.3281027" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -377,7 +400,6 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32952926" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -690,7 +712,7 @@
     <entry file="file://$PROJECT_DIR$/mknoa/common/due_power.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1672">
-          <caret line="93" column="94" lean-forward="true" selection-start-line="90" selection-start-column="8" selection-end-line="93" selection-end-column="94" />
+          <caret line="93" column="94" selection-start-line="90" selection-start-column="8" selection-end-line="93" selection-end-column="94" />
           <folding>
             <element signature="e#0#52#0" expanded="true" />
           </folding>
@@ -699,15 +721,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mknoa/service/SUsers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
+        <state relative-caret-position="1425">
           <caret line="78" column="8" selection-start-line="78" selection-start-column="8" selection-end-line="78" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mknoa/models/approval.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="85" column="25" selection-start-line="85" selection-start-column="4" selection-end-line="85" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -720,25 +735,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mknoa/control/CUsers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="481" column="40" lean-forward="true" selection-start-line="481" selection-start-column="40" selection-end-line="481" selection-end-column="40" />
+        <state relative-caret-position="8854">
+          <caret line="481" column="40" selection-start-line="481" selection-start-column="40" selection-end-line="481" selection-end-column="40" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mknoa/control/CApproval.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="910">
-          <caret line="354" column="61" lean-forward="true" selection-start-line="354" selection-start-column="61" selection-end-line="354" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/readme.md">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
-          <caret line="52" column="16" lean-forward="true" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="16" />
+          <caret line="52" column="16" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mknoa/control/CApproval.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="67">
+          <caret line="311" column="45" lean-forward="true" selection-start-line="311" selection-start-column="45" selection-end-line="311" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mknoa/models/approval.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="84" column="89" lean-forward="true" selection-start-line="84" selection-start-column="89" selection-end-line="84" selection-end-column="89" />
         </state>
       </provider>
     </entry>
