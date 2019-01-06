@@ -115,7 +115,8 @@ class SApproval(SBase):
         return True
 
     def get_approvalsov_now_by_subid_index(self, approvalsub_id, approvalsub_index):
-        return self.session.query(ApprovalSov.approvalsov_id, ApprovalSov.approvalsub_index)\
+        return self.session.query(ApprovalSov.approvalsov_id, ApprovalSov.approvalsub_index,
+                                  ApprovalSov.approvalsov_mouldtime, ApprovalSov.approvalsub_index)\
             .filter_by(approvalsub_id= approvalsub_id).filter_by(approvalsub_index=approvalsub_index)\
             .filter_by(approvalsov_suggestion=134).first()
 

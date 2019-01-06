@@ -1,6 +1,7 @@
 from flask import request, current_app
 from mknoa.common.params_validates import parameter_required
 from mknoa.common.base_service import get_session
+from mknoa.extensions.tasks import auto_agree_task
 from mknoa.service.SApproval import SApproval
 from mknoa.service.SMoulds import SMoulds
 from mknoa.service.SUsers import SUsers
@@ -225,12 +226,19 @@ class CApproval(SApproval, SMoulds, SUsers):
 
         i = 0
         while i < len(approval_level_list):
+            approvalsov_id = str(uuid.uuid1())
             if i == 0:
                 approvalsov_suggestion = 131
+                approvalsov_first_id = approvalsov_id
+                time_continue = int(approvalsov_mouldtime) * 86400
+                time_expires = time_continue * (len(approval_level_list))
+                # 创建时给第一层审批添加异步处理
+                auto_agree_task.apply_async(args=[approvalsov_first_id], countdown=approvalsov_mouldtime,
+                                            expires=time_expires, )
             else:
                 approvalsov_suggestion = 134
             new_approvalsov = ApprovalSov.create({
-                "approvalsov_id": str(uuid.uuid1()),
+                "approvalsov_id": approvalsov_id,
                 "approvalsov_suggestion": approvalsov_suggestion,
                 "approvalsov_message": None,
                 "approvalsov_createtime": None,
@@ -314,45 +322,10 @@ class CApproval(SApproval, SMoulds, SUsers):
         else:
             approvalsov_message = data["approvalsov_message"]
 
-        approvalsov = get_model_return_dict(self.get_approvalsov_now_by_subid(approvalsub_id))
-        index = int(approvalsov["approvalsub_index"])
-        approvalsov_id = approvalsov["approvalsov_id"]
-
         user = get_model_return_dict(self.get_username_by_userid(user_id))
         user_name = user["user_name"]
-        # 更新当前的审批情况
-        update_approvalsov = self.s_update_approvalsov(approvalsov_id,
-                                                       {
-                                                           "approvalsov_suggestion": approvalsov_suggestion,
-                                                           "approvalsov_message": approvalsov_message,
-                                                           "approvalsov_createtime": datetime.datetime.now(),
-                                                           "user_truename": user_name
-                                                       })
-        if approvalsov_suggestion == 132:
-            # 如果审批通过，查找下一级的审批
-            approvalsov_next = get_model_return_dict(self.get_approvalsov_now_by_subid_index(approvalsub_id, index + 1))
-            if not approvalsov_next:
-                """
-                没有下一级
-                """
-                update_approvalsub = self.s_update_approvalsub(approvalsub_id,
-                                                               {
-                                                                   "approvalsub_status": 122
-                                                               })
-            else:
-                """
-                有下一级
-                """
-                approvalsov_next_id = approvalsov_next["approvalsov_id"]
-                update_approvalsov = self.s_update_approvalsov(approvalsov_next_id,
-                                                               {
-                                                                   "approvalsov_suggestion": 131
-                                                               })
-        elif approvalsov_suggestion == 133:
-            update_approvalsub = self.s_update_approvalsub(approvalsub_id,
-                                                           {
-                                                               "approvalsub_status": 123
-                                                           })
+        self.deal(approvalsub_id, user_name, approvalsov_suggestion, approvalsov_message)
+
         return Success("审批成功")
 
     @get_session
@@ -593,3 +566,49 @@ class CApproval(SApproval, SMoulds, SUsers):
                     approval_list_return.append(approval)
 
         return Success("获取可创建审批流成功", data=approval_list_return)
+
+    def deal(self, approvalsub_id, user_name, approvalsov_suggestion, approvalsov_message):
+        approvalsov = get_model_return_dict(self.get_approvalsov_now_by_subid(approvalsub_id))
+        index = int(approvalsov["approvalsub_index"])
+        approvalsov_id = approvalsov["approvalsov_id"]
+
+
+        # 更新当前的审批情况
+        update_approvalsov = self.s_update_approvalsov(approvalsov_id,
+                                                       {
+                                                           "approvalsov_suggestion": approvalsov_suggestion,
+                                                           "approvalsov_message": approvalsov_message,
+                                                           "approvalsov_createtime": datetime.datetime.now(),
+                                                           "user_truename": user_name
+                                                       })
+        if approvalsov_suggestion == 132:
+            # 如果审批通过，查找下一级的审批
+            approvalsov_next = get_model_return_dict(self.get_approvalsov_now_by_subid_index(approvalsub_id, index + 1))
+            if not approvalsov_next:
+                """
+                没有下一级
+                """
+                update_approvalsub = self.s_update_approvalsub(approvalsub_id,
+                                                               {
+                                                                   "approvalsub_status": 122
+                                                               })
+            else:
+                """
+                有下一级
+                """
+                approvalsov_next_id = approvalsov_next["approvalsov_id"]
+                update_approvalsov = self.s_update_approvalsov(approvalsov_next_id,
+                                                               {
+                                                                   "approvalsov_suggestion": 131
+                                                               })
+                # todo 增加异步处理
+                approvalsub = ApprovalSub.query.filter_by_(approvalsub_id=approvalsub_id).first()
+                time_continue = int(approvalsov_next['approvalsov_mouldtime']) * 86400
+                time_expires = time_continue * (approvalsub.approvalsub_num - approvalsov_next['approvalsub_index'])
+                auto_agree_task.apply_async(args=[approvalsov_next_id], countdown=time_continue, expires=time_expires,)
+
+        elif approvalsov_suggestion == 133:
+            update_approvalsub = self.s_update_approvalsub(approvalsub_id,
+                                                           {
+                                                               "approvalsub_status": 123
+                                                           })
