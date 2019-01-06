@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c216e406-f1bf-458e-9b6f-b19997d6e367" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/mknoa/common/due_power.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mknoa/common/error_response.py" beforeDir="false" afterPath="$PROJECT_DIR$/mknoa/common/error_response.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mknoa/control/CUsers.py" beforeDir="false" afterPath="$PROJECT_DIR$/mknoa/control/CUsers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mknoa/service/SPowers.py" beforeDir="false" afterPath="$PROJECT_DIR$/mknoa/service/SPowers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mknoa/service/SUsers.py" beforeDir="false" afterPath="$PROJECT_DIR$/mknoa/service/SUsers.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,11 +13,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="CUsers.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CUsers.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mknoa/control/CUsers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-722">
-              <caret line="468" column="31" lean-forward="true" selection-start-line="468" selection-start-column="31" selection-end-line="468" selection-end-column="31" />
+            <state relative-caret-position="447">
+              <caret line="57" column="109" lean-forward="true" selection-start-line="57" selection-start-column="109" selection-end-line="57" selection-end-column="109" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
                 <element signature="e#14557#20246#0" />
@@ -40,11 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CCommon.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CCommon.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mknoa/control/CCommon.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="14" column="13" lean-forward="true" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+            <state relative-caret-position="76">
+              <caret line="21" column="36" lean-forward="true" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -79,8 +74,8 @@
       <file leaf-file-name="due_power.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mknoa/common/due_power.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="42" column="26" selection-start-line="42" selection-start-column="4" selection-end-line="42" selection-end-column="26" />
+            <state relative-caret-position="285">
+              <caret line="93" column="94" lean-forward="true" selection-start-line="90" selection-start-column="8" selection-end-line="93" selection-end-column="94" />
               <folding>
                 <element signature="e#0#52#0" expanded="true" />
               </folding>
@@ -163,7 +158,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="15" />
     <option name="y" value="35" />
     <option name="width" value="1400" />
@@ -342,7 +337,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19418758" />
@@ -663,16 +658,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mknoa/common/due_power.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="42" column="26" selection-start-line="42" selection-start-column="4" selection-end-line="42" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#52#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mknoa/service/SUsers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
@@ -694,17 +679,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mknoa/control/CUsers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-722">
-          <caret line="468" column="31" lean-forward="true" selection-start-line="468" selection-start-column="31" selection-end-line="468" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-            <element signature="e#14557#20246#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mknoa/control/CPowers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2375">
@@ -714,8 +688,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mknoa/control/CCommon.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="14" column="13" lean-forward="true" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        <state relative-caret-position="76">
+          <caret line="21" column="36" lean-forward="true" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mknoa/common/due_power.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="93" column="94" lean-forward="true" selection-start-line="90" selection-start-column="8" selection-end-line="93" selection-end-column="94" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mknoa/control/CUsers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="447">
+          <caret line="57" column="109" lean-forward="true" selection-start-line="57" selection-start-column="109" selection-end-line="57" selection-end-column="109" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+            <element signature="e#14557#20246#0" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -47,6 +47,10 @@ class CUsers(SUsers, SPowers):
             if user_name == "admin":
                 power_list = get_model_return_list(self.get_parent_power_admin())
                 for power in power_list:
+                    if power["power_path"] == " ":
+                        power["power_path"] = power["power_path"].replace(" ", "")
+                    if power["power_redirect"] == " ":
+                        power["power_redirect"] = power["power_redirect"].replace(" ", "")
                     power_meta = get_model_return_dict(self.get_meta_by_powerid(power["power_id"]))
                     power["power_meta"] = power_meta
                     children_list = get_model_return_list(self.get_power_by_parentid(power["power_id"]))
