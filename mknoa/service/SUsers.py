@@ -9,7 +9,7 @@ class SUsers(SBase):
         return self.session.query(Users.user_password).filter_by(user_name=user_name).first()
 
     def get_userid_by_name(self, user_name):
-        return self.session.query(Users.user_id).filter_by(user_name=user_name).first()
+        return self.session.query(Users.user_id).filter_by(user_name=user_name).filter_by(user_status=11).first()
 
     def get_user_message(self, user_id):
         return self.session.query(Users.user_name, Users.user_createtime, Users.user_email, Users.user_telphone,

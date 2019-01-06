@@ -418,7 +418,7 @@ class CUsers(SUsers, SPowers):
         level_high = self._get_high_tag_level(user_id)
 
         # TODO 判断其他用户是否可以创建
-        if user_id != "1" or int(level_high) != 1:
+        if user_id != "1" and int(level_high) != 1:
             return AuthorityError("无权限")
         data = parameter_required(("user_name", "user_password", "user_telphone", "user_tags", "user_message"))
         sql_user_id = get_model_return_dict(self.get_userid_by_name(data.get("user_name")))
@@ -475,7 +475,10 @@ class CUsers(SUsers, SPowers):
             return TokenError("未登录")
         user_id = token_to_usid(args["token"])
         # TODO 判断其他用户是否可以查看用户列表
-        if user_id != "1":
+        level_high = self._get_high_tag_level(user_id)
+
+        # TODO 判断其他用户是否可以创建
+        if user_id != "1" and int(level_high) != 1:
             return AuthorityError("无权限")
         if "page_size" not in args.keys() or "page_num" not in args.keys():
             return ParamsError("参数缺失，请检查page_size和page_num有效性")
@@ -484,6 +487,9 @@ class CUsers(SUsers, SPowers):
         for user in user_list:
             user_level = self._get_high_tag_level(user["user_id"])
             user["user_level"] = user_level
+        for user in user_list:
+            if user["user_id"] == "1":
+                del(user_list[user_list.index(user)])
         page_count = len(get_model_return_list(self.get_userlist()))
 
         return {

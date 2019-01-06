@@ -83,3 +83,4 @@ class ApprovalSov(Base):
     approvalsub_id = Column(String(64), nullable=False)                         # 发起的审批流id
     approvalsub_index = Column(Integer)                                         # 审批顺序编号
     tag_id = Column(String(64))                                                 # 当前审批的标签
+    approvalsov_mouldtime = Column(Integer)                                     # 审批流间隔时间

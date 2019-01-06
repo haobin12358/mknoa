@@ -132,7 +132,11 @@ class CApproval(SApproval, SMoulds, SUsers):
         mould_message = get_model_return_dict(self.get_mould_message_by_mouldid(mould_id))
         mould_time = int(mould_message["mould_time"])
         if mould_time == 0:
+            approvalsov_mouldtime = 0
             mould_time = None
+        else:
+            approvalsov_mouldtime = mould_time
+            pass
         # 优先创建模板关联表数据
         for approval_mould in data.get("approvalmould_list"):
             # 先拿到元素名称和元素顺序
@@ -233,7 +237,8 @@ class CApproval(SApproval, SMoulds, SUsers):
                 "user_truename": None,
                 "approvalsub_id": approvalsub_id,
                 "approvalsub_index": 0,
-                "tag_id": approval_level_list[i]["tag_id"]
+                "tag_id": approval_level_list[i]["tag_id"],
+                "approvalsov_mouldtime": approvalsov_mouldtime
             })
             db.session.add(new_approvalsov)
             i = i + 1
