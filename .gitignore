@@ -41,6 +41,7 @@ htmlcov/
 .coverage
 .coverage.*
 .cache
+*/.idea
 nosetests.xml
 coverage.xml
 *.cover
@@ -102,3 +103,31 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+#dbconfig
+/planet/config/dbconfig.py
+
+#inforcode
+/planet/config/Inforcode.py
+
+#divide_config
+/planet/config/divide_config.cfg
+
+#setting
+/planet/config/setting.py
+
+# img
+img/*
+.idea/*
+*.xml
+test/
+# pay pem
+*.pem
+pem/cert.zip
+pem2/cert.zip
+#
+templates/*
+wxservice/*
+wxsubscribe_dir/*
+*.db
+upload.sh
