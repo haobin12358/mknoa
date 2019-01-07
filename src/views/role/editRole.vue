@@ -14,7 +14,7 @@
               <el-option :label="item" v-for="item in level_option" :key="Math.random()" :value="item"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="身份权限" prop="tag_power_list">
+          <el-form-item label="身份权限" required>
             <!--<el-checkbox-group v-model="form.type">-->
               <!--<el-checkbox label="身份管理" name="type"></el-checkbox>-->
               <!--<el-checkbox label="审批流管理" name="type"></el-checkbox>-->
@@ -89,6 +89,14 @@
           this.getCheckedKeys();
           this.$refs['roleForm'].validate((valid) => {
             if (valid) {
+              if(this.form.tag_power_list.length <1){
+                this.$message({
+                  showClose: true,
+                  message: '请选择身份权限',
+                  type: 'warning'
+                });
+                return false;
+              }
               if(this.$route.query.tag_id){
                 axios.post(api.update_tag + '?token=' +localStorage.getItem('token') +'&tag_id=' + this.form.tag_id,this.form).then(res => {
                   if(res.data.status == 200){
@@ -97,6 +105,7 @@
                       message: res.data.message,
                       type: 'success'
                     });
+                    this.$router.push('/role/index');
                   }else{
                     this.$message.error(res.data.message);
                   }

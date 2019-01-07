@@ -14,6 +14,7 @@ const api = {
   get_tags_all: title +'user/get_tags_all',//获取下拉身份标签
   get_power_list_easy: title +'power/get_power_list_easy',//获取权限列表
   // delete_tag: title + 'user/delete_tag',//删除用户
+  get_all_user_easy: title +'user/get_all_user_easy',//获取用户列表
   new_tags: title +'user/new_tags',//创建身份
   delete_tag: title + 'user/delete_tag',//删除身份
   get_tag_message: title +'user/get_tag_message',//获取标签详情

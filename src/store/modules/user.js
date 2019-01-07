@@ -24,7 +24,7 @@ const user = {
               "powermeta_roles": null,
               "powermeta_title": "首页"
             },
-            "power_path": "/profile",
+            "power_path": "profile",
             "power_redirect": null,
             "power_status": 41
           }
@@ -36,7 +36,7 @@ const user = {
           "powermeta_roles": null,
           "powermeta_title": "首页"
         },
-        "power_path": "index",
+        "power_path": "/index",
         "power_redirect": "/profile",
         "power_status": 41
       },

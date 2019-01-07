@@ -34,9 +34,9 @@
         >
         </el-table-column>
         <el-table-column
+          prop="approval_level"
           label="是否设置多级审批"
         >
-          <template slot-scope="scope">是</template>
         </el-table-column>
         <el-table-column
           prop="address"
