@@ -19,6 +19,7 @@ class ANotice(Resource):
         apis = {
             "get_notice_list": self.notice.get_notice_list,
             "get_my_notice": self.notice.get_my_notice,
-            "get_notice_message": self.notice.get_notice_message
+            "get_notice_message": self.notice.get_notice_message,
+            "get_index_message": self.notice.get_index_message
         }
         return apis

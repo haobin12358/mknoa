@@ -30,7 +30,7 @@ class SApproval(SBase):
             .filter_by(approval_status=91).offset(page_size * (page_num - 1)).limit(page_size).all()
 
     def get_approval_list_count(self):
-        return self.session.query(Approvals.approval_id, Approvals.approval_name) \
+        return self.session.query(Approvals.approval_id, Approvals.approval_name, Approvals.approval_updatetime) \
             .filter_by(approval_status=91).all()
 
     def get_approval_list_by_none(self):

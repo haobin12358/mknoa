@@ -2,16 +2,20 @@ from flask import request
 from mknoa.common.params_validates import parameter_required
 from mknoa.common.base_service import get_session
 from mknoa.service.SNotice import SNotice
+from mknoa.service.SApproval import SApproval
 from mknoa.common.success_response import Success
+from mknoa.service.SUsers import SUsers
+from mknoa.service.SMoulds import SMoulds
 from mknoa.common.error_response import TokenError, ParamsError, AuthorityError
 from mknoa.common.token_handler import usid_to_token, token_to_usid
 from mknoa.common.get_model_return_list import get_model_return_dict, get_model_return_list
 from mknoa.extensions.register_ext import db
 from mknoa.models.notice import Notice
+from mknoa.common.due_power import user_can_use
 
 import uuid, datetime, json
 
-class CNotice(SNotice):
+class CNotice(SNotice, SApproval, SUsers, SMoulds):
 
     @get_session
     def new_notice(self):
@@ -128,8 +132,95 @@ class CNotice(SNotice):
         if "notice_id" not in args.keys():
             return ParamsError("参数缺失，请检查notice_id的合法性")
         notice_message = get_model_return_dict(self.get_notice_message_by_noticeid(args["notice_id"]))
-        if notice_message["user_id"] != "":
-            notice_message["user_id"] = notice_message["user_id"].split("#")
-        if notice_message["tag_id"] != "":
-            notice_message["tag_id"] = notice_message["tag_id"].split("#")
+        if notice_message["user_id"]:
+            notice_message["user_list"] = notice_message["user_id"].split("#")
+            del (notice_message["user_id"])
+        else:
+            notice_message["user_list"] = ""
+            del (notice_message["user_id"])
+        if notice_message["tag_id"]:
+            notice_message["tag_list"] = notice_message["tag_id"].split("#")
+            del(notice_message["tag_id"])
+        else:
+            notice_message["tag_list"] = ""
+            del (notice_message["tag_id"])
         return Success("获取公告详情成功", data=notice_message)
+
+    @get_session
+    def get_index_message(self):
+        args = request.args.to_dict()
+        if "token" not in args:
+            return TokenError("未登录")
+        user_tree = user_can_use(args["token"], "notice")
+        user_id = user_tree["user_id"]
+        if user_id != "1":
+            # 我发起的待审核
+            len_wait_my_suggest = len(get_model_return_list(self.get_approvalsub_by_userid_status(user_id, "未审批")))
+            # 我发起的已审核
+            len_sov_my_suggest = len(get_model_return_list(self.get_approvalsub_by_userid_status(user_id, "已审批")))
+            tag_list = user_tree["tag_dict"]
+            wait_my_resove_suggest = []
+            sov_my_resove_suggest = []
+            notice_list = []
+            notice_id_list = []
+            for tag in tag_list:
+                wait_my_resove_suggest = get_model_return_list(self.get_approvalsov_by_tagid_status(tag, "未审批")) + wait_my_resove_suggest
+                sov_my_resove_suggest = get_model_return_list(self.get_approvalsov_by_tagid_status(tag, "已审批")) + sov_my_resove_suggest
+                notice_message = get_model_return_list(self.get_notice_list_three_item(user_id, tag))
+                for row in notice_message:
+                    if row["notice_id"] not in notice_id_list:
+                        notice_id_list.append(row["notice_id"])
+                        notice_list.append(row)
+                notice_message_public = get_model_return_list(self.get_notice_list_by_none())
+                for row in notice_message_public:
+                    if row["notice_id"] not in notice_id_list:
+                        notice_id_list.append(row["notice_id"])
+                        notice_list.append(row)
+            # 我收到的待审核
+            len_wait_my_resove_suggest = len(wait_my_resove_suggest)
+            # 我收到的已审核
+            len_sov_my_resove_suggest = len(sov_my_resove_suggest)
+
+            # 身份数目
+            len_tag_list = len(get_model_return_list(self.get_taglist_count(user_id)))
+            # 通知
+            notice_list = notice_list[0:3]
+            response = {}
+            response["len_wait_my_suggest"] = len_wait_my_suggest
+            response["len_sov_my_suggest"] = len_sov_my_suggest
+            response["len_wait_my_resove_suggest"] = len_wait_my_resove_suggest
+            response["len_sov_my_resove_suggest"] = len_sov_my_resove_suggest
+            response["len_tag_list"] = len_tag_list
+            response["notice_list"] = notice_list
+            return Success("获取用户首页成功", data=response)
+        else:
+            # 身份数目
+            len_tag_list = len(get_model_return_list(self.get_taglist_count(user_id)))
+            # 账号数目
+            len_user_list = len(get_model_return_list(self.get_userlist()))
+            # 公告列表
+            notice_message_public = get_model_return_list(self.get_notice_list_by_none())
+            notice_message_public = notice_message_public[0:2]
+            # 模板列表
+            mould_list = get_model_return_list(self.get_mould_count())
+            mould_list = mould_list[0:9]
+            # 审批流列表
+            approval_list = get_model_return_list(self.get_approval_list_count())
+            for approval in approval_list:
+                approval_level_list = get_model_return_list(
+                    self.get_approvallevel_by_approvalid(approval["approval_id"]))
+                if len(approval_level_list) > 1:
+                    approval["approval_level"] = "已设置多级审批"
+                elif len(approval_level_list) == 1:
+                    approval["approval_level"] = "未设置多级审批"
+                else:
+                    approval["approval_level"] = "异常状态"
+            approval_list = approval_list[0:6]
+            response = {}
+            response["len_tag_list"] = len_tag_list
+            response["len_user_list"] = len_user_list
+            response["notice_message_public"] = notice_message_public
+            response["mould_list"] = mould_list
+            response["approval_list"] = approval_list
+
+            return Success("获取超级管理员首页成功", data=response)

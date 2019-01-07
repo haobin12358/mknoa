@@ -21,3 +21,12 @@ class SNotice(SBase):
     def get_notice_message_by_noticeid(self, notice_id):
         return self.session.query(Notice.notice_title, Notice.notice_message, Notice.user_id, Notice.tag_id)\
             .filter_by(notice_id=notice_id).first()
+
+    def get_notice_list_three_item(self, user_id, tag_id):
+        return self.session.query(Notice.notice_id, Notice.notice_message, Notice.notice_updatetime)\
+            .filter(Notice.user_id == user_id).filter(Notice.tag_id.like("%{0}%".format(tag_id)))\
+            .order_by(Notice.notice_updatetime.desc()).all()
+
+    def get_notice_list_by_none(self):
+        return self.session.query(Notice.notice_id, Notice.notice_message, Notice.notice_updatetime)\
+            .filter_by(user_id=None).filter_by(tag_id=None).order_by(Notice.notice_updatetime.desc()).all()
