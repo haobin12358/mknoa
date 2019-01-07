@@ -20,7 +20,7 @@ class CNotice(SNotice):
             return ParamsError("请填写标题")
         if "notice_message" not in data:
             return ParamsError("请填写内容")
-        if "tag_list" in data:
+        if "tag_list" in data and data["tag_list"]:
             tag_list = data["tag_list"]
             tag = ""
             for row in tag_list:
@@ -29,7 +29,7 @@ class CNotice(SNotice):
                 tag = tag + row
         else:
             tag = None
-        if "user_list" in data:
+        if "user_list" in data and data["user_list"]:
             user_list = data["user_list"]
             user = ""
             for row in user_list:
@@ -54,7 +54,29 @@ class CNotice(SNotice):
 
     @get_session
     def update_notice(self):
-        data = parameter_required(("notice_title", "notice_message"))
+        data = json.loads(request.data)
+        if "notice_title" not in data:
+            return ParamsError("请填写标题")
+        if "notice_message" not in data:
+            return ParamsError("请填写内容")
+        if "tag_list" in data and data["tag_list"]:
+            tag_list = data["tag_list"]
+            tag = ""
+            for row in tag_list:
+                if tag != "":
+                    tag = tag + "#"
+                tag = tag + row
+        else:
+            tag = None
+        if "user_list" in data and data["user_list"]:
+            user_list = data["user_list"]
+            user = ""
+            for row in user_list:
+                if user != "":
+                    user = user + "#"
+                user = user + row
+        else:
+            user = None
         args = request.args.to_dict()
         if "notice_id" not in args:
             return ParamsError("参数缺失，请检查notice_id合法性")
@@ -62,7 +84,9 @@ class CNotice(SNotice):
                                              {
                                                  "notice_title": data.get("notice_title"),
                                                  "notice_message": data.get("notice_message"),
-                                                 "notice_updatetime": datetime.datetime.now()
+                                                 "notice_updatetime": datetime.datetime.now(),
+                                                 "tag_id": tag,
+                                                 "user_id": user
                                              })
         return Success("更新公告成功")
 
@@ -104,4 +128,8 @@ class CNotice(SNotice):
         if "notice_id" not in args.keys():
             return ParamsError("参数缺失，请检查notice_id的合法性")
         notice_message = get_model_return_dict(self.get_notice_message_by_noticeid(args["notice_id"]))
+        if notice_message["user_id"] != "":
+            notice_message["user_id"] = notice_message["user_id"].split("#")
+        if notice_message["tag_id"] != "":
+            notice_message["tag_id"] = notice_message["tag_id"].split("#")
         return Success("获取公告详情成功", data=notice_message)

@@ -19,4 +19,5 @@ class SNotice(SBase):
             .filter_by(notice_status=141).all()
 
     def get_notice_message_by_noticeid(self, notice_id):
-        return self.session.query(Notice.notice_title, Notice.notice_message).filter_by(notice_id=notice_id).first()
+        return self.session.query(Notice.notice_title, Notice.notice_message, Notice.user_id, Notice.tag_id)\
+            .filter_by(notice_id=notice_id).first()

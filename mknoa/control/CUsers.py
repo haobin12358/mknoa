@@ -501,6 +501,23 @@ class CUsers(SUsers, SPowers):
         }
 
     @get_session
+    def get_all_user_easy(self):
+        args = request.args.to_dict()
+        if "token" not in args.keys():
+            return TokenError("未登录")
+
+        user_list = get_model_return_list(self.get_userlist())
+        for user in user_list:
+            if user["user_id"] == "1":
+                del (user_list[user_list.index(user)])
+
+        return {
+            "status": 200,
+            "message": "获取标签列表成功",
+            "data": user_list
+        }
+
+    @get_session
     def get_tags_all(self):
         all_tags = get_model_return_list(self.get_all_tag_by_none())
         return Success("获取身份下拉列表成功", data=all_tags)

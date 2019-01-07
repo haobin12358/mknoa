@@ -26,6 +26,7 @@ class AUser(Resource):
             "get_tag_message": self.user.get_tag_message,
             "get_my_message": self.user.get_my_message,
             "get_all_user": self.user.get_all_user,
-            "get_tags_all": self.user.get_tags_all
+            "get_tags_all": self.user.get_tags_all,
+            "get_all_user_easy": self.user.get_all_user_easy
         }
         return apis
