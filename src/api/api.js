@@ -5,6 +5,7 @@ const title = 'https://mknoa.lkfcni.cn/api/v1/'
 
 const api = {
   login: title + 'user/login',                                      //用户登录
+  get_index_message:title + 'notice/get_index_message',//首页
   get_all_user: title +'user/get_all_user',//获取用户列表
   get_my_message: title + 'user/get_my_message',//获取用户详情
   new_user: title + 'user/new_user',//生成用户

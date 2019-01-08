@@ -1,179 +1,285 @@
 <template>
   <div class="container m-index">
-    <el-row :gutter="24" class="m-index-top">
-      <el-col :span="6" :xs="12">
-        <el-card class="box-card">
-          <p>
-            <svg-icon icon-class="icon-card" />
-            <span>身份管理</span>
-          </p>
-          <div class="m-num-box">
-            <span class="m-num">25</span>
-            <span>个</span>
-          </div>
-          <div class="m-index-top-btn m-orange">
-            <span>+ 新建身份</span>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6" :xs="12">
-        <el-card class="box-card">
-          <p>
-            <svg-icon icon-class="icon-people" />
-            <span>账号管理</span>
-          </p>
-          <div class="m-num-box">
-            <span class="m-num">25</span>
-            <span>个</span>
-          </div>
-          <div class="m-index-top-btn m-purple">
-            <span>+ 新建账号</span>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="12" :xs="24">
-        <el-card class="box-card">
-          <p class="m-flex-between">
+    <div v-if="is_admin">
+      <el-row :gutter="24" class="m-index-top">
+        <el-col :span="6" :xs="12">
+          <el-card class="box-card">
+            <p>
+              <svg-icon icon-class="icon-card" />
+              <span>身份管理</span>
+            </p>
+            <div class="m-num-box">
+              <span class="m-num">{{index_data.len_tag_list}}</span>
+              <span>个</span>
+            </div>
+            <div class="m-index-top-btn m-orange" @click="changeRoute('/role/editRole')">
+              <span>+ 新建身份</span>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="6" :xs="12">
+          <el-card class="box-card">
+            <p>
+              <svg-icon icon-class="icon-people" />
+              <span>账号管理</span>
+            </p>
+            <div class="m-num-box">
+              <span class="m-num">{{index_data.len_user_list}}</span>
+              <span>个</span>
+            </div>
+            <div class="m-index-top-btn m-purple" @click="changeRoute('/account/editAccount')">
+              <span>+ 新建账号</span>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="12" :xs="24">
+          <el-card class="box-card">
+            <p class="m-flex-between">
             <span>
               <svg-icon icon-class="icon-announcement" />
              <span>公告管理</span>
             </span>
-            <span class="m-grey">查看更多</span>
-          </p>
-          <div class="m-announcement-box">
-            <p class="m-flex-between m-one-announcement">
-              <span>关于批发系统12月31日停止运营的业务公告</span>
-              <span>2018-12-01</span>
+              <span class="m-grey" @click="changeRoute('/announcement')">查看更多</span>
             </p>
-            <p class="m-flex-between m-one-announcement">
-              <span>关于批发系统12月31日停止运营的业务公告</span>
-              <span>2018-12-01</span>
-            </p>
-          </div>
-          <div class="m-index-top-btn m-pink">
-            <span>+ 新建广告</span>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20" class="m-index-bottom">
-      <el-col :span="12" :xs="24">
-        <el-card class="box-card">
-          <div slot="header" class="m-flex-between">
+            <div class="m-announcement-box">
+              <p class="m-flex-between m-one-announcement" v-for="(item,index) in index_data.notice_message_public" @click="changeRoute('/announcement/editAnnouncement','notice',item)">
+                <span>{{item.notice_message}}</span>
+                <span>{{item.notice_updatetime}}</span>
+              </p>
+            </div>
+            <div class="m-index-top-btn m-pink" @click="changeRoute('/announcement/editAnnouncement')">
+              <span>+ 新建公告</span>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20" class="m-index-bottom">
+        <el-col :span="12" :xs="24">
+          <el-card class="box-card">
+            <div slot="header" class="m-flex-between">
             <span>
               <svg-icon icon-class="icon-approve" />
               <span>审批流管理</span>
             </span>
-            <span class="m-card-btn m-yellow">+ 新建审批流</span>
-          </div>
-          <div class="m-scroll">
-            <ul class="m-approve-ul">
-              <li>
+              <span class="m-card-btn m-yellow" @click="changeRoute('/approve/editApprove')">+ 新建审批流</span>
+            </div>
+            <div class="m-scroll">
+              <ul class="m-approve-ul">
+                <li v-for="(item,index) in index_data.approval_list" @click="changeRoute('/approve/editApprove','approval',item)">
              <span>
-               <span>审批流名称1</span>
-                <span class="m-grey">（已设置多级审批）</span>
+               <span>{{item.approval_name}}</span>
+                <span class="m-grey">（{{item.approval_level}}）</span>
              </span>
-                <span class="m-grey">2018-12-01更新</span>
-              </li>
-              <li>
-             <span>
-               <span>审批流名称1</span>
-                <span class="m-grey">（已设置多级审批）</span>
-             </span>
-                <span class="m-grey">2018-12-01更新</span>
-              </li>
-              <li>
-             <span>
-               <span>审批流名称1</span>
-                <span class="m-grey">（已设置多级审批）</span>
-             </span>
-                <span class="m-grey">2018-12-01更新</span>
-              </li>
-              <li>
-             <span>
-               <span>审批流名称1</span>
-                <span class="m-grey">（已设置多级审批）</span>
-             </span>
-                <span class="m-grey">2018-12-01更新</span>
-              </li>
-              <li>
-             <span>
-               <span>审批流名称1</span>
-                <span class="m-grey">（已设置多级审批）</span>
-             </span>
-                <span class="m-grey">2018-12-01更新</span>
-              </li>
-            </ul>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="12" :xs="24">
-        <el-card class="box-card">
-          <div slot="header" class="m-flex-between">
+                  <span class="m-grey">{{item.approval_updatetime}}更新</span>
+                </li>
+              </ul>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="12" :xs="24">
+          <el-card class="box-card">
+            <div slot="header" class="m-flex-between">
             <span>
               <svg-icon icon-class="icon-moban" />
               <span>模板管理</span>
             </span>
 
-            <span class="m-card-btn m-blue">+ 新建模板</span>
-          </div>
-          <div class="m-scroll">
-            <ul class="m-template-ul">
-              <li>
-                <span>模板名称1</span>
-              </li>
-              <li>
-                <span>模板名称1</span>
-              </li>
-              <li>
-                <span>模板名称1</span>
-              </li>
-              <li>
-                <span>模板名称1</span>
-              </li>
-              <li>
-                <span>模板名称1</span>
-              </li>
-              <li>
-                <span>模板名称1</span>
-              </li>
-              <li>
-                <span>模板名称1</span>
-              </li>
-              <li>
-                <span>模板名称1</span>
-              </li>
-              <li>
-                <span>模板名称1</span>
-              </li>
-              <li>
-                <span>模板名称1</span>
-              </li>
-            </ul>
-          </div>
+              <span class="m-card-btn m-blue" @click="changeRoute('/module/editModule')">+ 新建模板</span>
+            </div>
+            <div class="m-scroll">
+              <ul class="m-template-ul">
+                <li v-for="(item,index) in index_data.mould_list" @click="changeRoute('/module/editModule','module',item)">
+                  <span>{{item.mould_name}}</span>
+                </li>
 
-        </el-card>
-      </el-col>
-    </el-row>
+              </ul>
+            </div>
+
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
+    <div v-else>
+      <el-row :gutter="24" class="m-index-top">
+        <el-col :span="9" :xs="24">
+          <el-card class="box-card">
+            <p>
+              <svg-icon icon-class="icon-approve" />
+              <span>我发起的审批</span>
+            </p>
+            <div class="m-num-box m-normal">
+              <div class="m-num-box-one">
+                <p>
+                  <span class="m-num">{{normal_data.len_wait_my_suggest}}</span>
+                  <span>个</span>
+                </p>
+                <p class="m-alert">待审批</p>
+              </div>
+              <div  class="m-num-box-one">
+                <p>
+                  <span class="m-num">{{normal_data.len_sov_my_suggest}}</span>
+                  <span>个</span>
+                </p>
+                <p class="m-alert">已审批</p>
+              </div>
+            </div>
+            <div class="m-index-top-btn m-orange" @click="changeRoute('/allApprove')">
+              <span>+ 发起审批</span>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="9" :xs="24">
+          <el-card class="box-card">
+            <p>
+              <svg-icon icon-class="icon-approve" />
+              <span>提交给我的审批</span>
+            </p>
+            <div class="m-num-box m-normal">
+              <div class="m-num-box-one">
+                <p>
+                  <span class="m-num">{{normal_data.len_wait_my_resove_suggest}}</span>
+                  <span>个</span>
+                </p>
+                <p class="m-alert">待审批</p>
+              </div>
+              <div  class="m-num-box-one">
+                <p>
+                  <span class="m-num">{{normal_data.len_sov_my_resove_suggest}}</span>
+                  <span>个</span>
+                </p>
+                <p class="m-alert">已审批</p>
+              </div>
+            </div>
+            <div class="m-index-top-btn m-orange" @click="changeRoute('/allApprove')">
+              <span>+ 去审批</span>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="6" :xs="24">
+          <el-card class="box-card">
+            <p class="m-flex-between">
+            <span>
+              <svg-icon icon-class="icon-card" />
+             <span>身份管理</span>
+            </span>
+
+            </p>
+            <div class="m-num-box">
+              <span class="m-num">{{normal_data.len_tag_list}}</span>
+              <span>个</span>
+            </div>
+            <div class="m-index-top-btn m-orange" @click="changeRoute('/role/editRole')">
+              <span>+ 新建身份</span>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20" class="m-index-bottom">
+        <el-col :span="18" :xs="24">
+          <el-card class="box-card">
+            <div slot="header" class="m-flex-between">
+            <span>
+              <svg-icon icon-class="icon-announcement" />
+              <span>平台公告</span>
+            </span>
+              <span class="m-grey" @click="changeRoute('/announcement')">查看更多</span>
+            </div>
+            <div class="m-scroll">
+              <ul class="m-approve-ul">
+                <li v-for="(item,index) in normal_data.notice_list" @click="changeRoute('/approve/editApprove','approval',item)">
+                <div >{{item.notice_message}}
+               </div>
+                  <span class="m-grey m-time">{{item.notice_updatetime}}</span>
+                </li>
+              </ul>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="6" :xs="24">
+          <el-card class="box-card">
+            <div slot="header" class="m-flex-between">
+            <span>
+              <svg-icon icon-class="icon-message" />
+              <span>短信提醒</span>
+            </span>
+
+            </div>
+            <div class="m-scroll m-message">
+              <p>
+                <img src="../../common/images/icon-message.png"  alt="">
+              </p>
+              <p>
+                <span class="m-message-btn">+ 新建短信提醒</span>
+              </p>
+            </div>
+
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
+
   </div>
 </template>
 
 <script>
+  import axios from 'axios';
+  import api from '../../api/api'
   export default {
     name: 'ProfileIndex',
 
     components: {},
 
     data() {
-      return {}
+      return {
+        index_data:null,
+        normal_data:null,
+        is_admin:false
+      }
     },
 
     computed: {},
 
-    methods: {},
+    methods: {
+      getData(){
+        axios.get(api.get_index_message,{
+          params:{
+            token:localStorage.getItem('token')
+          }
+        }).then(res => {
+            if(res.data.status == 200){
+              console.log(res.data.message.indexOf('超级管理员'))
+              if(res.data.message.indexOf('超级管理员') != -1){
+                this.index_data = res.data.data;
+                this.is_admin = true;
+              }else{
+                this.normal_data = res.data.data;
+                this.is_admin = false;
+              }
+
+            }
+        })
+      },
+      /*改变路由*/
+      changeRoute(path,name,item){
+        switch (name){
+          case 'notice':
+            this.$router.push({path:path,query:{notice_id:item.notice_id}});
+            break;
+          case 'approval':
+            this.$router.push({path:path,query:{approval_id:item.approval_id}});
+            break;
+          case 'module':
+            this.$router.push({path:path,query:{mould_id:item.mould_id}});
+            break;
+          default:
+            this.$router.push({path:path});
+        }
+
+      },
+    },
 
     created() {
-
+      this.getData();
     }
   }
 </script>
@@ -190,6 +296,24 @@
       margin: 30px 0;
       .m-num{
         font-size: 55px;
+      }
+      &.m-normal{
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+        align-items: center;
+        margin: 24px 0;
+        .m-alert{
+          font-size: 12px;
+          color: #B9B9B9;
+        }
+        .m-num-box-one{
+          width: 48%;
+          text-align: center;
+          &:first-child{
+            border-right: 1px solid #eee;
+          }
+        }
       }
     }
     .m-index-top-btn{
@@ -250,15 +374,18 @@
     }
     .m-approve-ul{
       li{
-        height:56px;
-        line-height: 56px;
+        padding: 20px;
         background:rgba(247,248,255,1);
-        padding: 0 10px;
         border-radius:8px;
         display: flex;
-        align-items: center;
+        flex-flow: row;
+        align-items: flex-start;
         justify-content: space-between;
         margin-bottom: 20px;
+        .m-time{
+          width: 20%;
+          text-align: right;
+        }
       }
     }
     .m-template-ul{
@@ -271,7 +398,10 @@
         width: 130px;
         height: 130px;
         background:rgba(247,248,255,1);
-        line-height: 130px;
+        /*line-height: 130px;*/
+        display: flex;
+        flex-flow: row;
+        align-items: center;
         border-radius:8px;
         text-align: center;
         margin-right: 16px;
@@ -280,6 +410,26 @@
           margin-right: 0;
         }
       }
+    }
+  }
+  .m-message{
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    img{
+      display: block;
+      width: 67px;
+      height:67px;
+      margin-bottom: 20px;
+    }
+    .m-message-btn{
+      padding: 10px 32px;
+      color: #fff;
+      background:rgba(255,115,115,1);
+      border-radius:23px;
+      margin-top: 20px;
     }
   }
 }
