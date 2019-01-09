@@ -12,3 +12,10 @@ class ACommon(Resource):
             "upload_files": self.common.upload_files
         }
         return apis
+
+    def get(self, common):
+        apis = {
+            "get_product_list": self.common.get_product_list,
+            "get_qyt_list": self.common.get_qyt_list
+        }
+        return apis

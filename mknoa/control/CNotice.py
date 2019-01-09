@@ -108,23 +108,100 @@ class CNotice(SNotice, SApproval, SUsers, SMoulds):
     @get_session
     def get_notice_list(self):
         args = request.args.to_dict()
-        if "page_size" not in args.keys() or "page_num" not in args.keys():
-            return ParamsError("参数缺失，请检查page_size和page_num的合法性")
-        notice_list = get_model_return_list(self.get_notice_list_by_page(int(args["page_size"]), int(args["page_num"])))
-        notice_count = get_model_return_list(self.get_notice_list_count())
-        for notice in notice_list:
-            notice["notice_updatetime"] = notice["notice_updatetime"].strftime("%Y-%m-%d")
-        return {
-            "status": 200,
-            "message": "获取公告列表成功",
-            "data": notice_list,
-            "total_count": len(notice_count),
-            "total_page": int(len(notice_count) / int(args["page_size"])) + 1
-        }
+        if "token" not in args:
+            return TokenError("未登录")
+        user_tree = user_can_use(args["token"], "notice")
+        user_id = user_tree["user_id"]
+        if "page_size" not in args or "page_num" not in args:
+            return ParamsError("参数异常，请检查page_size和page_num合法性")
+        page_size = int(args["page_size"])
+        page_num = int(args["page_num"])
+        if user_id != "1":
+            tag_list = user_tree["tag_dict"]
+            notice_list = []
+            notice_id_list = []
+            for tag in tag_list:
+                notice_message = get_model_return_list(self.get_notice_list_three_item(user_id, tag))
+                for row in notice_message:
+                    if row["notice_id"] not in notice_id_list:
+                        notice_id_list.append(row["notice_id"])
+                        notice_list.append(row)
+                notice_message_public = get_model_return_list(self.get_notice_list_by_none())
+                for row in notice_message_public:
+                    if row["notice_id"] not in notice_id_list:
+                        notice_id_list.append(row["notice_id"])
+                        notice_list.append(row)
+            total_count = len(notice_list)
+            total_page = int(total_count / page_size) + 1
+            notice_list = notice_list[(page_num - 1) * page_size: page_num * page_size]
+            return {
+                "status": 200,
+                "message": "获取公告列表成功",
+                "total_page": total_page,
+                "total_count": total_count,
+                "notice_list": notice_list
+            }
+        else:
+            notice_message_public = get_model_return_list(self.get_notice_list_by_none())
+            total_count = len(notice_message_public)
+            total_page = int(total_count / page_size) + 1
+            notice_list = notice_message_public[(page_num - 1) * page_size: page_num * page_size]
+            return {
+                "status": 200,
+                "message": "获取公告列表成功",
+                "total_page": total_page,
+                "total_count": total_count,
+                "notice_list": notice_list
+            }
 
     @get_session
     def get_my_notice(self):
-        pass
+        args = request.args.to_dict()
+        if "token" not in args:
+            return TokenError("未登录")
+        user_tree = user_can_use(args["token"], "notice")
+        user_id = user_tree["user_id"]
+        if "page_size" not in args or "page_num" not in args:
+            return ParamsError("参数异常，请检查page_size和page_num合法性")
+        page_size = int(args["page_size"])
+        page_num = int(args["page_num"])
+        if user_id != "1":
+            tag_list = user_tree["tag_dict"]
+            notice_list = []
+            notice_id_list = []
+            for tag in tag_list:
+                notice_message = get_model_return_list(self.get_notice_list_three_item(user_id, tag))
+                for row in notice_message:
+                    if row["notice_id"] not in notice_id_list:
+                        notice_id_list.append(row["notice_id"])
+                        notice_list.append(row)
+                notice_message_public = get_model_return_list(self.get_notice_list_by_none())
+                for row in notice_message_public:
+                    if row["notice_id"] not in notice_id_list:
+                        notice_id_list.append(row["notice_id"])
+                        notice_list.append(row)
+            total_count = len(notice_list)
+            total_page = int(total_count / page_size) + 1
+            notice_list = notice_list[(page_num - 1) * page_size: page_num * page_size]
+            return {
+                "status": 200,
+                "message": "获取公告列表成功",
+                "total_page": total_page,
+                "total_count": total_count,
+                "notice_list": notice_list
+            }
+        else:
+            notice_message_public = get_model_return_list(self.get_notice_list_by_none())
+            total_count = len(notice_message_public)
+            total_page = int(total_count / page_size) + 1
+            notice_list = notice_message_public[(page_num - 1) * page_size: page_num * page_size]
+            return {
+                "status": 200,
+                "message": "获取公告列表成功",
+                "total_page": total_page,
+                "total_count": total_count,
+                "notice_list": notice_list
+            }
 
     @get_session
     def get_notice_message(self):
@@ -224,3 +301,32 @@ class CNotice(SNotice, SApproval, SUsers, SMoulds):
             response["approval_list"] = approval_list
 
             return Success("获取超级管理员首页成功", data=response)
+
+    @get_session
+    def send_message(self):
+        args = request.args.to_dict()
+        if "token" not in args:
+            return TokenError("未登录")
+        data = json.loads(request.data)
+        if "telphone" not in data:
+            return ParamsError("请输入手机号")
+        if "message" not in data:
+            return ParamsError("请输入要发送的内容")
+        user = get_model_return_dict(self.get_user_by_usertelphone(data["telphone"]))
+        if user:
+            user_id = user["user_id"]
+            new_notice = Notice.create({
+                "notice_id": str(uuid.uuid1()),
+                "notice_title": "通知",
+                "notice_message": data["message"],
+                "notice_createtime": datetime.datetime.now(),
+                "notice_updatetime": datetime.datetime.now(),
+                "notice_status": 141,
+                "user_id": user_id
+            })
+            db.session.add(new_notice)
+
+        else:
+            pass
+        # TODO 短信通知
+        return Success("发送成功")

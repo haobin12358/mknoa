@@ -11,7 +11,8 @@ class ANotice(Resource):
         apis = {
             "new_notice": self.notice.new_notice,
             "update_notice": self.notice.update_notice,
-            "delete_notice": self.notice.delete_notice
+            "delete_notice": self.notice.delete_notice,
+            "send_message": self.notice.send_message
         }
         return apis
 

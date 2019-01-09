@@ -21,7 +21,7 @@ class SUsers(SBase):
         return self.session.query(UserTags.tag_id).filter_by(user_id=user_id).filter_by(usertag_status=31).all()
 
     def get_tagname_by_tagid(self, tag_id):
-        return self.session.query(Tags.tag_name, Tags.tag_level, Tags.tag_id, Tags.tag_status)\
+        return self.session.query(Tags.tag_name, Tags.tag_level, Tags.tag_id, Tags.tag_status, Tags.tag_sn)\
             .filter_by(tag_id=tag_id).first()
 
     def get_username_by_userid(self, user_id):
@@ -89,3 +89,6 @@ class SUsers(SBase):
 
     def get_usertagid_by_userid(self, user_id):
         return self.session.query(UserTags.usertag_id).filter_by(user_id=user_id).filter_by(usertag_status=31).all()
+
+    def get_user_by_usertelphone(self, user_telphone):
+        return self.session.query(Users.user_id).filter_by(user_telphone=user_telphone).filter_by(user_status=11).first()
