@@ -186,7 +186,7 @@
             </div>
             <div class="m-scroll">
               <ul class="m-approve-ul">
-                <li v-for="(item,index) in normal_data.notice_list" @click="changeRoute('/approve/editApprove','approval',item)">
+                <li v-for="(item,index) in normal_data.notice_list" @click="changeRoute('/announcement/editAnnouncement','notice',item)">
                 <div >{{item.notice_message}}
                </div>
                   <span class="m-grey m-time">{{item.notice_updatetime}}</span>
@@ -209,7 +209,7 @@
                 <img src="../../common/images/icon-message.png"  alt="">
               </p>
               <p>
-                <span class="m-message-btn">+ 新建短信提醒</span>
+                <span class="m-message-btn" @click="show_message = true">+ 新建短信提醒</span>
               </p>
             </div>
 
@@ -217,7 +217,33 @@
         </el-col>
       </el-row>
     </div>
-
+    <div class="m-modal" v-if="show_message" >
+      <div class="m-modal-state">
+        <div class="m-modal-head m-flex-between">
+          <span>
+               <svg-icon icon-class="icon-message" />
+              <span>短信提醒</span>
+          </span>
+          <span @click="show_message = false" class="m-close">X</span>
+        </div>
+        <div class="m-modal-content">
+          <el-form ref="form" :model="form" label-width="100px">
+            <el-form-item label="联系电话：">
+              <el-input v-model="form.telphone"></el-input>
+            </el-form-item>
+            <el-form-item label="短信内容：">
+              <el-input type="textarea" v-model="form.message"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <div class="m-form-btn">
+                <span class="active" @click.stop="sendMessage">发送</span>
+                <span @click="show_message = false">取消</span>
+              </div>
+            </el-form-item>
+          </el-form>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -233,7 +259,12 @@
       return {
         index_data:null,
         normal_data:null,
-        is_admin:false
+        is_admin:false,
+        show_message:false,
+        form:{
+          telphone:'',
+          message:''
+        }
       }
     },
 
@@ -263,7 +294,7 @@
       changeRoute(path,name,item){
         switch (name){
           case 'notice':
-            this.$router.push({path:path,query:{notice_id:item.notice_id}});
+            this.$router.push({path:path,query:{notice_id:item.notice_id,is_read:this.is_admin}});
             break;
           case 'approval':
             this.$router.push({path:path,query:{approval_id:item.approval_id}});
@@ -276,6 +307,24 @@
         }
 
       },
+      //发送短信
+      sendMessage(){
+        axios.post(api.send_message + '?token=' +localStorage.getItem('token'),this.form).then(res => {
+          if(res.data.status == 200){
+            this.show_message = false;
+            this.$notify({
+              title: '成功',
+              message: res.data.message,
+              type: 'success'
+            });
+          }else{
+            this.$notify.error({
+              title: '错误',
+              message: res.data.message
+            });
+          }
+        })
+      }
     },
 
     created() {
@@ -455,5 +504,37 @@
     border-radius: 20px;
     -webkit-box-shadow: inset 0 0 6px #BBBBBB;
     background-color: #fff;
+  }
+
+  .m-modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.5);
+    .m-modal-state{
+      margin: 10% auto ;
+      width: 680px;
+      /*height: 25%;*/
+      background-color: #fff;
+      border-radius: 8px;
+      .m-modal-head{
+        padding: 25px;
+        background-color: #F5F6FF;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        .m-close{
+          color: #A9A9A9;
+          cursor: pointer;
+        }
+      }
+      .m-modal-content{
+        padding: 25px 50px;
+      }
+    }
   }
 </style>

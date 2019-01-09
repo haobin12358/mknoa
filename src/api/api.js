@@ -46,6 +46,9 @@ const api = {
   approve_approval_list: title + 'approval/approve_approval_list',//我收到的审批流
   approve_approval_message: title +'approval/approve_approval_message',//审批流详情
   approve_approval: title +'approval/approve_approval',//审批
+  get_product_list: title + 'common/get_product_list',//获取库存列表
+  get_qyt_list: title +'common/get_qyt_list',//获取今日销量
+  send_message: title +'notice/send_message',//发送短信
 }
 
 export default api

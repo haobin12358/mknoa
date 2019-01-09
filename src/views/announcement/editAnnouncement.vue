@@ -5,7 +5,7 @@
       <el-breadcrumb-item>编辑公告</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="m-form-container">
-      <el-form ref="noticeForm" :model="form" label-width="100px" :rules="rules">
+      <el-form ref="noticeForm" :model="form" label-width="100px" :rules="rules" :disabled="isRead">
         <el-form-item label="公告标题：" prop="notice_title">
           <el-input v-model="form.notice_title" ></el-input>
         </el-form-item>
@@ -68,6 +68,11 @@
       }
     },
     inject:['reload'],
+    computed:{
+      isRead(){
+        return this.$route.query.is_read
+      }
+    },
     mounted(){
       if(this.$route.query.notice_id){
         this.getDetail();
