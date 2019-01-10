@@ -35,3 +35,6 @@ class SProducts(SBase):
         if supplier_name:
             product = product.filter(Products.supplier_name.like("%{0}%".format(supplier_name)))
         return product.all()
+
+    def get_product_qyt_by_sku(self, sku_id):
+        return

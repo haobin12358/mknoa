@@ -16,6 +16,7 @@ class ACommon(Resource):
     def get(self, common):
         apis = {
             "get_product_list": self.common.get_product_list,
-            "get_qyt_list": self.common.get_qyt_list
+            "get_qyt_list": self.common.get_qyt_list,
+            "get_file": self.common.get_file
         }
         return apis

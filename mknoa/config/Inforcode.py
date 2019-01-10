@@ -13,3 +13,4 @@ ip = "http://47.104.228.112:8111/"
 LinuxTMP = "/tmp"
 WindowsTMP = "D:\\template"
 YDFILEROOT = r'E:\fstfile\uploadfile'
+LinuxFilePath = "/opt/imgs/mknoa/"

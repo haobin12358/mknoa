@@ -584,3 +584,23 @@ class CUsers(SUsers, SPowers):
                 "usertag_status": 31
             })
         return Success("更新用户成功")
+
+    @get_session
+    def delete_user(self):
+        args = request.args.to_dict()
+        if "token" not in args:
+            return TokenError("未登录")
+        user = user_can_use(args["token"], "user")
+        user_id = user["user_id"]
+        user_level = int(self._get_high_tag_level(user_id))
+        if user_level != 1 and user_id != "1":
+            return AuthorityError("无权限")
+        data = json.loads(request.data)
+        if "user_list" not in data:
+            return ParamsError("参数缺失，请检查user_list合法性")
+        for user_id in data["user_list"]:
+            update_user = self.s_update_user(user_id,
+                                             {
+                                                 "user_status": 12
+                                             })
+        return Success("删除用户成功")

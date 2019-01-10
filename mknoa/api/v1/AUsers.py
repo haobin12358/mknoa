@@ -15,7 +15,8 @@ class AUser(Resource):
             "delete_tag": self.user.delete_tag,
             "new_user": self.user.new_user,
             "update_user_info": self.user.update_user_info,
-            "update_password": self.user.update_password
+            "update_password": self.user.update_password,
+            "delete_user": self.user.delete_user
         }
         return apis
 

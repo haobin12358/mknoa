@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, current_app
 import os, uuid
 from mknoa.service.SProducts import SProducts
 from mknoa.service.SUsers import SUsers
@@ -105,3 +105,26 @@ class CCommon(SProducts, SUsers):
             "status":200,
             "message": "获取实时销售量成功"
         }
+
+    def get_file(self):
+        args = request.args.to_dict()
+
+        from mknoa.config import Inforcode
+        rootpath = Inforcode.LinuxFilePath
+        if "token" not in args:
+            return TokenError("未登录")
+
+        if "url" not in args:
+            return ParamsError("参数缺失")
+
+        if "FileType" not in args:
+            return ParamsError("文件类型缺失")
+        # if not os.path.isdir(rootdir):
+        url = args.get("url")
+        url = url.split("/")
+        filename = url[len(url) - 1]
+        rootpath = os.path.join(rootpath, args["FileType"])
+        filepath = os.path.join(rootpath, filename)
+        current_app.logger.info("filepath:" + str(filepath))
+        from flask import send_from_directory
+        return send_from_directory(rootpath, filename, as_attachment=True)
