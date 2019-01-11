@@ -140,7 +140,7 @@
         //预览
         handlePreviewPic(i,index) {
           this.dialogVisible = true;
-          this.dialogImageUrl = this.approval_message.approvalsub_lis[index].element_value[i];
+          this.dialogImageUrl = this.approval_message.approvalsub_list[index].element_value[i];
         },
         approvalSure(){
           axios.post(api.approve_approval

@@ -72,7 +72,19 @@
           >
           </el-table-column>
         </el-table>
-        <div class="m-bottom">
+        <div class="m-bottom m-flex-end">
+          <el-popover
+            placement="bottom"
+            width="200"
+            trigger="click">
+            <p class="m-page-size" :class="page_info_product.page_size == 10 ? 'active':''" @click="sizeChange(10,'product')">10</p>
+            <p class="m-page-size" :class="page_info_product.page_size == 20 ? 'active':''" @click="sizeChange(20,'product')">20</p>
+            <p class="m-page-size" :class="page_info_product.page_size == 30 ? 'active':''" @click="sizeChange(30,'product')">30</p>
+            <div slot="reference" class="m-flex-start">
+              <span class="m-grey">每页条数</span>
+              <el-input  v-model="page_info_product.page_size" class="m-input-num" type="number" @change="sizeChange(page_info_product.page_size,'product')" placeholder="每页条数"></el-input>
+            </div>
+          </el-popover>
           <page :total="total_page_product" @pageChange="pageChangeProduct"></page>
         </div>
       </el-tab-pane>
@@ -102,7 +114,19 @@
           </el-table-column>
 
         </el-table>
-        <div class="m-bottom">
+        <div class="m-bottom m-flex-end" >
+          <el-popover
+            placement="bottom"
+            width="200"
+            trigger="click">
+            <p class="m-page-size" :class="page_info_today.page_size == 10 ? 'active':''" @click="sizeChange(10,'today')">10</p>
+            <p class="m-page-size" :class="page_info_today.page_size == 20 ? 'active':''" @click="sizeChange(20,'today')">20</p>
+            <p class="m-page-size" :class="page_info_today.page_size == 30 ? 'active':''" @click="sizeChange(30,'today')">30</p>
+            <div slot="reference" class="m-flex-start">
+              <span class="m-grey">每页条数</span>
+              <el-input  v-model="page_info_today.page_size" class="m-input-num" type="number" @change="sizeChange(page_info_today.page_size,'today')" placeholder="每页条数"></el-input>
+            </div>
+          </el-popover>
           <page :total="total_page_today" @pageChange="pageChangeToday"></page>
         </div>
       </el-tab-pane>
@@ -115,7 +139,7 @@
           tooltip-effect="dark"
           style="width: 100%"
           :fit="true"
-          empty-text="暂无审批">
+          empty-text="暂无历史销售记录">
           <!--<el-table-column-->
           <!--type="selection"-->
           <!--width="55">-->
@@ -130,9 +154,25 @@
             label="销售数目"
           >
           </el-table-column>
-
+          <el-table-column
+            prop="sale_date"
+            label="销售时间"
+          >
+          </el-table-column>
         </el-table>
-        <div class="m-bottom">
+        <div class="m-bottom m-flex-end">
+          <el-popover
+            placement="bottom"
+            width="200"
+            trigger="click">
+            <p class="m-page-size" :class="page_info_history.page_size == 10 ? 'active':''" @click="sizeChange(10,'history')">10</p>
+            <p class="m-page-size" :class="page_info_history.page_size == 20 ? 'active':''" @click="sizeChange(20,'history')">20</p>
+            <p class="m-page-size" :class="page_info_history.page_size == 30 ? 'active':''" @click="sizeChange(30,'history')">30</p>
+            <div slot="reference" class="m-flex-start">
+              <span class="m-grey">每页条数</span>
+              <el-input  v-model="page_info_history.page_size" type="number" class="m-input-num" @change="sizeChange(page_info_history.page_size,'product')" placeholder="每页条数"></el-input>
+            </div>
+          </el-popover>
           <page :total="total_page" @pageChange="pageChange"></page>
         </div>
       </el-tab-pane>
@@ -276,7 +316,7 @@
       //  获取历史销量批
       getHistory(num,state){
         this.loading = true;
-        axios.get(api.get_qyt_list,{
+        axios.get(api.get_history_sale,{
           params:{
             token:localStorage.getItem('token'),
             page_num: num || this.page_info_history.page_num,
@@ -314,6 +354,23 @@
         }else{
           this.getHistory(1);
         }
+      },
+      sizeChange(size,name){
+        switch (name){
+          case 'product':
+            this.page_info_product.page_size = size;
+            this.getProduct(this.page_info_product.page_num);
+            break;
+          case 'today':
+            this.page_info_today.page_size = size;
+            this.getToday(this.page_info_today.page_num);
+            break;
+          case 'history':
+            this.page_info_history.page_size = size;
+            this.getHistory(this.page_info_history.page_num);
+            break;
+        }
+
       }
     }
   }

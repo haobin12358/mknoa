@@ -99,7 +99,7 @@
         </el-col>
       </el-row>
     </div>
-    <div v-else>
+    <div v-else-if="normal_data">
       <el-row :gutter="24" class="m-index-top">
         <el-col :span="9" :xs="24">
           <el-card class="box-card">
@@ -408,6 +408,7 @@
       padding: 8px 20px;
       border-radius: 23px;
       font-size: 13px;
+      cursor: pointer;
       &.m-yellow{
         color: #F0BA9D;
         border: 1px solid #F0BA9D;

@@ -10,6 +10,7 @@ const api = {
   get_my_message: title + 'user/get_my_message',//获取用户详情
   new_user: title + 'user/new_user',//生成用户
   update_user_info: title +'user/update_user_info',//更新用户
+  delete_user: title + 'user/delete_user',//删除用户
   get_user_tag_level_list: title +'user/get_user_tag_level_list',//获取身份等级
   get_tag_list:title +'user/get_tag_list',///获取身份标签
   get_tags_all: title +'user/get_tags_all',//获取下拉身份标签
@@ -49,6 +50,7 @@ const api = {
   get_product_list: title + 'common/get_product_list',//获取库存列表
   get_qyt_list: title +'common/get_qyt_list',//获取今日销量
   send_message: title +'notice/send_message',//发送短信
+  get_history_sale: title +'common/get_history_sale',//获取历史销售
 }
 
 export default api

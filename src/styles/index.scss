@@ -118,6 +118,13 @@ a:hover {
   align-items: center;
   justify-content: center;
 }
+.m-flex-end{
+  display: flex;
+  flex-flow: row;
+  align-items: flex-end;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
 
 .m-grey{
   color: #B9B9B9;
@@ -167,7 +174,17 @@ a:hover {
 .el-input--small{
   width: 400px;
 }
-
+.m-input-num{
+  width: 60%;
+  margin: 0 20px;
+}
+.m-page-size{
+  padding: 10px 0;
+  cursor: pointer;
+  &.active{
+    color: #01abfd;
+  }
+}
 //表单
 .m-form-container{
   background-color: #fff;

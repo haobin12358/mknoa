@@ -10,7 +10,7 @@
             <svg-icon icon-class="icon-add" />
             新建账号
           </span>
-        <span class="m-title-btn">
+        <span class="m-title-btn" @click="deleteAccount">
             <svg-icon icon-class="icon-delete" />
             批量删除
           </span>
@@ -54,7 +54,7 @@
                   <svg-icon icon-class="icon-edit" />
                 <span>编辑</span>
               </span>
-            <span class="m-table-btn">
+            <span class="m-table-btn" @click="deleteAccount(scope.row,'row')">
                   <svg-icon icon-class="icon-delete" />
                 <span>删除</span>
               </span>
@@ -71,7 +71,7 @@
 
 <script>
   import page from '../../components/common/page';
-  import axois from 'axios';
+  import axios from 'axios';
   import api from '../../api/api';
   export default {
     data(){
@@ -108,7 +108,7 @@
       },
       /**获取所有用户*/
       getUser(num){
-        axois.get(api.get_all_user,{
+        axios.get(api.get_all_user,{
           params:{
             token:localStorage.getItem('token'),
             page_num: num,
@@ -136,6 +136,47 @@
           user_id = item.user_id;
         }
         this.$router.push({path:path,query:{user_id}})
+      },
+      /*删除*/
+      deleteAccount(item,name){
+        let params = [];
+        if(name){
+          params.push(item.user_id)
+        }else{
+          for(let i=0;i<this.multipleSelection.length;i++){
+            params.push(this.multipleSelection[i].user_id)
+          }
+        }
+        let that = this;
+        this.$confirm('确定要删除这些用户吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          axios.post(api.delete_user +'?token='+localStorage.getItem('token'),{
+            user_list:params
+          }).then(res => {
+            if(res.data.status == 200){
+              that.$notify({
+                title: '成功',
+                message: res.data.message,
+                type: 'success'
+              });
+              that.getUser(that.page_info.page_num);
+            }else{
+              that.$message({
+                type: 'info',
+                message: res.data.message
+              });
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+
       }
     }
   }

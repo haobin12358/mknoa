@@ -5,7 +5,7 @@
       <el-breadcrumb-item>编辑公告</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="m-form-container">
-      <el-form ref="noticeForm" :model="form" label-width="100px" :rules="rules" :disabled="isRead">
+      <el-form ref="noticeForm" :model="form" label-width="100px" :rules="rules" :disabled="!isRead">
         <el-form-item label="公告标题：" prop="notice_title">
           <el-input v-model="form.notice_title" ></el-input>
         </el-form-item>
@@ -32,7 +32,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item>
+        <el-form-item v-if="isRead">
           <div class="m-form-btn">
             <span class="active" @click="submitSure">保存</span>
             <span @click="cancelForm">取消</span>

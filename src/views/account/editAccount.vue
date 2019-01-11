@@ -13,7 +13,7 @@
           <el-input v-model="form.user_password" type="password" ></el-input>
         </el-form-item>
         <el-form-item label="联系方式：" prop="user_telphone">
-          <el-input v-model="form.user_telphone" ></el-input>
+          <el-input v-model="form.user_telphone" type="number" ></el-input>
         </el-form-item>
         <el-form-item label="关联身份：" prop="user_tags">
           <el-select v-model="form.user_tags" multiple  placeholder="请选择身份">
